@@ -1,0 +1,63 @@
+continuous first stage: 1
+binary second stage: 0
+T = I: 1
+
+-63.5
+0.204
+
+-65.9569
+0.506
+
+-69.2534
+2.009
+
+-71.0885
+7.135
+
+-69.5321
+27.397
+
+-68.8362
+103.824
+
+-68.3434
+656.994
+
+
+
+###############################################################################
+Peregrine Cluster
+Job 8892783 for user 'p272402'
+Finished at: Fri Dec  6 10:48:33 CET 2019
+
+Job details:
+============
+
+Name                : ssv
+User                : p272402
+Partition           : regular
+Nodes               : pg-node118
+Cores               : 1
+State               : COMPLETED
+Submit              : 2019-12-06T10:30:14
+Start               : 2019-12-06T10:30:17
+End                 : 2019-12-06T10:48:33
+Reserved walltime   : 02:00:00
+Used walltime       : 00:18:16
+Used CPU time       : 00:18:12 (efficiency: 99.71%)
+% User (Computation): 99.70%
+% System (I/O)      :  0.30%
+Mem reserved        : 16000M/node
+Max Mem used        : 781.72M (pg-node118)
+Max Disk Write      : 40.96K (pg-node118)
+Max Disk Read       : 2.89M (pg-node118)
+
+
+Acknowledgements:
+=================
+
+Please see this page if you want to acknowledge Peregrine in your publications:
+
+https://redmine.hpc.rug.nl/redmine/projects/peregrine/wiki/ScientificOutput
+
+################################################################################

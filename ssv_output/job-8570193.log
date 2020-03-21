@@ -1,0 +1,49 @@
+continuous first stage: 1
+binary second stage: 0
+T = I: 1
+
+-63.5 -63.5 -63.5 -63.5 -63.5 0.00268912 0 0.002 0.002 3 5 5
+-66.5556 -66.5556 -65.2222 -65.9569 -64.5692 0.00885487 0.001 0.005 0.006 4 6 7
+-69.8648 -69.8611 -68.5278 -66.8469 -67.8747 0.032604 0.004 0.022 0.024 5 9 9
+-71.1157 -71.1157 -68.2837 -68.2915 -69.5103 0.522748 0.015 0.075 0.084 6 9 11
+-69.6419 -69.6372 -68.8594 -69.0227 -67.8882 19.915 0.057 0.302 0.311 7 12 13
+-69.0144 -68.8543 -68.3978 -68.3617 -68.3384 7200 0.243 1.218 1.194 8 15 14
+-70.4454 -68.2971 -68.106 -68.1083 -68.253 7261.22 1.632 7.756 7.558 9 17 16
+
+
+###############################################################################
+Peregrine Cluster
+Job 8570193 for user 'p272402'
+Finished at: Wed Nov 20 20:52:43 CET 2019
+
+Job details:
+============
+
+Name                : ssv
+User                : p272402
+Partition           : regular
+Nodes               : pg-node181
+Cores               : 1
+State               : COMPLETED
+Submit              : 2019-11-20T16:50:54
+Start               : 2019-11-20T16:50:55
+End                 : 2019-11-20T20:52:43
+Reserved walltime   : 10:00:00
+Used walltime       : 04:01:48
+Used CPU time       : 04:01:44 (efficiency: 99.97%)
+% User (Computation): 99.82%
+% System (I/O)      :  0.18%
+Mem reserved        : 16000M/node
+Max Mem used        : 592.51M (pg-node181)
+Max Disk Write      : 40.96K (pg-node181)
+Max Disk Read       : 2.88M (pg-node181)
+
+
+Acknowledgements:
+=================
+
+Please see this page if you want to acknowledge Peregrine in your publications:
+
+https://redmine.hpc.rug.nl/redmine/projects/peregrine/wiki/ScientificOutput
+
+################################################################################

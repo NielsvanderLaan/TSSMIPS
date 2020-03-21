@@ -1,0 +1,38 @@
+#include "zk.h"
+
+Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval)
+{
+  GRBmodel *model = master.d_cmodel;
+  vector<double> &kappa = master.d_kappa;
+  vector<vector<double>> &beta = master.d_beta;
+  vector<double> &gamma = master.d_gamma;
+
+  int nVarsMaster;                                      // number of variables in master problem (including slacks)
+  GRBgetintattr(model, "NumVars", &nVarsMaster);
+  
+      // computing tableau row
+  double tab_row_x[nVarsMaster];
+  compute_tab_row_x(tab_row_x, nVarsMaster, row, model); // tableau row for (theta, x) (in that order)
+  
+  double tab_row_y[d_nVars];
+  compute_tab_row_y(tab_row_y, row); // tableau row for y variables 
+  
+  double coef_x[nVarsMaster - 1]; double coef_y[d_nVars]; double coef_theta = -1; double coef_rhs = 1;// cut coefficients
+  
+  gmi_cut(tab_row_x, tab_row_y, yval, coef_x, coef_y, coef_theta, nVarsMaster);
+  
+  transform_cut(coef_x, coef_y, coef_theta, coef_rhs, kappa, beta, gamma, nVarsMaster - d_n1 - 1);
+  
+  vector<double> Trow(coef_x, coef_x + d_n1);
+  vector<double> Wrow(coef_y, coef_y + d_n2);
+
+
+  double scale = abs(coef_rhs);
+  
+  coef_rhs /= scale;
+  coef_theta /= scale;
+  for_each(Trow.begin(), Trow.end(), [scale](double &val){val /= scale;});
+  for_each(Wrow.begin(), Wrow.end(), [scale](double &val){val /= scale;});
+
+  return Cut { Trow, coef_theta, Wrow, coef_rhs };      
+}

@@ -1,0 +1,58 @@
+sslp_5_25_50
+-121.6 -121.6 -121.6 0.13 0.145 0.145 18 18 18
+sslp_5_25_100
+-127.37 -127.37 -127.37 0.186 0.215 0.215 19 19 19
+sslp_15_45_5
+-262.4 -261.2 -262.4 0.912 1.246 2.129 53 56 56
+sslp_15_45_10
+-260.5 -260.5 -260.5 1.492 3.009 2.785 73 82 77
+sslp_15_45_15
+-253.6 -253.6 -253.6 3.903 4.817 5.775 91 94 96
+sslp_10_50_50
+-364.64 -364.64 -364.64 0.525 0.667 1.15 28 29 31
+sslp_10_50_100
+-354.19 -354.19 -354.19 1.681 1.945 1.964 50 51 51
+sslp_10_50_500
+-349.136 -349.136 -349.136 8.037 9.015 8.966 66 67 67
+sslp_10_50_1000
+-351.711 -351.711 -351.711 12.16 13.993 61.905 54 55 61
+sslp_10_50_2000
+-347.262 -347.262 -347.262 29.368 59.095 77.698 68 73 73
+
+
+###############################################################################
+Peregrine Cluster
+Job 8575554 for user 'p272402'
+Finished at: Thu Nov 21 14:21:59 CET 2019
+
+Job details:
+============
+
+Name                : sslp
+User                : p272402
+Partition           : regular
+Nodes               : pg-node156
+Cores               : 1
+State               : COMPLETED
+Submit              : 2019-11-21T14:15:13
+Start               : 2019-11-21T14:17:01
+End                 : 2019-11-21T14:21:59
+Reserved walltime   : 00:20:00
+Used walltime       : 00:04:58
+Used CPU time       : 00:04:55 (efficiency: 99.18%)
+% User (Computation): 99.48%
+% System (I/O)      :  0.52%
+Mem reserved        : 16000M/node
+Max Mem used        : 615.47M (pg-node156)
+Max Disk Write      : 40.96K (pg-node156)
+Max Disk Read       : 2.88M (pg-node156)
+
+
+Acknowledgements:
+=================
+
+Please see this page if you want to acknowledge Peregrine in your publications:
+
+https://redmine.hpc.rug.nl/redmine/projects/peregrine/wiki/ScientificOutput
+
+################################################################################
