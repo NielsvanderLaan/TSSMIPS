@@ -32,6 +32,11 @@ vector<double> Tree::bab(bool affine, double tol)
     
     branch(node_idx, split);
   }
+  
+  if (d_UB_global > d_LB_global + tol)
+    cout << "GAP > tolerance. GAP = " << d_UB_global - d_LB_global << '\n';
+  
+  
   cout << "number of nodes: " << d_nodes.size() << '\n';
   return incumbent;
 }

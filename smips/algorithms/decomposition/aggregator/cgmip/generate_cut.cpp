@@ -8,20 +8,25 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
   if (init)      // add initial point to mp to prevent unbounded rays
     add_mp_cut(Point{ vector<double>(x, x + d_xVars.size()), theta, vwx, 0.0, 0.0});  
 
+  BendersCut candidate{ 0, vector<double>(d_beta.size()), 0 };
+  Point point{ vector<double>(d_xVars.size()), 0, 0, -1e20, 0 };
+
   while (true)
   {  
-    BendersCut candidate = solve_mp();     // candidate cut
+    solve_mp();
+    if (not mp_optimal())
+      break;
+
+    candidate = get_candidate();   // candidate cut  
+    set_sub_obj(candidate);        // attempt to find point which invalidates candidate cut 
+    point = solve_sub();          
+                                   // if cut is violated by point       
+    if (candidate.d_alpha - point.d_rhs_ub > tol && check_mp_violation(tol))  
+      add_mp_cut(point);           // add it to master
+    else   
+      break;               
+  }  
   
-    set_sub_obj(candidate);    
-    Point point = solve_sub();   // attempt to find point which invalidates candidate cut 
-                               
-    if (candidate.d_alpha - point.d_rhs_ub > tol)  // if cut is violated by point 
-      add_mp_cut(point);         // add it to master
-    else
-    {
-      candidate.d_alpha = point.d_rhs_lb;    // play it safe: use lb instead of ub   
-      return candidate;       
-    }
-  }
-  
+  candidate.d_alpha = point.d_rhs_lb;     
+  return candidate;       
 }

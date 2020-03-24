@@ -19,7 +19,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {    
-  Data rand(314159); // aap
+  Data rand(16351); 
 
   GRBEnv env;  
   env.set(GRB_IntParam_OutputFlag, 0); 
@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
   {  
     size_t n1, p1, m1, n2, p2, m2, S;            // input size
     
-    n1 = 3; p1 = 0; m1 = 1; n2 = 3; p2 = 3; m2 = 2; S = 10;          
+    n1 = 6; p1 = 0; m1 = 3; n2 = 10; p2 = 10; m2 = 5; S = 10;          
                                                  // parameter bounds (uniform distribution)  
     size_t A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high;
     A_low = 1; A_high = 4; T_low = 1; T_high = 3; W_low = 1; W_high = 2; 
@@ -53,6 +53,7 @@ int main(int argc, char *argv[])
   
     double *x;  // x contains solutions    
     
+
     Tree tree(env, c_env, problem);
 
     auto t1 = chrono::high_resolution_clock::now();
@@ -61,7 +62,8 @@ int main(int argc, char *argv[])
     cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';  
 
     auto t2 = chrono::high_resolution_clock::now();
-    cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';  
+    cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n'; 
+
 
     
     /*

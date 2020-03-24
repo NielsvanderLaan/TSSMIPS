@@ -8,6 +8,8 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   d_xVars(problem.d_n1),
   d_yVars(problem.d_n2)
 { 
+  //d_mp.set(GRB_IntParam_ScaleFlag, 0);    // we can play with this
+  
   size_t n1 = problem.d_n1;
   size_t p1 = problem.d_p1;
   size_t m1 = problem.d_m1;

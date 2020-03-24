@@ -42,7 +42,8 @@ class CGMip
 
     BendersCut generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol = 1e-4);  // uses benders decomposition to find best cut
             // auxiliary functions for generate_cut()
-    BendersCut solve_mp();
+    void solve_mp();
+    BendersCut get_candidate();
     Point solve_sub();
     void set_mp_obj(double *x, double theta);  // takes (x, theta) and sets master objective coefficients
     void set_sub_obj(BendersCut &cut);                        // takes (alpha, beta, tau) and sets subproblem coefficients
@@ -52,6 +53,8 @@ class CGMip
     void add_row(BendersCut &cut); // add the Benders' cut kappa theta >= beta^T x + gamma to d_sub
     void update_bound(size_t var, double val, bool lower);
     double mp_val();
+    bool mp_optimal();
+    bool check_mp_violation(double tol);
 };
 
 
