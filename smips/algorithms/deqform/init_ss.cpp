@@ -7,12 +7,9 @@ void DeqForm::init_ss(size_t n1, size_t n2, size_t p2, size_t m2, size_t S,
                       vector<vector<double>> &Tmat, vector<vector<double>> &Wmat,
                       vector<vector<double>> &omega)
 {
-  GRBLinExpr Tx[m2];
+  vector<GRBLinExpr> Tx(m2);
   for (size_t conIdx = 0; conIdx != m2; ++conIdx)
-  {
-    double *row = Tmat[conIdx].data();
-    Tx[conIdx].addTerms(row, d_xVars, n1);
-  }
+    Tx[conIdx].addTerms(Tmat[conIdx].data(), d_xVars, n1);
   
       // variable types    
   char vTypes2[n2];
@@ -40,14 +37,14 @@ void DeqForm::init_ss(size_t n1, size_t n2, size_t p2, size_t m2, size_t S,
     GRBVar *yVars = d_model.addVars(lb, ub, costs, vTypes2, NULL, n2); 
     
         // lhs expression of second-stage constraints, Wy will be added in a loop
-    GRBLinExpr TxWy[m2] = Tx;
+    vector<GRBLinExpr> TxWy = Tx;
     for (size_t conIdx = 0; conIdx != m2; ++conIdx)
     {
       double *row = Wmat[conIdx].data();      
       TxWy[conIdx].addTerms(row, yVars, n2);
     }
         // add constraints
-    GRBConstr *constrs = d_model.addConstrs(TxWy, senses2, rhsOmega, NULL, m2);
+    GRBConstr *constrs = d_model.addConstrs(TxWy.data(), senses2, rhsOmega, NULL, m2);
     delete[] yVars;
     delete[] constrs;
   }   
