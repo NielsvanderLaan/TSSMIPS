@@ -30,7 +30,7 @@ int main(int argc, char *argv[])
   {  
     size_t n1, p1, m1, n2, p2, m2, S;            // input size
     
-    n1 = 6; p1 = 0; m1 = 3; n2 = 10; p2 = 10; m2 = 5; S = 10;          
+    n1 = 6; p1 = 0; m1 = 3; n2 = 10; p2 = 10; m2 = 5; S = 10;
                                                  // parameter bounds (uniform distribution)  
     size_t A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high;
     A_low = 1; A_high = 4; T_low = 1; T_high = 3; W_low = 1; W_high = 2; 
@@ -45,11 +45,19 @@ int main(int argc, char *argv[])
     
     vector<double> l1(n1, 0.0); vector<double> u1(n1, 5.0); vector<double> l2(n2, 0.0); vector<double> u2(n2, 20.0); 
     problem.set_bounds(l1, u1, l2, u2);
-    
+
+    double *x;  // x contains solutions
+
+    Benders ben(env, c_env, problem);
+    ben.lpSolve();
+    double zk_lb = ben.zk_solve();
+    x = ben.d_xvals;
+    for_each(x, x + n1, [](double val){cout << val << ' ';});
+    cout << '\n';
+    cout << "zk LB: " << zk_lb << ". UB: " << problem.evaluate(x) << '\n';
 
   
-    double *x;  // x contains solutions    
-    
+
 
     Tree tree(env, c_env, problem);
 
