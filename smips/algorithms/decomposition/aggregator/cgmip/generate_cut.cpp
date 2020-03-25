@@ -2,7 +2,7 @@
 
 BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol)
 {
-  d_tau.set(GRB_DoubleAttr_UB, affine ? 0 : 1e20);      // force tau = 0 if only affine cuts are allowed 
+  d_tau.set(GRB_DoubleAttr_UB, affine ? 0 : GRB_INFINITY);      // force tau = 0 if only affine cuts are allowed
   
   set_mp_obj(x, theta);
   if (init)      // add initial point to mp to prevent unbounded rays

@@ -7,9 +7,10 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   d_beta(problem.d_n1),
   d_xVars(problem.d_n1),
   d_yVars(problem.d_n2)
-{ 
+{
   //d_mp.set(GRB_IntParam_ScaleFlag, 0);    // we can play with this
-  
+  //d_mp.set(GRB_IntParam_OutputFlag, 1);
+
   size_t n1 = problem.d_n1;
   size_t p1 = problem.d_p1;
   size_t m1 = problem.d_m1;
@@ -18,11 +19,11 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   size_t m2 = problem.d_m2;
  
   // Initializing MP
-  vector<double> lb(n1, -1e20);
+  vector<double> lb(n1, -GRB_INFINITY);
    
-  d_alpha = d_mp.addVar(-1e20, 1e20, -1.0, GRB_CONTINUOUS);
+  d_alpha = d_mp.addVar(-GRB_INFINITY, GRB_INFINITY, -1.0, GRB_CONTINUOUS);
   GRBVar *beta = d_mp.addVars(lb.data(), NULL, NULL, NULL, NULL, n1);
-  d_tau = d_mp.addVar(0.0, 1e20, 0.0, GRB_CONTINUOUS);
+  d_tau = d_mp.addVar(0.0, GRB_INFINITY, 0.0, GRB_CONTINUOUS);
 
   // Initializing SP
     // adding xvars
@@ -59,7 +60,6 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   GRBLinExpr qy;
   qy.addTerms(problem.d_q.data(), yVars, n2);
   d_sub.addConstr(d_eta, GRB_GREATER_EQUAL, qy);
-  
 
      // cleaning up
   copy_n(beta, n1, d_beta.begin());

@@ -8,12 +8,9 @@
 #include "gurobi_c.h"
 
 #include "smips/problem_data/problem.h"
-#include "smips/problem_data/data.h"
 #include "smips/algorithms/deqform/deqform.h"
 #include "smips/algorithms/decomposition/benders.h"
 #include "smips/algorithms/trees/tree.h"
-#include "smips/algorithms/decomposition/zktree/zktree.h"
-#include "smips/algorithms/decomposition/aggregator/aggregator.h"
 
 using namespace std;
 
@@ -29,7 +26,7 @@ int main(int argc, char *argv[])
   GRBloadenv(&c_env, NULL);
   GRBsetintparam(c_env, "OutputFlag", 0);
   GRBsetintparam(c_env, "Threads", 1);
-  
+
   {  
     size_t n1, p1, m1, n2, p2, m2, S;            // input size
     

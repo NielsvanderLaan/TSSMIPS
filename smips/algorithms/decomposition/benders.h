@@ -48,8 +48,7 @@ class Benders
     
     double get_lb();
     void update_bounds(size_t var, double val, bool lower);
-              
-        // return gamma. beta is returned by argument 
+
     BendersCut lpCut(double *x); 
     BendersCut sb_cut(double *x);     
     void ald_cut(double *x, double *beta, double &tau, double &gamma, size_t maxRounds); // RBA
