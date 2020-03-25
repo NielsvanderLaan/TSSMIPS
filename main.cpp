@@ -19,7 +19,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {    
-  Data rand(16351);  // monkey
+  Data rand(16351);  
 
   GRBEnv env;  
   env.set(GRB_IntParam_OutputFlag, 0); 
