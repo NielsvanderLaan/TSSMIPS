@@ -10,8 +10,8 @@ void Problem::classic_ri()
   
   vector<double> l1(d_n1, 0.0);  
   vector<double> l2(d_n2, 0.0);  
-  vector<double> u1(d_n1, 1e20);   
-  vector<double> u2(d_n2, 1e20);  
+  vector<double> u1(d_n1, GRB_INFINITY);
+  vector<double> u2(d_n2, GRB_INFINITY);
   
   vector<double> fs_costs = {3., 3., 1., 1., 2., 4., 3., 1., 3., 2.};
   vector<double> ss_costs = {5., 9., 6., 6., 9.};  

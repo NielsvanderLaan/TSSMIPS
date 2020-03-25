@@ -53,7 +53,7 @@ bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
     // add slack variable
   int vind[1]; vind[0] = conIdx;
   double vval[] = {-1};  
-  GRBaddvar(d_model, 1, vind, vval, 0, 0, 1e20, GRB_CONTINUOUS, NULL);
+  GRBaddvar(d_model, 1, vind, vval, 0, 0, GRB_INFINITY, GRB_CONTINUOUS, NULL);
   
     //  updating the cglp
   add_cglp_row(cut.Trow.data(), cut.r, cut.Wrow.data(), cut.rhs);

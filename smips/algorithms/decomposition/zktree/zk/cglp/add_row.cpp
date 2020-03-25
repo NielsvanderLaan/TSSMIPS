@@ -4,8 +4,8 @@ void Cglp::add_row(double *coef_x, double coef_theta, double *coef_y, double rhs
 {
   ++d_nMults;
   
-  GRBVar lambda1 = d_model.addVar(0, 1e20, 0, GRB_CONTINUOUS);
-  GRBVar lambda2 = d_model.addVar(0, 1e20, 0, GRB_CONTINUOUS);
+  GRBVar lambda1 = d_model.addVar(0, INFINITY, 0, GRB_CONTINUOUS);
+  GRBVar lambda2 = d_model.addVar(0, INFINITY, 0, GRB_CONTINUOUS);
   d_lambda1.push_back(lambda1);
   d_lambda2.push_back(lambda2);
   

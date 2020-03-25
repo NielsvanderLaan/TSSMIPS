@@ -9,7 +9,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     add_mp_cut(Point{ vector<double>(x, x + d_xVars.size()), theta, vwx, 0.0, 0.0});  
 
   BendersCut candidate{ 0, vector<double>(d_beta.size()), 0 };
-  Point point{ vector<double>(d_xVars.size()), 0, 0, -1e20, 0 };
+  Point point{ vector<double>(d_xVars.size()), 0, 0, GRB_INFINITY, 0 };
 
   while (true)
   {  

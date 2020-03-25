@@ -4,7 +4,7 @@ void Ald::add_cut(size_t nVars, size_t nCuts,
                   double *coef_x, double *coef_y, double coef_eta, double coef_rhs,
                   vector<vector<double>> &Tmat, vector<double> &tau, vector<double> &omega)
 {
-  GRBaddvar(d_model, 0, NULL, NULL, 0.0, 0.0, 1e20, GRB_CONTINUOUS, NULL);  // slack variable
+  GRBaddvar(d_model, 0, NULL, NULL, 0.0, 0.0, GRB_INFINITY, GRB_CONTINUOUS, NULL);  // slack variable
   int cind[nVars + 1];
   iota(cind, cind + nVars, 0);      // fils cind with 0,1,...,nVars-1
   cind[nVars] = nVars + nCuts;      // final element of nVars corresponds to slack variable  

@@ -5,7 +5,7 @@ Tree::Tree(GRBEnv &env, GRBenv *c_env, Problem &problem, Benders &root)
   d_problem(problem),
   d_c_env(c_env),
   d_env(env),
-  d_UB_global(1e20)
+  d_UB_global(GRB_INFINITY)
 {
   Benders *root_ptr = new Benders(root);
   d_nodes.push_back(root_ptr);

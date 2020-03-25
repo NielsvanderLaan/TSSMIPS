@@ -23,7 +23,7 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
   // instantiating c-api gurobi model (in order to use advanced simplex routines)
   
   GRBnewmodel(c_env, &d_cmodel, NULL, 0, NULL, NULL, NULL, NULL, NULL); 
-  GRBaddvar(d_cmodel, 0, NULL, NULL, 1.0, problem.d_L, 1e20, GRB_CONTINUOUS, NULL);     // theta
+  GRBaddvar(d_cmodel, 0, NULL, NULL, 1.0, problem.d_L, GRB_INFINITY, GRB_CONTINUOUS, NULL);     // theta
   
   if (zk_safe)
   {  

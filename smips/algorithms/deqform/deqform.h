@@ -46,7 +46,7 @@ class DeqForm
                  double *probs, double *q,
                  vector<vector<double>> &Tmat, vector<vector<double>> &Wmat,
                  vector<vector<double>> &omega);    
-    void solve(double time_limit = 1e20); // solves grbModel, updates status to 1 or 2, updates xvals, updates MIPGap  
+    void solve(double time_limit = GRB_INFINITY); // solves grbModel, updates status to 1 or 2, updates xvals, updates MIPGap
 };
 
 #endif

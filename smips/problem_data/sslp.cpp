@@ -15,8 +15,8 @@ void Problem::sslp(size_t nServers, size_t nClients, size_t S)
   vector<double> l1(d_n1, 0);  
   vector<double> u1(d_n1, 1);                // fs variables are binary
   vector<double> l2(d_n2, 0);      
-  vector<double> u2(d_n2, 1e20);               // first nPairs second-stage variables are binary 
-  fill_n(&u2[nPairs], nServers, 1e20);      // upper bounds of continuous variables
+  vector<double> u2(d_n2, 1);             // first nPairs second-stage variables are binary
+  fill_n(&u2[nPairs], nServers, GRB_INFINITY);      // upper bounds of continuous variables
   
   vector<double> fs_costs(d_n1, 0);
   vector<double> ss_costs(d_n2, 0);

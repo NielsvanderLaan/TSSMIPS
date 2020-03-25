@@ -34,7 +34,7 @@ void ZK::update_bound(int var, double val, bool lower, bool fs)
     d_ub_inds[var] = d_nConstrs;
   }
 
-  GRBaddvar(d_model, 0, NULL, NULL, 0.0, 0.0, 1e20, GRB_CONTINUOUS, NULL); // slack variable
+  GRBaddvar(d_model, 0, NULL, NULL, 0.0, 0.0, GRB_INFINITY, GRB_CONTINUOUS, NULL); // slack variable
   int inds[2] = {var, d_nVars};                                            // variable indices
   double vals[2] = {1.0, 1.0};                                             // coefficients
   if (lower)            // x >= l (so slack features with -1.0)

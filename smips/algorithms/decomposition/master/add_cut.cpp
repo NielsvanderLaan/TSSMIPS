@@ -15,7 +15,7 @@ bool Master::add_cut(BendersCut cut, Solution sol, double tol)
     ++d_nSlacks;
     
         // adding the cut to d_cmodel
-    GRBaddvar(d_cmodel, 0, NULL, NULL, 0, 0, 1e20, GRB_CONTINUOUS, NULL);  // slack
+    GRBaddvar(d_cmodel, 0, NULL, NULL, 0, 0, GRB_INFINITY, GRB_CONTINUOUS, NULL);  // slack
     
     size_t numVars = d_n1 + 2; // theta, x-vars, and slack  
     

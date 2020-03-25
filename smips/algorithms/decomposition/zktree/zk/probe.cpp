@@ -18,7 +18,7 @@ double ZK::probe(size_t var_idx, double val, bool lower)
     int status;                                              // retrieve status    
     GRBgetintattr(d_model, "Status", &status);
     if (status == 3)                                         // check if infeasible 
-      obj = 1e20;                                            // infinite increase in objval    
+      obj = GRB_INFINITY;                                    // infinite increase in objval
     else
       GRBgetdblattr(d_model, "ObjVal", &obj);                // retrieve objective value
       
@@ -31,9 +31,9 @@ double ZK::probe(size_t var_idx, double val, bool lower)
     int status;                                              // retrieve status    
     GRBgetintattr(d_model, "Status", &status);
     if (status == 3)                                         // check if infeasible 
-      obj = 1e20;                                            // infinite increase in objval    
+      obj = GRB_INFINITY;                                    // infinite increase in objval
     else
-      GRBgetdblattr(d_model, "ObjVal", &obj);                // retrieve objective value
+      GRBgetdblattr(d_model, "ObjVal", &obj);       // retrieve objective value
                                                              
     GRBsetdblattrelement(d_model, "RHS", con_idx, d_omega[con_idx]);    // restore bound
   }

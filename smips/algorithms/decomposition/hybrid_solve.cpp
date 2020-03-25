@@ -8,14 +8,14 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol,
   size_t round = 0;       // rounds of gmi cuts added
 
   double LB;
-  double UB = 1e20;
+  double UB = GRB_INFINITY;
   int max_rounds = 3;
   
   while (not stop)
   {
     Master::Solution sol = d_master.solve();
     if (sol.infeasible)
-      return Bounds { 1e20, 1e20, true };
+      return Bounds { GRB_INFINITY, GRB_INFINITY, true };
       
     vector<double> x = sol.xVals;  
     LB = get_lb();

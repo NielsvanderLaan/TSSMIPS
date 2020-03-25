@@ -15,7 +15,7 @@ int main()
   GRBmodel *model;
   cout << GRBnewmodel(env, &model, NULL, 0, NULL, NULL, NULL, NULL, NULL) << '\n';  
   
-  cout << GRBaddvar(model, 0, NULL, NULL, 0.0, 0.0, 1e20, GRB_CONTINUOUS, NULL) << '\n';
+  cout << GRBaddvar(model, 0, NULL, NULL, 0.0, 0.0, GRB_INFINITY, GRB_CONTINUOUS, NULL) << '\n';
   int inds[1] = {0};
   double vals[1] = {1.0};
 
@@ -28,8 +28,8 @@ int main()
   GRBEnv env;
   GRBModel model(env);
   
-  GRBVar x = model.addVar(0, 1e20, -1, GRB_CONTINUOUS);
-  GRBVar y = model.addVar(0, 1e20, -1, GRB_CONTINUOUS);
+  GRBVar x = model.addVar(0, GRB_INFINITY, -1, GRB_CONTINUOUS);
+  GRBVar y = model.addVar(0, GRB_INFINITY, -1, GRB_CONTINUOUS);
   
   GRBConstr con1 = model.addConstr(x - 2*y, GRB_GREATER_EQUAL, 0);
 

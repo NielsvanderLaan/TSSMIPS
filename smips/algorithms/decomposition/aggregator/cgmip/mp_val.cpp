@@ -5,5 +5,5 @@ double CGMip::mp_val()
   if (mp_optimal())
     return d_mp.get(GRB_DoubleAttr_ObjVal);
   
-  return 1e20;
+  return GRB_INFINITY;
 }

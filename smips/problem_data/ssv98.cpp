@@ -12,7 +12,7 @@ void Problem::ssv95(size_t S, bool fs_continuous, bool ss_binary, bool standard_
   vector<double> l1(d_n1, 0.0);  
   vector<double> l2(d_n2, 0.0);  
   vector<double> u1(d_n1, 5.0);   
-  double ub = ss_binary ? 1.0 : 1e20; 
+  double ub = ss_binary ? 1.0 : GRB_INFINITY;
   vector<double> u2(d_n2, ub);  
   
   vector<double> fs_costs = {-1.5, -4};

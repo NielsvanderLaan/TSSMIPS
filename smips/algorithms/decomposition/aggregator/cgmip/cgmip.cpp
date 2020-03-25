@@ -31,8 +31,8 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   fill_n(x_types.begin(), p1, GRB_INTEGER);
   GRBVar *xVars = d_sub.addVars(problem.d_l1.data(), problem.d_u1.data(), NULL, x_types.data(), NULL, n1);
     // adding theta and eta
-  d_theta = d_sub.addVar(0, 1e20, 0, GRB_CONTINUOUS);
-  d_eta = d_sub.addVar(0, 1e20, 1.0, GRB_CONTINUOUS);
+  d_theta = d_sub.addVar(0, GRB_INFINITY, 0, GRB_CONTINUOUS);
+  d_eta = d_sub.addVar(0, GRB_INFINITY, 1.0, GRB_CONTINUOUS);
     // adding yvars  
   vector<char> y_types(n2, GRB_CONTINUOUS);
   fill_n(y_types.begin(), p2, GRB_INTEGER);

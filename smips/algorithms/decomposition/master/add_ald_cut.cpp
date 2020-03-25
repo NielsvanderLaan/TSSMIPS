@@ -15,7 +15,7 @@ bool Master::add_ald_cut(double *beta, double gamma, double tau, double *x, doub
   
   double bigM = 1e4;  
   /*
-  GRBVar eta = d_model.addVar(0.0, 1e20, 0.0, GRB_CONTINUOUS, "eta");
+  GRBVar eta = d_model.addVar(0.0, GRB_INFINITY, 0.0, GRB_CONTINUOUS, "eta");
 
       // binary vars to enforce eta <= ||x - x_bar||
   GRBVar *y_plus = d_model.addVars(d_n1, GRB_BINARY);
@@ -46,7 +46,7 @@ bool Master::add_ald_cut(double *beta, double gamma, double tau, double *x, doub
   */
   
   // c-api:
-  GRBaddvar(d_cmodel, 0, NULL, NULL, 0.0, 0.0, 1e20, GRB_CONTINUOUS, NULL);     // eta
+  GRBaddvar(d_cmodel, 0, NULL, NULL, 0.0, 0.0, GRB_INFINITY, GRB_CONTINUOUS, NULL);     // eta
       // retrieve variable index  
   GRBupdatemodel(d_cmodel);
   int numVars;

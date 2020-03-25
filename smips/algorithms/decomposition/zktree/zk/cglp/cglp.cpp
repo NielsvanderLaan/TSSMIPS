@@ -29,38 +29,38 @@ Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario)
   size_t fs_eq = d_m1 - problem.d_fs_leq - problem.d_fs_geq;
   size_t ss_eq = d_m2 - problem.d_ss_leq - problem.d_ss_geq;
   
-  d_lambda1.push_back(d_model.addVar(-1e20, 0, 0, GRB_CONTINUOUS));    // corresponding to the disjunction
-  d_lambda2.push_back(d_model.addVar(0, 1e20, 0, GRB_CONTINUOUS));
+  d_lambda1.push_back(d_model.addVar(-GRB_INFINITY, 0, 0, GRB_CONTINUOUS));    // corresponding to the disjunction
+  d_lambda2.push_back(d_model.addVar(0, GRB_INFINITY, 0, GRB_CONTINUOUS));
   
   for (size_t con = 0; con != problem.d_fs_leq; ++con)  // first-stage <= constraints
   {  
-    d_lambda1.push_back(d_model.addVar(-1e20, 0, 0, GRB_CONTINUOUS));
-    d_lambda2.push_back(d_model.addVar(-1e20, 0, 0, GRB_CONTINUOUS));
+    d_lambda1.push_back(d_model.addVar(-GRB_INFINITY, 0, 0, GRB_CONTINUOUS));
+    d_lambda2.push_back(d_model.addVar(-GRB_INFINITY, 0, 0, GRB_CONTINUOUS));
   }
   for (size_t con = 0; con != problem.d_fs_geq; ++con)  // first-stage >= constraints
   {
-    d_lambda1.push_back(d_model.addVar(0, 1e20, 0, GRB_CONTINUOUS));
-    d_lambda2.push_back(d_model.addVar(0, 1e20, 0, GRB_CONTINUOUS));
+    d_lambda1.push_back(d_model.addVar(0, GRB_INFINITY, 0, GRB_CONTINUOUS));
+    d_lambda2.push_back(d_model.addVar(0, GRB_INFINITY, 0, GRB_CONTINUOUS));
   }
   for (size_t con = 0; con != fs_eq; ++con)  // first-stage == constraints
   {
-    d_lambda1.push_back(d_model.addVar(-1e20, 1e20, 0, GRB_CONTINUOUS));
-    d_lambda2.push_back(d_model.addVar(-1e20, 1e20, 0, GRB_CONTINUOUS));
+    d_lambda1.push_back(d_model.addVar(-GRB_INFINITY, GRB_INFINITY, 0, GRB_CONTINUOUS));
+    d_lambda2.push_back(d_model.addVar(-GRB_INFINITY, GRB_INFINITY, 0, GRB_CONTINUOUS));
   }
   for (size_t con = 0; con != problem.d_ss_leq; ++con)  // second-stage <= constraints
   {
-    d_lambda1.push_back(d_model.addVar(-1e20, 0, 0, GRB_CONTINUOUS));
-    d_lambda2.push_back(d_model.addVar(-1e20, 0, 0, GRB_CONTINUOUS));
+    d_lambda1.push_back(d_model.addVar(-GRB_INFINITY, 0, 0, GRB_CONTINUOUS));
+    d_lambda2.push_back(d_model.addVar(-GRB_INFINITY, 0, 0, GRB_CONTINUOUS));
   }
   for (size_t con = 0; con != problem.d_ss_geq; ++con)  // second-stage >= constraints
   {
-    d_lambda1.push_back(d_model.addVar(0, 1e20, 0, GRB_CONTINUOUS));
-    d_lambda2.push_back(d_model.addVar(0, 1e20, 0, GRB_CONTINUOUS));
+    d_lambda1.push_back(d_model.addVar(0, GRB_INFINITY, 0, GRB_CONTINUOUS));
+    d_lambda2.push_back(d_model.addVar(0, GRB_INFINITY, 0, GRB_CONTINUOUS));
   }
   for (size_t con = 0; con != ss_eq; ++con)  // second-stage == constraints
   {
-    d_lambda1.push_back(d_model.addVar(-1e20, 1e20, 0, GRB_CONTINUOUS));
-    d_lambda2.push_back(d_model.addVar(-1e20, 1e20, 0, GRB_CONTINUOUS));
+    d_lambda1.push_back(d_model.addVar(-GRB_INFINITY, GRB_INFINITY, 0, GRB_CONTINUOUS));
+    d_lambda2.push_back(d_model.addVar(-GRB_INFINITY, GRB_INFINITY, 0, GRB_CONTINUOUS));
   }
   
   d_nMults = d_lambda1.size();  
@@ -122,8 +122,8 @@ Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario)
     if (lb > 0)
     {
       double coeffs[2] = {1, lb};
-      d_lambda1.push_back(d_model.addVar(0, 1e20, 0, GRB_CONTINUOUS, 2, constrs1, coeffs));
-      d_lambda2.push_back(d_model.addVar(0, 1e20, 0, GRB_CONTINUOUS, 2, constrs2, coeffs));
+      d_lambda1.push_back(d_model.addVar(0, GRB_INFINITY, 0, GRB_CONTINUOUS, 2, constrs1, coeffs));
+      d_lambda2.push_back(d_model.addVar(0, GRB_INFINITY, 0, GRB_CONTINUOUS, 2, constrs2, coeffs));
       d_l1_mults[var] = d_nMults;
       ++d_nMults;
     }
@@ -132,8 +132,8 @@ Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario)
     if (ub < 1e10)
     {
       double coeffs[2] = {1, ub};
-      d_lambda1.push_back(d_model.addVar(-1e20, 0, 0, GRB_CONTINUOUS, 2, constrs1, coeffs));
-      d_lambda2.push_back(d_model.addVar(-1e20, 0, 0, GRB_CONTINUOUS, 2, constrs2, coeffs));
+      d_lambda1.push_back(d_model.addVar(-GRB_INFINITY, 0, 0, GRB_CONTINUOUS, 2, constrs1, coeffs));
+      d_lambda2.push_back(d_model.addVar(-GRB_INFINITY, 0, 0, GRB_CONTINUOUS, 2, constrs2, coeffs));
       d_u1_mults[var] = d_nMults;
       ++d_nMults;
     }
@@ -147,8 +147,8 @@ Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario)
     if (lb > 0)
     {
       double coeffs[2] = {1, lb};
-      d_lambda1.push_back(d_model.addVar(0, 1e20, 0, GRB_CONTINUOUS, 2, constrs1, coeffs));
-      d_lambda2.push_back(d_model.addVar(0, 1e20, 0, GRB_CONTINUOUS, 2, constrs2, coeffs));
+      d_lambda1.push_back(d_model.addVar(0, GRB_INFINITY, 0, GRB_CONTINUOUS, 2, constrs1, coeffs));
+      d_lambda2.push_back(d_model.addVar(0, GRB_INFINITY, 0, GRB_CONTINUOUS, 2, constrs2, coeffs));
       d_l2_mults[var] = d_nMults;
       ++d_nMults;
     }
@@ -157,8 +157,8 @@ Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario)
     if (ub < 1e10)
     {
       double coeffs[2] = {1, ub};
-      d_lambda1.push_back(d_model.addVar(-1e20, 0, 0, GRB_CONTINUOUS, 2, constrs1, coeffs));
-      d_lambda2.push_back(d_model.addVar(-1e20, 0, 0, GRB_CONTINUOUS, 2, constrs2, coeffs));
+      d_lambda1.push_back(d_model.addVar(-GRB_INFINITY, 0, 0, GRB_CONTINUOUS, 2, constrs1, coeffs));
+      d_lambda2.push_back(d_model.addVar(-GRB_INFINITY, 0, 0, GRB_CONTINUOUS, 2, constrs2, coeffs));
       d_u2_mults[var] = d_nMults;
       ++d_nMults;
     }

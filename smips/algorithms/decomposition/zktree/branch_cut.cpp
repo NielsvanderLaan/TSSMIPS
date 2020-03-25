@@ -3,7 +3,7 @@
 void ZkTree::branch_cut(double *x, double theta, Master &master, size_t maxRounds, bool gomory)
 {
   double tol = 1e-4;  
-  double UB = 1e20;
+  double UB = GRB_INFINITY;
   
   vector<double> lb_nodes(d_nodes.size());      // objective value of LP-relaxation of node  
   

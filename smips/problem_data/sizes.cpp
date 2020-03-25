@@ -79,7 +79,7 @@ void Problem::sizes(size_t S)
   vector<double> lb(nVars, 0.0);
   d_l1 = lb; d_l2 = lb;        
 
-  vector<double> ub(nVars, 1e20);
+  vector<double> ub(nVars, GRB_INFINITY);
   fill_n(ub.begin(), N, 1.0);
   d_u1 = ub; d_u2 = ub;
 

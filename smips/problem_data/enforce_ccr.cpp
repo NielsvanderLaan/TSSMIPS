@@ -40,7 +40,7 @@ void Problem::enforce_ccr(double penalty)
   for (size_t var = 0; var != nArtVars; ++var)
   {
     d_l2.push_back(0);
-    d_u2.push_back(1e20);
+    d_u2.push_back(GRB_INFINITY);
   }
   
 }
