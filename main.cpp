@@ -14,7 +14,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {    
-  Data rand(46151);
+  Data rand(31051);
 
   GRBEnv env;  
   env.set(GRB_IntParam_OutputFlag, 0); 
@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
     
     problem.randomInstance(A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high);
     problem.set_omega_gaus(25.0, 2.0);   
-    //problem.enforce_ccr(100.0);
+    problem.enforce_ccr(50.0);
     
     vector<double> l1(n1, 0.0); vector<double> u1(n1, 5.0); vector<double> l2(n2, 0.0); vector<double> u2(n2, 20.0); 
     problem.set_bounds(l1, u1, l2, u2);
@@ -123,7 +123,6 @@ int main(int argc, char *argv[])
       cout << x[var] << ' ';  
     cout << '\n'; 
     cout <<  "cx + Q(x) = " << problem.evaluate(x) << '\n';
-    
     */
   } 
 

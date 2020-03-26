@@ -5,6 +5,7 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol)
   bool stop = false;
   size_t iter = 0;        // number of benders cuts
   size_t round = 0;       // rounds of gmi cuts added
+  size_t count = 0;
 
   double LB;
   double UB = GRB_INFINITY;
@@ -40,6 +41,7 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol)
 
     double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
     double Qx = GRB_INFINITY;
+
     BendersCut cut = d_agg.strong_cut(sol, Qx, affine);
 
     if (cx + Qx < UB && int_feas)
