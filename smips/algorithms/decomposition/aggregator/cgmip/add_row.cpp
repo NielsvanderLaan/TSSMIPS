@@ -6,6 +6,7 @@ void CGMip::add_row(BendersCut &cut)
   GRBLinExpr lhs = kappa * d_theta;                        // kappa * theta + beta^T x
   lhs.addTerms(cut.d_beta.data(), d_xVars.data(), d_xVars.size());
   d_sub.addConstr(lhs, GRB_GREATER_EQUAL, cut.d_alpha);
+  d_sub.update();
 
   if (kappa < 1)
     return;
@@ -22,5 +23,4 @@ void CGMip::add_row(BendersCut &cut)
 
   delete[] constrs;
   d_mp.update();
-  d_sub.update();
 }
