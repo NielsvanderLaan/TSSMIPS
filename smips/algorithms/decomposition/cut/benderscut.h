@@ -15,8 +15,6 @@ struct BendersCut
 
   BendersCut()
   :
-    d_alpha(0),
-    d_tau(0),
     d_feas_cut(false)
   {}
 

@@ -52,8 +52,8 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol,
     stop = add_cut(cut, sol, tol);
     if (stop)
       copy(x.begin(), x.end(), d_xvals);
-
-    ++iter;
+    else
+      ++iter;
     cout << "LB: " << LB << ". UB: " << UB << '\n';
 
   }

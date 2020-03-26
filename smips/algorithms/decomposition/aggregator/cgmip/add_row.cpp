@@ -10,8 +10,6 @@ void CGMip::add_row(BendersCut &cut)
 
   if (cut.d_feas_cut) return;
 
-  // check if feasibility cuts do not cut away points
-
   GRBConstr *constrs = d_mp.getConstrs();
 
   for (size_t con = 0; con != d_points.size(); ++con)
