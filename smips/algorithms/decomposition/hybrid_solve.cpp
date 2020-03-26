@@ -13,7 +13,6 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol,
   
   while (not stop)
   {
-    cout << "solving master\n";
     Master::Solution sol = d_master.solve();
     if (sol.infeasible)
       return Bounds { GRB_INFINITY, GRB_INFINITY, true };

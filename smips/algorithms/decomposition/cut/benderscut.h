@@ -15,7 +15,7 @@ struct BendersCut
   {
     vector<double> beta(this->d_beta);
     for_each(beta.begin(), beta.end(), [scale](double &val){ val *= scale; });
-    return BendersCut{ this->d_alpha * scale, beta, this->d_tau * scale };  
+    return BendersCut{ this->d_alpha * scale, beta, this->d_tau * scale };
   }
   
   BendersCut& operator+=(const BendersCut &right)
