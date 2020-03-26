@@ -14,7 +14,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {    
-  Data rand(31051);
+  Data rand(46511);
 
   GRBEnv env;  
   env.set(GRB_IntParam_OutputFlag, 0); 
@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
   {  
     size_t n1, p1, m1, n2, p2, m2, S;            // input size
     
-    n1 = 5; p1 = 0; m1 = 2; n2 = 5; p2 = 5; m2 = 3; S = 10; 
+    n1 = 5; p1 = 5; m1 = 2; n2 = 5; p2 = 5; m2 = 3; S = 100;
                                                  // parameter bounds (uniform distribution)  
     size_t A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high;
     A_low = 1; A_high = 4; T_low = 1; T_high = 3; W_low = 1; W_high = 2; 
@@ -45,21 +45,16 @@ int main(int argc, char *argv[])
     problem.set_bounds(l1, u1, l2, u2);
 
     double *x;
-    try
-    {
-      Tree tree(env, c_env, problem);
 
-      auto t1 = chrono::high_resolution_clock::now();
-      vector<double> x_bab = tree.bab(false, 1e-2);
-      auto t2 = chrono::high_resolution_clock::now();
-      for_each(x_bab.begin(), x_bab.end(), [](double val){cout << val << ' ';});
-      cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
-      cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-    } catch (GRBException e)
-    {
-      cout << e.getErrorCode() << ' ' << e.getMessage() << '\n';
-    }
-    
+    Tree tree(env, c_env, problem);
+
+    auto t1 = chrono::high_resolution_clock::now();
+    vector<double> x_bab = tree.bab(false, 1e-2);
+    auto t2 = chrono::high_resolution_clock::now();
+    for_each(x_bab.begin(), x_bab.end(), [](double val){cout << val << ' ';});
+    cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
+    cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
+
     /*
     Benders ben(env, c_env, problem); 
     cout << "-------------L-shaped------------\n"; \
@@ -110,7 +105,7 @@ int main(int argc, char *argv[])
     cout << "cx + Q(x) = " << problem.evaluate(x) << '\n';
     */
     
-    /*
+
     cout << "-------------Solving DEF------------\n";
 
     DeqForm DEF(env, problem);   
@@ -123,7 +118,7 @@ int main(int argc, char *argv[])
       cout << x[var] << ' ';  
     cout << '\n'; 
     cout <<  "cx + Q(x) = " << problem.evaluate(x) << '\n';
-    */
+
   } 
 
   GRBfreeenv(c_env);
