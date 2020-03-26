@@ -5,7 +5,7 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, double &Qx, double affin
   double rho = sol.thetaVal;
   double *x = sol.xVals.data();
   double cRho = 1;
-
+  Qx = 0;
   BendersCut cut;
   
   bool first_time = true;

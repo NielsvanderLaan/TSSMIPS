@@ -1,8 +1,6 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
-#include <string>
-
 
 #include "gurobi_c++.h"
 #include "gurobi_c.h"
@@ -16,7 +14,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {    
-  Data rand(16351);  
+  Data rand(31515);
 
   GRBEnv env;  
   env.set(GRB_IntParam_OutputFlag, 0); 
@@ -30,7 +28,7 @@ int main(int argc, char *argv[])
   {  
     size_t n1, p1, m1, n2, p2, m2, S;            // input size
     
-    n1 = 6; p1 = 0; m1 = 3; n2 = 10; p2 = 10; m2 = 5; S = 10;
+    n1 = 15; p1 = 15; m1 = 6; n2 = 20; p2 = 20; m2 = 12; S = 10;
                                                  // parameter bounds (uniform distribution)  
     size_t A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high;
     A_low = 1; A_high = 4; T_low = 1; T_high = 3; W_low = 1; W_high = 2; 
@@ -46,30 +44,21 @@ int main(int argc, char *argv[])
     vector<double> l1(n1, 0.0); vector<double> u1(n1, 5.0); vector<double> l2(n2, 0.0); vector<double> u2(n2, 20.0); 
     problem.set_bounds(l1, u1, l2, u2);
 
-    double *x;  // x contains solutions
+    double *x;
+    try
+    {
+      Tree tree(env, c_env, problem);
 
-    Benders ben(env, c_env, problem);
-    ben.lpSolve();
-    double zk_lb = ben.zk_solve();
-    x = ben.d_xvals;
-    for_each(x, x + n1, [](double val){cout << val << ' ';});
-    cout << '\n';
-    cout << "zk LB: " << zk_lb << ". UB: " << problem.evaluate(x) << '\n';
-
-  
-
-
-    Tree tree(env, c_env, problem);
-
-    auto t1 = chrono::high_resolution_clock::now();
-    vector<double> x_bab = tree.bab(false, 1e-2);
-    for_each(x_bab.begin(), x_bab.end(), [](double val){cout << val << ' ';});    
-    cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';  
-
-    auto t2 = chrono::high_resolution_clock::now();
-    cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n'; 
-
-
+      auto t1 = chrono::high_resolution_clock::now();
+      vector<double> x_bab = tree.bab(false, 1e-2);
+      auto t2 = chrono::high_resolution_clock::now();
+      for_each(x_bab.begin(), x_bab.end(), [](double val){cout << val << ' ';});
+      cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
+      cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
+    } catch (GRBException e)
+    {
+      cout << e.getErrorCode() << ' ' << e.getMessage() << '\n';
+    }
     
     /*
     Benders ben(env, c_env, problem); 
@@ -121,7 +110,7 @@ int main(int argc, char *argv[])
     cout << "cx + Q(x) = " << problem.evaluate(x) << '\n';
     */
     
-    
+    /*
     cout << "-------------Solving DEF------------\n";
 
     DeqForm DEF(env, problem);   
@@ -135,7 +124,7 @@ int main(int argc, char *argv[])
     cout << '\n'; 
     cout <<  "cx + Q(x) = " << problem.evaluate(x) << '\n';
     
-    
+    */
   } 
 
   GRBfreeenv(c_env);

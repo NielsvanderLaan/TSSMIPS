@@ -13,16 +13,17 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol,
   
   while (not stop)
   {
+    cout << "solving master\n";
     Master::Solution sol = d_master.solve();
     if (sol.infeasible)
       return Bounds { GRB_INFINITY, GRB_INFINITY, true };
       
-    vector<double> x = sol.xVals;  
+    vector<double> x = sol.xVals;
     LB = get_lb();
     
     if (LB > global_UB - tol)
       break;
-  
+
     bool int_feas = all_of(x.begin(), x.begin() + d_p1, is_integer);
     if (not int_feas && round < max_rounds)
     {
@@ -32,19 +33,18 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol,
         ++round;
       continue;
     }
-    
+
     count = int_feas ? 0 : count + 1;    // reset counter if current solution is integer
     if (count > max_iter && not int_feas)
     {
       copy(x.begin(), x.end(), d_xvals);
       break;
     }
-    
-    double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
-    double Qx = 0.0;
-    BendersCut cut = d_agg.strong_cut(sol, Qx, affine);
 
-    if (cx + Qx < UB && int_feas)      
+    double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
+    double Qx = GRB_INFINITY;
+    BendersCut cut = d_agg.strong_cut(sol, Qx, affine);
+    if (cx + Qx < UB && int_feas)
     {
       copy(x.begin(), x.end(), d_incumbent);
       UB = cx + Qx;

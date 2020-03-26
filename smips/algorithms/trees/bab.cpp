@@ -15,11 +15,9 @@ vector<double> Tree::bab(bool affine, double tol)
         
     cout << "GLOBAL LB = " << d_LB_global << " GLOBAL UB = " << d_UB_global << '\n';
     
-    local_tol = max(tol / 10, local_tol / 1.1); 
+    local_tol = max(tol / 10, local_tol / 1.1);
 
-      
-    if (fathom)          // node is infeasible or LB(node) > global_UB
-      continue;          // else: branch
+    if (fathom) continue;
       
     Split split = branch_var(node_idx);
     if (split.var == -1)
