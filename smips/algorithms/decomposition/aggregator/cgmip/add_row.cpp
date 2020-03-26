@@ -8,8 +8,9 @@ void CGMip::add_row(BendersCut &cut)
   d_sub.addConstr(lhs, GRB_GREATER_EQUAL, cut.d_alpha);
   d_sub.update();
 
-  if (kappa < 1)
-    return;
+  if (cut.d_feas_cut) return;
+
+  // check if feasibility cuts do not cut away points
 
   GRBConstr *constrs = d_mp.getConstrs();
 

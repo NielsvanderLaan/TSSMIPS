@@ -18,5 +18,5 @@ BendersCut Master::transform_cut(double coef_theta, double *coef_x)
   
   vector<double> beta(coef_x, coef_x + d_n1);
 
-  return BendersCut{ alpha, beta, tau };
+  return BendersCut{ alpha, beta, tau, true };
 }

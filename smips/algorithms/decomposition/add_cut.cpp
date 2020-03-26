@@ -3,6 +3,7 @@
 bool Benders::add_cut(BendersCut &cut, Master::Solution sol, double tol)
 {
   bool improper_cut = d_master.add_cut(cut, sol, tol);
+
   if (not improper_cut)   
   {
     vector<double> coef_y(d_n2);
