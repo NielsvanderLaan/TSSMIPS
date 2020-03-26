@@ -25,7 +25,7 @@ class Tree
     
     vector<double> bab(bool affine = false, double tol = 1e-4);
         // auxiliary functions
-    bool solve(size_t node_idx, vector<double> &incumbent, bool affine, double global_tol, double local_tol, int max_iter);
+    bool solve(size_t node_idx, vector<double> &incumbent, bool affine, double global_tol, double local_tol);
     
     struct Split
     {

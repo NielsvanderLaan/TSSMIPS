@@ -39,11 +39,9 @@ struct BendersCut
     this->d_alpha += right.d_alpha;
     this->d_tau += right.d_tau;
     transform(this->d_beta.begin(), this->d_beta.end(), right.d_beta.begin(), this->d_beta.begin(), plus<double>());
-    
+
     return *this;
   }
-  
-  
 };
 
 #endif

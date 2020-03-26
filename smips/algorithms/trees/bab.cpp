@@ -3,15 +3,14 @@
 vector<double> Tree::bab(bool affine, double tol)
 { 
   vector<double> incumbent(d_problem.d_n1);
-  double local_tol = tol;      // conditional on integer first-stage
-  int max_iter = 0;            // limit on number of consecutive Benders iterations without integer first-stage solutions
+  double local_tol = tol;
   
   while (d_UB_global > d_LB_global + tol)
   {   
     size_t node_idx = distance(d_LB_nodes.begin(), min_element(d_LB_nodes.begin(), d_LB_nodes.end()));
     cout << "\nExploring node " << node_idx << '\n';
 
-    bool fathom = solve(node_idx, incumbent, affine, tol, local_tol, max_iter);  // solve() also updates global bounds
+    bool fathom = solve(node_idx, incumbent, affine, tol, local_tol);  // solve() also updates global bounds
         
     cout << "GLOBAL LB = " << d_LB_global << " GLOBAL UB = " << d_UB_global << '\n';
     

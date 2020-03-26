@@ -1,15 +1,14 @@
 #include "benders.h"
 
-Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol, int max_iter)
+Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol)
 {
   bool stop = false;
   size_t iter = 0;        // number of benders cuts
-  size_t count = 0;       // number of cuts since integer feasible solution was encountered 
   size_t round = 0;       // rounds of gmi cuts added
 
   double LB;
   double UB = GRB_INFINITY;
-  int max_rounds = 3;
+  int max_rounds = 1;
   
   while (not stop)
   {
@@ -26,15 +25,14 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol,
     bool int_feas = all_of(x.begin(), x.begin() + d_p1, is_integer);
     if (not int_feas && round < max_rounds)
     {
-      if (round_of_cuts(sol, tol))
+      if (round_of_cuts(sol, tol))      // no cuts were added
         round = max_rounds;
       else
         ++round;
       continue;
     }
 
-    count = int_feas ? 0 : count + 1;    // reset counter if current solution is integer
-    if (count > max_iter && not int_feas)
+    if (not int_feas)
     {
       copy(x.begin(), x.end(), d_xvals);
       break;
@@ -43,6 +41,7 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol,
     double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
     double Qx = GRB_INFINITY;
     BendersCut cut = d_agg.strong_cut(sol, Qx, affine);
+
     if (cx + Qx < UB && int_feas)
     {
       copy(x.begin(), x.end(), d_incumbent);
