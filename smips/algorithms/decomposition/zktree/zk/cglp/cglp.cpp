@@ -9,6 +9,7 @@ Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario)
   d_n2(problem.d_n2), 
   d_p2(problem.d_p2), 
   d_m2(problem.d_m2),
+  d_L(problem.d_L),
   d_l1_mults(d_n1, -1),
   d_u1_mults(d_n1, -1),
   d_l2_mults(d_n2, -1),

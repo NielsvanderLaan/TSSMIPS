@@ -1,7 +1,7 @@
 #include "zk.h"
 
 bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool gomory, double tol)
-{ 
+{
   bool stop = false;
   size_t round = 0;
       
@@ -26,7 +26,6 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
        cout << d_yvals[var] << ' ';
     cout << endl;
     */
-    
     size_t nCuts = 0;    
     for (size_t row = 0; row != d_nConstrs; ++row)    // loop over rows of simplex tableau 
     {
@@ -38,7 +37,7 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
       if (is_integer(yval))                  // if variable value is integer,
         continue;                            // then do not derive a cut
     
-    
+
       Cut cut = gomory ? generate_gmi_cut(master, row, yval) : d_cglp.generate_cut(x, theta, d_yvals.data(), basic_var, floor(yval));      
 
       if (add_cut(cut, x, theta, tol, d_nConstrs + nCuts))    // ret = true iff cut was added (iff cut is proper)

@@ -15,6 +15,7 @@ class Cglp
     GRBModel d_model;
     
     size_t d_n1, d_p1, d_m1, d_n2, d_p2, d_m2, d_nMults;
+    double d_L;
     
     vector<GRBConstr> d_constrs1;    // corresponding to first term of disjunction
     vector<GRBConstr> d_constrs2;    // corresponding to second term of disjunction

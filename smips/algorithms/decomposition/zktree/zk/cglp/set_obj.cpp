@@ -10,9 +10,8 @@ void Cglp::set_obj(double *x, double theta, double *y)
     d_r.set(GRB_DoubleAttr_UB, 1);        
     d_r.set(GRB_DoubleAttr_Obj, theta);
   } else
-  {
     d_r.set(GRB_DoubleAttr_UB, 0);
-  }
+
   
   d_model.update();
 }

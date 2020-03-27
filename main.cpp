@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
     problem.set_bounds(l1, u1, l2, u2);
      */
     Problem problem(rand, env);
-    problem.ssv95(101, 0, 1, 1);
+    problem.ssv95(41, 0, 1, 1);
 
     double *x;
 
@@ -53,7 +53,7 @@ int main(int argc, char *argv[])
     auto t1 = chrono::high_resolution_clock::now();
     vector<double> x_bab = tree.bab(false, 1e-2);
     auto t2 = chrono::high_resolution_clock::now();
-    for_each(x_bab.begin(), x_bab.end(), [](double val){cout << val << ' ';});
+    for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
     cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
     cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
 
@@ -122,7 +122,6 @@ int main(int argc, char *argv[])
       cout << x[var] << ' ';  
     cout << '\n'; 
     cout <<  "cx + Q(x) = " << problem.evaluate(x) << '\n';
-
   } 
 
   GRBfreeenv(c_env);

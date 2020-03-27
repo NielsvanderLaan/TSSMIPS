@@ -9,6 +9,7 @@ Cglp::Cglp(const Cglp &other):
   d_p2(other.d_p2), 
   d_m2(other.d_m2),
   d_nMults(other.d_nMults),
+  d_L(other.d_L),
   d_constrs1(d_n1 + d_n2 + 2),
   d_constrs2(d_n1 + d_n2 + 2),
   d_l1_mults(other.d_l1_mults),

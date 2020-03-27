@@ -3,13 +3,13 @@
 Cut Cglp::generate_cut(double *x, double theta, double *y, size_t var_idx, double val)
 {
   create_disjunction(var_idx, val);
-  set_obj(x, theta, y);
+  set_obj(x, theta - d_L, y);    // cglp is in terms of theta' = theta - L
   d_model.optimize();
   
   double cglp_value = d_model.get(GRB_DoubleAttr_ObjVal); 
    
   double r = d_r.get(GRB_DoubleAttr_X);
-  double rhs = d_h.get(GRB_DoubleAttr_X);
+  double rhs = d_h.get(GRB_DoubleAttr_X) + r * d_L;   // cglp is in terms of theta' = theta - L
   
   double *Trow_values = d_model.get(GRB_DoubleAttr_X, d_Trow.data(), d_n1);
   double *Wrow_values = d_model.get(GRB_DoubleAttr_X, d_Wrow.data(), d_n2);
@@ -54,8 +54,8 @@ Cut Cglp::generate_cut(double *x, double theta, double *y, size_t var_idx, doubl
   
     Wrow[var] = min(lambda1_aj + lambda1_0 * floor(m), lambda2_aj + lambda2_0 * ceil(m));
   }
-  
-  return Cut { Trow, r, Wrow, rhs }; 
+
+  return Cut { Trow, r, Wrow, rhs };
 }
 
 

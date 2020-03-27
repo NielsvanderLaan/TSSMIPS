@@ -1,4 +1,5 @@
 #include "zk.h"
+#include <cmath>
 
 Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval)
 {
@@ -27,12 +28,6 @@ Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval)
   vector<double> Wrow(coef_y, coef_y + d_n2);
 
 
-  double scale = abs(coef_rhs);
-  
-  coef_rhs /= scale;
-  coef_theta /= scale;
-  for_each(Trow.begin(), Trow.end(), [scale](double &val){val /= scale;});
-  for_each(Wrow.begin(), Wrow.end(), [scale](double &val){val /= scale;});
 
   return Cut { Trow, coef_theta, Wrow, coef_rhs };      
 }
