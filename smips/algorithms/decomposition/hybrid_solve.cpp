@@ -1,6 +1,6 @@
 #include "benders.h"
 
-Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol)
+Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, bool lp_cuts, double tol)
 {
   bool stop = false;
   size_t iter = 0;        // number of benders cuts
@@ -39,11 +39,16 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, double tol)
       break;
     }
 
+    if (lp_cuts)
+    {
+      BendersCut cut = lpCut(x.data());
+      if (not add_cut(cut, sol, tol))
+        continue;
+    }
+
     double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
     double Qx = GRB_INFINITY;
     BendersCut cut = d_agg.strong_cut(sol, Qx, affine);
-    //double Qx = d_problem.evaluate(x.data()) - cx;
-    //BendersCut cut = d_pslp.best_zk_cut(sol, d_master, 25);
 
     if (cx + Qx < UB && int_feas)
     {

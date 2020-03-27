@@ -4,8 +4,7 @@ void CGMip::remove_mp_cuts()
 {
   d_mp.optimize();
   
-  if (d_mp.get(GRB_IntAttr_Status) != 2)
-    return;
+  if (not mp_optimal()) return;
 
   GRBConstr *cons = d_mp.getConstrs();
   for (size_t row = d_points.size() - 1; row != - 1; --row)   

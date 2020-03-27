@@ -8,8 +8,8 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRou
   
   for (size_t s = 0; s != d_S; ++s)        // generate cutting planes
   {
-    //d_zk[s].update(x, GRB_INFINITY);
-    //d_zk[s].solve(x, GRB_INFINITY, master, maxRounds, false);
+    d_zk[s].update(x, GRB_INFINITY);
+    d_zk[s].solve(x, GRB_INFINITY, master, maxRounds, false);
 
     d_zk[s].update(x, rho);
     d_zk[s].solve(x, rho, master, maxRounds, true);

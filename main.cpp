@@ -14,7 +14,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {    
-  Data rand(46511);
+  Data rand(61451);
 
   GRBEnv env;  
   env.set(GRB_IntParam_OutputFlag, 0); 
@@ -29,11 +29,11 @@ int main(int argc, char *argv[])
     /*
     size_t n1, p1, m1, n2, p2, m2, S;            // input size
     
-    n1 = 10; p1 = 10; m1 = 4; n2 = 12; p2 = 12; m2 = 6; S = 1000;
+    n1 = 10; p1 = 10; m1 = 4; n2 = 12; p2 = 12; m2 = 6; S = 100;
                                                  // parameter bounds (uniform distribution)  
     size_t A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high;
     A_low = 1; A_high = 4; T_low = 1; T_high = 3; W_low = 1; W_high = 2; 
-    c_low = 1; c_high = 3; b_low = 10, b_high = 15; q_low = 25; q_high = 35
+    c_low = 1; c_high = 3; b_low = 10, b_high = 15; q_low = 25; q_high = 35;
                                                  // create problem
     Problem problem(n1, p1, m1, n2, p2, m2, S, rand, env, m1, 0, 0, m2);
     problem.randomInstance(A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high);
@@ -42,9 +42,9 @@ int main(int argc, char *argv[])
     
     vector<double> l1(n1, 0.0); vector<double> u1(n1, 5.0); vector<double> l2(n2, 0.0); vector<double> u2(n2, 20.0); 
     problem.set_bounds(l1, u1, l2, u2);
-     */
+    */
     Problem problem(rand, env);
-    problem.ssv95(41, 0, 1, 1);
+    problem.ssv95(21, 0, 0, 1);
 
     double *x;
 
@@ -108,7 +108,7 @@ int main(int argc, char *argv[])
     cout << '\n';
     cout << "cx + Q(x) = " << problem.evaluate(x) << '\n';
     */
-    
+
 
     cout << "-------------Solving DEF------------\n";
 
@@ -122,6 +122,7 @@ int main(int argc, char *argv[])
       cout << x[var] << ' ';  
     cout << '\n'; 
     cout <<  "cx + Q(x) = " << problem.evaluate(x) << '\n';
+
   } 
 
   GRBfreeenv(c_env);
