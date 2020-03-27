@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
   {  
     size_t n1, p1, m1, n2, p2, m2, S;            // input size
     
-    n1 = 5; p1 = 5; m1 = 2; n2 = 5; p2 = 5; m2 = 3; S = 100;
+    n1 = 10; p1 = 10; m1 = 4; n2 = 12; p2 = 12; m2 = 6; S = 1000;
                                                  // parameter bounds (uniform distribution)  
     size_t A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high;
     A_low = 1; A_high = 4; T_low = 1; T_high = 3; W_low = 1; W_high = 2; 
