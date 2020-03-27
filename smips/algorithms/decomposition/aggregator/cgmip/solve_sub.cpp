@@ -14,6 +14,6 @@ CGMip::Point CGMip::solve_sub()
   double *xVals = d_sub.get(GRB_DoubleAttr_X, d_xVars.data(), d_xVars.size());
   vector<double> x{ xVals, xVals + d_xVars.size() };
   delete[] xVals;
-  
+
   return Point{ x, d_theta.get(GRB_DoubleAttr_X), d_eta.get(GRB_DoubleAttr_X), d_sub.get(GRB_DoubleAttr_ObjBound), d_sub.get(GRB_DoubleAttr_ObjVal) };
 }

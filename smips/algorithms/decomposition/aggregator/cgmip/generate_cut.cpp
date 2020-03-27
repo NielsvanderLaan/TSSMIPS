@@ -17,7 +17,8 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     if (not mp_optimal())
       break;
 
-    candidate = get_candidate();   // candidate cut  
+    candidate = get_candidate();   // candidate cut
+
     set_sub_obj(candidate);        // attempt to find point which invalidates candidate cut 
     point = solve_sub();          
                                    // if cut is violated by point       
