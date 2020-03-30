@@ -17,6 +17,7 @@ ZK::ZK(const ZK &other)
   d_signs(other.d_signs),
   d_lb_inds(other.d_lb_inds),
   d_ub_inds(other.d_ub_inds),
+  d_L(other.d_L),
   d_yvals(other.d_yvals)
 {
   GRBupdatemodel(other.d_model);

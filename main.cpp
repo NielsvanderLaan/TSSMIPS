@@ -14,7 +14,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {    
-  Data rand(16515);
+  Data rand(1234);
 
   GRBEnv env;  
   env.set(GRB_IntParam_OutputFlag, 0); 
@@ -26,9 +26,10 @@ int main(int argc, char *argv[])
   GRBsetintparam(c_env, "Threads", 1);
 
   {
+    /*
     size_t n1, p1, m1, n2, p2, m2, S;            // input size
     
-    n1 = 3; p1 = 0; m1 = 2; n2 = 4; p2 = 4; m2 = 2; S = 10;
+    n1 = 5; p1 = 0; m1 = 2; n2 = 5; p2 = 5; m2 = 3; S = 10;
                                                  // parameter bounds (uniform distribution)  
     size_t A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high;
     A_low = 1; A_high = 4; T_low = 1; T_high = 3; W_low = 1; W_high = 2; 
@@ -41,12 +42,14 @@ int main(int argc, char *argv[])
     
     vector<double> l1(n1, 0.0); vector<double> u1(n1, 5.0); vector<double> l2(n2, 0.0); vector<double> u2(n2, 20.0); 
     problem.set_bounds(l1, u1, l2, u2);
-
-    //Problem problem(rand, env);
+    */
+    Problem problem(rand, env);
     //problem.ssv95(21, 0, 0, 1);
     //problem.sizes(3);
 
+    problem.sslp(10, 50, 50);
     double *x;
+
 
     Tree tree(env, c_env, problem);
 

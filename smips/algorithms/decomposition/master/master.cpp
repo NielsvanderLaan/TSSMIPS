@@ -11,6 +11,7 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
  
   d_n1 = n1; 
   d_p1 = p1;
+  d_L = problem.d_L;
   d_nSlacks = fs_leq + fs_geq;
   
   vector<vector<double>> &Amat = problem.d_Amat;

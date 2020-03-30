@@ -44,7 +44,7 @@ void Problem::sslp(size_t nServers, size_t nClients, size_t S)
   
         // reading c, q, and W from the .lp-file of a scenario problem.
   ifstream lpFile;
-  string filename = "data/sslp/sslp" + to_string(nServers)+ "_" + to_string(nClients) + ".lp"; 
+  string filename = "../data/sslp/sslp" + to_string(nServers)+ "_" + to_string(nClients) + ".lp";
   lpFile.open(filename);
   
   bool constraints = false;      // did we already encounter "Subject To"?
@@ -132,7 +132,7 @@ void Problem::sslp(size_t nServers, size_t nClients, size_t S)
   
   
   ifstream stoFile;
-  string sto_name = "data/sslp/sslp_" + to_string(nServers)+ "_" + to_string(nClients) + "_" + to_string(S) + ".sto"; 
+  string sto_name = "../data/sslp/sslp_" + to_string(nServers)+ "_" + to_string(nClients) + "_" + to_string(S) + ".sto";
   stoFile.open(sto_name);
   
   size_t scenario = -1;

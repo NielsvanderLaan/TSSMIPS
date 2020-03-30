@@ -39,7 +39,7 @@ class ZK
     vector<int> d_signs;              // type of inequality -1 means <= , 0 means ==, and 1 means >=
     vector<int> d_lb_inds, d_ub_inds; // constraint indices of upper and lower bounds (-1 if no bounds are imposed (lb = 0, or ub = GRB_INFINITY))
     
-    
+    double d_L;
     double d_objVal;
     vector<double> d_yvals;
     GRBmodel *d_model;

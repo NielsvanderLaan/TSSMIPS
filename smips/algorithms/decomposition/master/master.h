@@ -28,6 +28,7 @@ class Master
     
     size_t d_n1;
     size_t d_p1;
+    double d_L;
     size_t d_nSlacks;
     
     struct Solution

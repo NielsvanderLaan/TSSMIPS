@@ -2,7 +2,7 @@
 
 BendersCut Master::transform_cut(double coef_theta, double *coef_x)
 {
-  double alpha = 1;
+  double alpha = 1 + coef_theta * d_L;
   double tau = coef_theta - 1;        
       // transforming cut (substituting slack variable expressions)
   for (size_t slack = 0; slack != d_nSlacks; ++slack)

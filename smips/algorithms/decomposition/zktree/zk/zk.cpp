@@ -16,6 +16,7 @@ ZK::ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
   d_signs(d_m2),
   d_lb_inds(d_n2, -1),
   d_ub_inds(d_n2, -1),
+  d_L(problem.d_L),
   d_yvals(d_n2)
 {
   GRBnewmodel(env, &d_model, NULL, 0, NULL, NULL, NULL, NULL, NULL);  

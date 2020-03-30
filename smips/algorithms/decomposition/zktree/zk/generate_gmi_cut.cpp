@@ -27,7 +27,5 @@ Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval)
   vector<double> Trow(coef_x, coef_x + d_n1);
   vector<double> Wrow(coef_y, coef_y + d_n2);
 
-
-
   return Cut { Trow, coef_theta, Wrow, coef_rhs };      
 }
