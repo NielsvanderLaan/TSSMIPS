@@ -14,7 +14,7 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {    
-  Data rand(1234);
+  Data rand(1234);  // test
 
   GRBEnv env;  
   env.set(GRB_IntParam_OutputFlag, 0); 
