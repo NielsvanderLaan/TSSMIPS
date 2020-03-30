@@ -9,7 +9,7 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, bool lp_cut
 
   double LB;
   double UB = GRB_INFINITY;
-  int max_rounds = 10;
+  int max_rounds = 1;
   
   while (not stop)
   {
