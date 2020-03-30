@@ -47,9 +47,8 @@ int main(int argc, char *argv[])
     //problem.ssv95(21, 0, 0, 1);
     //problem.sizes(3);
 
-    problem.sslp(5, 25, 50);
+    problem.sslp(15, 45, 15);
     double *x;
-
 
     Tree tree(env, c_env, problem);
 
@@ -59,6 +58,7 @@ int main(int argc, char *argv[])
     for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
     cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
     cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
+
 
     /*
     Benders ben(env, c_env, problem); 
