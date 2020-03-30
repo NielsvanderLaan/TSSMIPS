@@ -10,5 +10,5 @@ Sub::Multipliers Sub::solve()
     exit(1);
   }
 
-  return Multipliers {d_model.get(GRB_DoubleAttr_Pi, d_constrs, d_m2), d_model.get(GRB_DoubleAttr_ObjVal)};
+  return Multipliers {d_model.get(GRB_DoubleAttr_Pi, d_constrs, d_m2), d_model.get(GRB_DoubleAttr_ObjBound)};
 }

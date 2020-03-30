@@ -2,7 +2,7 @@
 
 void Master::compute_cut(vector<double> &tab_row, double a0, double &coef_theta, double *coef_x)
 {
-  double a_theta = tab_row[0];  // theta is continuous
+  double a_theta = tab_row[0];
 
   double a0_prime = a0 + a_theta * d_L;
   double f0 = a0_prime - floor(a0_prime);

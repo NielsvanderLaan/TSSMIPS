@@ -126,10 +126,6 @@ void Problem::sslp(size_t nServers, size_t nClients, size_t S)
   }
 
   d_L = std::accumulate(&ss_costs[0], &ss_costs[nPairs], 0.0);
-  //cout << "d_L: " << d_L << '\n';
-  d_L = -500;
-
-  
   
   ifstream stoFile;
   string sto_name = "../data/sslp/sslp_" + to_string(nServers)+ "_" + to_string(nClients) + "_" + to_string(S) + ".sto";
