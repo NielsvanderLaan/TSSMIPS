@@ -180,29 +180,7 @@ void Problem::sizes(size_t S)
                                               
   d_omega = omega;
   
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
-  
+
 
   
 }

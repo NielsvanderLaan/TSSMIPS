@@ -1,6 +1,6 @@
 #include "pslp.h"
 
-BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRounds, double tol)
+BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRounds, bool lap_cuts, double tol)
 {
   double *x = sol.xVals.data();
   double rho = sol.thetaVal;
@@ -8,11 +8,14 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRou
   
   for (size_t s = 0; s != d_S; ++s)        // generate cutting planes
   {
-    d_zk[s].update(x, GRB_INFINITY);
-    d_zk[s].solve(x, GRB_INFINITY, master, maxRounds, false);
+    if (lap_cuts)
+    {
+      d_zk[s].update(x, GRB_INFINITY);
+      d_zk[s].solve(x, GRB_INFINITY, master, maxRounds, false);
+    }
 
     d_zk[s].update(x, rho);
-    d_zk[s].solve(x, rho, master, maxRounds, true);
+    d_zk[s].solve(x, rho, master, maxRounds, true, 1e-2);
   }
   
   BendersCut cut;

@@ -1,6 +1,6 @@
 #include "aggregator.h"
 
-BendersCut Aggregator::strong_cut(Master::Solution sol, double &Qx, double affine, double tol)
+BendersCut Aggregator::strong_cut(Master::Solution sol, double &Qx, bool affine, double tol, double rho_tol)
 { 
   double rho = sol.thetaVal;
   double *x = sol.xVals.data();
@@ -9,7 +9,7 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, double &Qx, double affin
   BendersCut cut;
   
   bool first_time = true;
-  while (cRho > tol)
+  while (cRho > rho_tol)
   {
     cRho = -rho;
     cut = BendersCut{ 0, vector<double>(d_n1), 0};
@@ -24,9 +24,10 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, double &Qx, double affin
         vwx = compute_vwx(x, s);
         Qx += prob * vwx;  
       }
-      cut += d_cgmips[s].generate_cut(x, rho, first_time, vwx, affine) * prob; 
+      cut += d_cgmips[s].generate_cut(x, rho, first_time, vwx, affine, tol) * prob;
       cRho -= prob * d_cgmips[s].mp_val();
-    }  
+    }
+
     rho += cRho / (1 + cut.d_tau);    
     first_time = false;
   } 

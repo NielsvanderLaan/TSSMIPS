@@ -20,6 +20,6 @@ void CGMip::update_bound(size_t var, double val, bool lower)
   }
   
   delete[] mp_cons;
-  remove_mp_cuts();    // remove some more cuts to improve numerical stability
+  //remove_mp_cuts();    // remove some more cuts to improve numerical stability
   d_mp.update();
 }

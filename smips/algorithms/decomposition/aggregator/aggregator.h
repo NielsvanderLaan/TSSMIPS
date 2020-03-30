@@ -19,7 +19,7 @@ class Aggregator
     
     void add_rows(BendersCut &cut);
     double compute_vwx(double *x, size_t s);
-    BendersCut strong_cut(Master::Solution sol, double &Qx, double affine, double tol = 1e-4); 
+    BendersCut strong_cut(Master::Solution sol, double &Qx, bool affine, double tol, double rho_tol = 1e-4);
     
     
     

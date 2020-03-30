@@ -12,22 +12,25 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
   Point point{ vector<double>(d_xVars.size()), 0, 0, GRB_INFINITY, 0 };
 
   while (true)
-  {  
+  {
     solve_mp();
     if (not mp_optimal())
       break;
 
     candidate = get_candidate();   // candidate cut
 
-    set_sub_obj(candidate);        // attempt to find point which invalidates candidate cut 
-    point = solve_sub();          
-                                   // if cut is violated by point       
-    if (candidate.d_alpha - point.d_rhs_ub > tol && check_mp_violation(tol))  
+    set_sub_obj(candidate);        // attempt to find point which invalidates candidate cut
+    point = solve_sub();
+                                       // if cut is violated by point
+    if (candidate.d_alpha - point.d_rhs_ub > tol && check_mp_violation(tol))
+    {
       add_mp_cut(point);           // add it to master
+      //cout << "diff: " << candidate.d_alpha - point.d_rhs_ub << '\n';
+    }
     else   
-      break;               
-  }  
-  
+      break;
+  }
+
   candidate.d_alpha = point.d_rhs_lb;     
   return candidate;       
 }

@@ -40,7 +40,7 @@ class CGMip
     CGMip(const CGMip &other);
     CGMip(CGMip &&other) = delete;    // could be implemented for efficiency reasons. We would need ptrs do d_mp etc. Move ctor would set old ptrs to null, dtor would check for nullptrs
 
-    BendersCut generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol = 1e-4);  // uses benders decomposition to find best cut
+    BendersCut generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol);  // uses benders decomposition to find best cut
             // auxiliary functions for generate_cut()
     void solve_mp();
     BendersCut get_candidate();

@@ -14,22 +14,21 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {    
-  Data rand(61451);
+  Data rand(16515);
 
   GRBEnv env;  
   env.set(GRB_IntParam_OutputFlag, 0); 
   env.set(GRB_IntParam_Threads, 1);
   
   GRBenv *c_env;
-  GRBloadenv(&c_env, NULL);
+  GRBloadenv(&c_env, nullptr);
   GRBsetintparam(c_env, "OutputFlag", 0);
   GRBsetintparam(c_env, "Threads", 1);
 
   {
-    /*
     size_t n1, p1, m1, n2, p2, m2, S;            // input size
     
-    n1 = 10; p1 = 10; m1 = 4; n2 = 12; p2 = 12; m2 = 6; S = 100;
+    n1 = 3; p1 = 0; m1 = 2; n2 = 4; p2 = 4; m2 = 2; S = 10;
                                                  // parameter bounds (uniform distribution)  
     size_t A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high;
     A_low = 1; A_high = 4; T_low = 1; T_high = 3; W_low = 1; W_high = 2; 
@@ -42,9 +41,10 @@ int main(int argc, char *argv[])
     
     vector<double> l1(n1, 0.0); vector<double> u1(n1, 5.0); vector<double> l2(n2, 0.0); vector<double> u2(n2, 20.0); 
     problem.set_bounds(l1, u1, l2, u2);
-    */
-    Problem problem(rand, env);
-    problem.ssv95(21, 0, 0, 1);
+
+    //Problem problem(rand, env);
+    //problem.ssv95(21, 0, 0, 1);
+    //problem.sizes(3);
 
     double *x;
 
@@ -56,7 +56,6 @@ int main(int argc, char *argv[])
     for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
     cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
     cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-
 
     /*
     Benders ben(env, c_env, problem); 
@@ -109,7 +108,7 @@ int main(int argc, char *argv[])
     cout << "cx + Q(x) = " << problem.evaluate(x) << '\n';
     */
 
-
+    /*
     cout << "-------------Solving DEF------------\n";
 
     DeqForm DEF(env, problem);   
@@ -122,7 +121,7 @@ int main(int argc, char *argv[])
       cout << x[var] << ' ';  
     cout << '\n'; 
     cout <<  "cx + Q(x) = " << problem.evaluate(x) << '\n';
-
+    */
   } 
 
   GRBfreeenv(c_env);

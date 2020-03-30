@@ -9,9 +9,16 @@ Tree::Split Tree::branch_var(size_t node_idx)
   if (var != -1)
     return Split{ var, floor(x[var]), ceil(x[var]) };
 
-  var = c_branch_var(node, x);      // spatial branching variable idx      
-  if (var != -1)
-    return Split{ var, x[var], x[var] };
-  
-  return Split { -1, -1, -1 };
+  var = c_branch_var(node, x);      // spatial branching variable idx
+  if (var == -1)
+    var = c_branch_var_diam(node);
+
+  if (var == -1)
+    return Split { -1, -1, -1 };
+
+  double val = x[var];
+  if (var < d_problem.d_p1)      // spatial branching on integer variable
+    return Split{var, floor(val), floor(val) + 1};
+
+  return Split{var, val, val};
 }

@@ -47,22 +47,25 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, bool lp_cut
     }
 
     double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
+
+          // add switch for this
     double Qx = GRB_INFINITY;
-    BendersCut cut = d_agg.strong_cut(sol, Qx, affine);
+    BendersCut cut = d_agg.strong_cut(sol, Qx, affine, tol);
+    //double Qx = d_problem.evaluate(x.data()) - cx;
+    //BendersCut cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
 
     if (cx + Qx < UB && int_feas)
     {
       copy(x.begin(), x.end(), d_incumbent);
       UB = cx + Qx;
     }
-    
+    cout << "LB: " << LB << ". UB: " << UB << '\n';
+
     stop = add_cut(cut, sol, tol);
     if (stop)
       copy(x.begin(), x.end(), d_xvals);
     else
       ++iter;
-    cout << "LB: " << LB << ". UB: " << UB << '\n';
-
   }
   cout << "Number of hybrid cuts: " << iter << '\n'; 
   cout << "LB: " << LB << ". UB: " << UB << '\n'; 
