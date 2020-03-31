@@ -49,10 +49,10 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, bool lp_cut
     double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
 
           // add switch to do this
-    //double Qx = GRB_INFINITY;
-    //BendersCut cut = d_agg.strong_cut(sol, Qx, affine, tol);
-    double Qx = d_problem.evaluate(x.data()) - cx;
-    BendersCut cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
+    double Qx = GRB_INFINITY;
+    BendersCut cut = d_agg.strong_cut(sol, Qx, affine, tol);
+    //double Qx = d_problem.evaluate(x.data()) - cx;
+    //BendersCut cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
 
     if (cx + Qx < UB && int_feas)
     {
