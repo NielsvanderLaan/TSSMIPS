@@ -15,7 +15,7 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, bool lp_cut
   {
     Master::Solution sol = d_master.solve();
     if (sol.infeasible)
-      return Bounds { GRB_INFINITY, GRB_INFINITY, true };
+      return Bounds { GRB_INFINITY, GRB_INFINITY };
       
     vector<double> x = sol.xVals;
     LB = get_lb();
@@ -70,7 +70,7 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, bool lp_cut
   cout << "Number of hybrid cuts: " << iter << '\n'; 
   cout << "LB: " << LB << ". UB: " << UB << '\n'; 
  
-  return Bounds { LB, UB, false };
+  return Bounds { LB, UB };
 }
 
 

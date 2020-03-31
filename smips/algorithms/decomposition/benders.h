@@ -55,7 +55,7 @@ class Benders
     BendersCut lbdaCut(double *x, double *alpha);
     double compute_gomory(size_t s, int *vBasis, int *cBasis, double *ws, double *alpha);
     
-    struct Bounds { double d_LB; double d_UB; bool d_infeasible; }; 
+    struct Bounds { double d_LB; double d_UB; };
     
     double lpSolve(double tol = 1e-4);                                               // L_shaped 
     void strong_benders(double tol = 1e-4);                                          // uses strengthened L-shaped cuts

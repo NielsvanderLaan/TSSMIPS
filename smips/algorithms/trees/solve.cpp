@@ -6,7 +6,7 @@ bool Tree::solve(size_t node_idx, vector<double> &incumbent, bool affine, double
 
   Benders::Bounds bounds = node->hybrid_solve(d_UB_global, affine, d_problem.d_p1 > 0, local_tol);      // solve node
   
-  if (bounds.d_infeasible)    // fathom if node is infeasible
+  if (bounds.d_LB > d_UB_global - global_tol)    // node can be fathomed
   {                                          
     delete node;
     d_nodes.erase(d_nodes.begin() + node_idx);  
