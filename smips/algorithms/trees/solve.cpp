@@ -16,7 +16,6 @@ bool Tree::solve(size_t node_idx, vector<double> &incumbent, bool affine, double
 
   if (bounds.d_LB > d_UB_global + 1e-8)    // fathom node (safe side here)
   {
-    cout << "LB(node) = " << bounds.d_LB << '\n';
     delete node;
     d_nodes.erase(d_nodes.begin() + node_idx);
     d_LB_nodes.erase(d_LB_nodes.begin() + node_idx);

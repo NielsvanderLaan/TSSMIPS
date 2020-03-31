@@ -7,9 +7,6 @@ vector<double> Tree::bab(bool affine, double tol)
   
   while (d_UB_global > d_LB_global + tol && not d_nodes.empty())
   {
-    for_each(d_LB_nodes.begin(), d_LB_nodes.end(), [](double val){cout << val << ' ';});
-    cout << '\n';
-
     size_t node_idx = distance(d_LB_nodes.begin(), min_element(d_LB_nodes.begin(), d_LB_nodes.end()));
     cout << "\nExploring node " << node_idx << '\n';
 
