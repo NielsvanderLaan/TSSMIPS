@@ -20,7 +20,7 @@ Benders::Bounds Benders::hybrid_solve(double global_UB, bool affine, bool lp_cut
     vector<double> x = sol.xVals;
     LB = get_lb();
     
-    if (LB > global_UB - tol)
+    if (LB > global_UB)
       break;
 
     bool int_feas = all_of(x.begin(), x.begin() + d_p1, is_integer);

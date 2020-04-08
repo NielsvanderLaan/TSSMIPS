@@ -3,7 +3,7 @@
 bool Tree::solve(size_t node_idx, vector<double> &incumbent, bool affine, double global_tol, double local_tol)
 {
   Benders *node = d_nodes[node_idx];
-  Benders::Bounds bounds = node->hybrid_solve(d_UB_global, affine, d_problem.d_p1 > 0, local_tol);      // solve node
+  Benders::Bounds bounds = node->hybrid_solve(d_UB_global- global_tol, affine, d_problem.d_p1 > 0, local_tol);      // solve node
 
   d_LB_nodes[node_idx] = bounds.d_LB;
 

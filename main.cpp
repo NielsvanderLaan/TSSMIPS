@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
     //problem.ssv95(21, 0, 0, 1);
     //problem.sizes(3);
 
-    problem.sslp(5, 25, 50);
+    problem.sslp(15, 45, 15);
     double *x;
 
     Tree tree(env, c_env, problem);
