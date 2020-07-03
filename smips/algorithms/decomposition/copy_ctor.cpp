@@ -11,6 +11,7 @@ Benders::Benders(const Benders &other)
   d_S(other.d_S),
   d_master(other.d_master),
   d_sub(other.d_sub),
+  d_sub_omega(other.d_sub_omega),
   d_lr(other.d_lr),
   d_gomory(other.d_gomory),
   d_ald(other.d_ald),

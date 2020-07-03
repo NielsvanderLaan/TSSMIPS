@@ -30,7 +30,7 @@ BendersCut Benders::sb_cut(double *x)
         pi[var] += lambda[row] * d_problem.d_Tmat[row][var];
       beta[var] += prob * pi[var];
     } 
-    d_lr.update(ws, pi);
+    d_lr.update(ws, s, pi);
     double Lpiw = d_lr.solve();
     alpha += prob * Lpiw;
     
@@ -41,7 +41,6 @@ BendersCut Benders::sb_cut(double *x)
     
     delete[] lambda;
   }
-  
-  cout << "lw =  " << lw << ". L(pi, w) = " << alpha << '\n'; 
+
   return BendersCut{ alpha, beta, 0.0 };
 }

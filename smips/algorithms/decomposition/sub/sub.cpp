@@ -1,6 +1,6 @@
 #include "sub.h"
 
-Sub::Sub(GRBEnv &env, Problem &problem)
+Sub::Sub(GRBEnv &env, Problem &problem, size_t scenario)
 :
 d_model(env),
 d_q(problem.d_q)
@@ -18,10 +18,17 @@ d_q(problem.d_q)
   char vTypes[n2];
   fill(vTypes, vTypes + n2, GRB_CONTINUOUS);    
       // cost vector
-  double *q = problem.d_q.data();        // transform cost vector and omega to c-style array 
+  double *q;
+  if (scenario == -1)
+    q = problem.d_q.data();        // transform cost vector and omega to c-style array
+  else
+    q = problem.d_q_omega[scenario].data();
       // add variables
-  d_vars = d_model.addVars(problem.d_l2.data(), problem.d_u2.data(), q, vTypes, NULL, n2); 
-  
+
+  GRBVar* var_ptr = d_model.addVars(problem.d_l2.data(), problem.d_u2.data(), q, vTypes, NULL, n2);
+  for (size_t var = 0; var != n2; ++var)
+    d_vars.push_back(var_ptr[var]);
+  delete[] var_ptr;
       // constraint senses
   char senses[m2];
   fill(senses,                   senses + ss_leq,          GRB_LESS_EQUAL);
@@ -31,19 +38,21 @@ d_q(problem.d_q)
   
       // constraint rhs
   double rhs[m2];
-  fill(rhs, rhs + m2, 0.0);    
+  fill_n(rhs, m2, 0.0);
   
 
       // constraint lhs
-  vector<vector<double>> &Wmat = problem.d_Wmat;
+  vector<vector<double>> &Wmat = scenario == -1 ? problem.d_Wmat : problem.d_W_omega[scenario];
   GRBLinExpr Wy[m2];
   for (size_t conIdx = 0; conIdx != m2; ++conIdx)
   {
     double *row = Wmat[conIdx].data();      
-    Wy[conIdx].addTerms(row, d_vars, n2);
+    Wy[conIdx].addTerms(row, d_vars.data(), n2);
   }
       // add constraints
-  d_constrs = d_model.addConstrs(Wy, senses, rhs, NULL, m2);
+  GRBConstr *constr_ptr = d_model.addConstrs(Wy, senses, rhs, NULL, m2);
+  for (size_t con = 0; con != m2; ++con)
+    d_constrs.push_back(constr_ptr[con]);
+  delete[] constr_ptr;
   d_model.update();
-  
 }

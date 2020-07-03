@@ -7,7 +7,8 @@ bool Master::add_cut(BendersCut cut, Solution sol, double tol)
   double kappa = 1 + cut.d_tau;
   //cout << "kappa = " << cut.d_tau << '\n';
   //cout << "old theta = " << sol.thetaVal << ". new theta = " << alpha_betax - cut.d_tau * sol.thetaVal << ".\n";
-  
+  //cout << "theta = " << alpha_betax / (1 + cut.d_tau) << '\n';
+
   bool add_cut = (kappa > 0) ? alpha_betax/kappa > sol.thetaVal + tol : alpha_betax > tol;
   
   if (add_cut) // then add cut and return false

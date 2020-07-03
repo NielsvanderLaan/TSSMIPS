@@ -9,7 +9,6 @@ ZK::ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
   d_m2(problem.d_m2), 
   d_nConstrs(d_m2),
   d_cglp(problem, cpp_env, scenario),
-  d_Wmat(problem.d_Wmat),
   d_Tmat(problem.d_Tmat),
   d_tau(d_m2),
   d_omega(problem.d_omega[scenario]),
@@ -19,11 +18,14 @@ ZK::ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
   d_L(problem.d_L),
   d_yvals(d_n2)
 {
+  d_Wmat = problem.d_fix_rec ? problem.d_Wmat : problem.d_W_omega[scenario];
+
   GRBnewmodel(env, &d_model, NULL, 0, NULL, NULL, NULL, NULL, NULL);  
   GRBsetintparam(GRBgetenv(d_model), "ScaleFlag", 0);
     
-  // adding variables  (assumed continuous, lower and upper bounds imposed later in canonical form)  
-  GRBaddvars(d_model, d_n2, 0, NULL, NULL, NULL, problem.d_q.data(), NULL, NULL, NULL, NULL);
+  // adding variables  (assumed continuous, lower and upper bounds imposed later in canonical form)
+  vector<double> &q = problem.d_fix_rec ? problem.d_q : problem.d_q_omega[scenario];
+  GRBaddvars(d_model, d_n2, 0, NULL, NULL, NULL, q.data(), NULL, NULL, NULL, NULL);
     
   size_t nLeq = problem.d_ss_leq;
   size_t nGeq = problem.d_ss_geq;

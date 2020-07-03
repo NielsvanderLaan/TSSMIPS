@@ -6,6 +6,14 @@ d_m2(other.d_m2),
 d_model(other.d_model),
 d_q(other.d_q)
 {
-  d_vars = d_model.getVars();
-  d_constrs = d_model.getConstrs(); 
+  GRBVar *var_ptr = d_model.getVars();
+  for (size_t var = 0; var != d_n2; ++var)
+    d_vars.push_back(var_ptr[var]);
+  delete[] var_ptr;
+
+  GRBConstr *constr_ptr = d_model.getConstrs();
+  for (size_t con = 0; con != d_m2; ++con)
+    d_constrs.push_back(constr_ptr[con]);
+  delete[] constr_ptr;
+
 }

@@ -12,13 +12,15 @@ class Lagrangian
   public:
     GRBModel d_model;
     size_t d_n1, d_m2, d_n2;
+    Problem &d_problem;
     GRBConstr *d_constrs;
     GRBVar *d_z_vars;
+    GRBVar *d_y_vars;
     Lagrangian(GRBEnv &env, Problem &problem);
     Lagrangian(const Lagrangian &other);
     ~Lagrangian();
 
-    void update(double *rhs, double *pi);
+    void update(double *rhs, size_t s, double *pi);
     double solve();
 };
 

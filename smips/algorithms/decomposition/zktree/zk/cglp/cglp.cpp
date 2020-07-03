@@ -90,8 +90,9 @@ Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario)
   for (size_t var = 0; var != d_n2; ++var)             // looping over y-variables
   {
     vector<double> coeffs(d_nMults);
+    vector<vector<double>> &rec_mat = problem.d_fix_rec ? problem.d_Wmat : problem.d_W_omega[scenario];
     for (size_t row = 0; row != d_m2; ++row)
-      coeffs[1 + d_m1 + row] = problem.d_Wmat[row][var];
+      coeffs[1 + d_m1 + row] = rec_mat[row][var];
   
     GRBLinExpr lhs1;
     lhs1.addTerms(coeffs.data(), d_lambda1.data(), d_nMults); 

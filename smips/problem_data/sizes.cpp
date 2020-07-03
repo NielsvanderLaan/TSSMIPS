@@ -1,8 +1,7 @@
 #include "problem.h"
 
 void Problem::sizes(size_t S)
-{    
-  clear_sub();
+{
       // bookkeeping
   size_t N = 10;
   size_t z_start = 0; // z-variables: 0-9,  

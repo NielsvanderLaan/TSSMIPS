@@ -14,6 +14,9 @@ class Aggregator
     GRBModel d_vw;        // used to evaluate the value function
     vector<vector<double>> &d_omega;
     vector<vector<double>> &d_Tmat;
+    vector<vector<double>> &d_q_omega;
+    vector<vector<vector<double>>> d_W_omega;
+    bool d_fix_rec;
     
     Aggregator(GRBEnv &env, Problem &problem);
     

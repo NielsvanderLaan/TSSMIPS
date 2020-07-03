@@ -1,7 +1,7 @@
 #include "benders.h" 
 
 BendersCut Benders::lpCut(double *x)
-{ 
+{
   double Tx[d_m2];
   computeTx(x, Tx);
 
@@ -12,21 +12,20 @@ BendersCut Benders::lpCut(double *x)
   for (size_t s = 0; s != d_S; ++s)
   {
     double *ws = d_problem.d_omega[s].data(); // scenario (c-style array pointer)
-    double prob = d_problem.d_probs[s]; 
+    double prob = d_problem.d_probs[s];
     
     double rhs[d_m2];  // rhs vector (c-style array)
     for (size_t row = 0; row!= d_m2; ++row) // compute element-by-element
       rhs[row] = ws[row] - Tx[row];
-    
-    d_sub.update(rhs);
-    Sub::Multipliers info = d_sub.solve();       
-    
+
+    Sub &sub = d_problem.d_fix_rec ? d_sub : d_sub_omega[s];
+    sub.update(rhs);
+    Sub::Multipliers info = sub.solve();
     double *lambda = info.lambda;
     QLP += prob * info.obj;
     
     for (size_t row = 0; row != d_m2; ++row)
-      dual[row] += prob * lambda[row]; 
-
+      dual[row] += prob * lambda[row];
     delete[] lambda;
   }
 

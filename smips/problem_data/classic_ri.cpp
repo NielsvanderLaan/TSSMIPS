@@ -1,9 +1,7 @@
 #include "problem.h"
 
 void Problem::classic_ri()
-{ 
-  clear_sub();
-  
+{
   d_n1 = 10; d_p1 = 0; d_m1 = 0; d_fs_leq = 0; d_fs_geq = 0;
   d_n2 = 5; d_p2 = 5; d_m2 = 5; d_ss_leq = 0; d_ss_geq = 5;
   d_S = 1000;

@@ -43,9 +43,11 @@ class DeqForm
     void init_ss(size_t n1, size_t n2, size_t p2, size_t m2, size_t S, 
                  size_t ss_leq, size_t ss_geq, 
                  double *lb, double *ub,
-                 double *probs, double *q,
+                 double *probs, vector<double> q,
                  vector<vector<double>> &Tmat, vector<vector<double>> &Wmat,
-                 vector<vector<double>> &omega);    
+                 vector<vector<double>> &q_omega,
+                 vector<vector<vector<double>>> &W_omega,
+                 vector<vector<double>> &omega, bool fix_rec);
     void solve(double time_limit = GRB_INFINITY); // solves grbModel, updates status to 1 or 2, updates xvals, updates MIPGap
 };
 

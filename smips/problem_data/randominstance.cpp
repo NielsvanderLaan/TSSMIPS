@@ -7,8 +7,6 @@ void Problem::randomInstance(int A_low, int A_high ,
                         int b_low, int b_high,
                         int q_low, int q_high)
 {
-  clear_sub();
-  
   d_Amat = d_gen.rand_unif_mat(d_m1, d_n1, A_low, A_high);
   d_Tmat = d_gen.rand_unif_mat(d_m2, d_n1, T_low, T_high);
   d_Wmat = d_gen.rand_unif_mat(d_m2, d_n2, W_low, W_high);
@@ -16,4 +14,14 @@ void Problem::randomInstance(int A_low, int A_high ,
   d_b = d_gen.rand_unif_vec(d_m1, b_low, b_high);  
   d_c = d_gen.rand_unif_vec(d_n1, c_low, c_high);
   d_q = d_gen.rand_unif_vec(d_n2, q_low, q_high);
+
+  d_fix_rec = true;
+  for (size_t s = 0; s != d_S; ++s)
+  {
+    vector<double> costs(d_n2, 100.0);
+    d_q_omega.push_back(d_q);
+    d_W_omega.push_back(d_Wmat);
+  }
+
+
 }

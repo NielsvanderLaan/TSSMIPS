@@ -26,7 +26,8 @@ class Benders
     size_t d_n1, d_p1, d_m2, d_n2, d_S;
     Master d_master;    // master problem
     Sub d_sub;          // sub-problem
-    Lagrangian d_lr;    // lagrangian relaxation   
+    vector<Sub> d_sub_omega;
+    Lagrangian d_lr;    // lagrangian relaxation
     Gomory d_gomory;    // Gomory relaxation  
     Ald d_ald;          // For deriving ALD cuts  
     Pslp d_pslp;        // For deriving (strong) ZK cuts  
@@ -58,7 +59,7 @@ class Benders
     struct Bounds { double d_LB; double d_UB; };
     
     double lpSolve(double tol = 1e-4);                                               // L_shaped 
-    void strong_benders(double tol = 1e-4);                                          // uses strengthened L-shaped cuts
+    double strong_benders(double tol = 1e-4);                                          // uses strengthened L-shaped cuts
     void lbda(double *alpha, double gomoryTimeLimit = 1e6, double tol = 1e-4);       // LBDA(alpha)  
     void ald_solve(double tol = 1e-4, size_t maxRounds = 25);    
     double zk_solve(double tol = 1e-4, size_t maxRounds = 25);    

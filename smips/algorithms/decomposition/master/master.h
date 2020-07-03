@@ -30,6 +30,7 @@ class Master
     size_t d_p1;
     double d_L;
     size_t d_nSlacks;
+    bool d_zk_safe;
     
     struct Solution
     {

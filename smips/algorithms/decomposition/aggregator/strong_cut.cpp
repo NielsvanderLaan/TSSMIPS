@@ -1,7 +1,7 @@
 #include "aggregator.h"
 
 BendersCut Aggregator::strong_cut(Master::Solution sol, double &Qx, bool affine, double tol, double rho_tol)
-{ 
+{
   double rho = sol.thetaVal;
   double *x = sol.xVals.data();
   double cRho = 1;
@@ -31,7 +31,7 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, double &Qx, bool affine,
     rho += cRho / (1 + cut.d_tau);    
     first_time = false;
   } 
-
+  //cout << "tau: " << cut.d_tau << '\n';
   return cut;
 }
 

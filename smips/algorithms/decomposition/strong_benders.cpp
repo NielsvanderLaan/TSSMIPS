@@ -1,6 +1,6 @@
 #include "benders.h"
 
-void Benders::strong_benders(double tol)
+double Benders::strong_benders(double tol)
 {
   bool stop = false;
   
@@ -21,7 +21,10 @@ void Benders::strong_benders(double tol)
       copy(x.begin(), x.end(), d_xvals);  
   }
   
-  cout << "Number of strong benders cuts: " << iter << '\n'; 
+  cout << "Number of strong benders cuts: " << iter << '\n';
+  double obj;
+  GRBgetdblattr(d_master.d_cmodel, "ObjVal", &obj);
+  return obj;
 }
 
 

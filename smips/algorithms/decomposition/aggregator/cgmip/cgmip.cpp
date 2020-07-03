@@ -49,9 +49,10 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   delete[] d_sub.addConstrs(Ax, senses1.data(), problem.d_b.data(), NULL, m1); 
     // adding Wy + Tx ~ omega
   GRBLinExpr WyTx[m2];
+  vector<vector<double>> &rec_mat = problem.d_fix_rec ? problem.d_Wmat : problem.d_W_omega[s];
   for (size_t con = 0; con != m2; ++con)
   {
-    WyTx[con].addTerms(problem.d_Wmat[con].data(), yVars, n2);
+    WyTx[con].addTerms(rec_mat[con].data(), yVars, n2);
     WyTx[con].addTerms(problem.d_Tmat[con].data(), xVars, n1);
   }
   vector<char> senses2(m2, GRB_EQUAL);
@@ -60,7 +61,8 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   delete[] d_sub.addConstrs(WyTx, senses2.data(), problem.d_omega[s].data(), NULL, m2);
     // adding eta >= q^T y
   GRBLinExpr qy;
-  qy.addTerms(problem.d_q.data(), yVars, n2);
+  vector<double> &q = problem.d_fix_rec ? problem.d_q : problem.d_q_omega[s];
+  qy.addTerms(q.data(), yVars, n2);
   d_sub.addConstr(d_eta, GRB_GREATER_EQUAL, qy);
 
      // cleaning up

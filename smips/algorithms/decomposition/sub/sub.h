@@ -12,11 +12,11 @@ class Sub
   public:
     GRBModel d_model;
     size_t d_m2, d_n2;
-    GRBConstr *d_constrs;
-    GRBVar *d_vars;
+    vector<GRBConstr> d_constrs;
+    vector<GRBVar> d_vars;
     vector<double> &d_q;
     
-    Sub(GRBEnv &env, Problem &problem);
+    Sub(GRBEnv &env, Problem &problem, size_t scenario = -1);
     Sub(const Sub &other);
     ~Sub();
 

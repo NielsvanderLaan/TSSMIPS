@@ -9,7 +9,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     add_mp_cut(Point{ vector<double>(x, x + d_xVars.size()), theta, vwx, 0.0, 0.0});  
 
   BendersCut candidate{ 0, vector<double>(d_beta.size()), 0 };
-  Point point{ vector<double>(d_xVars.size()), 0, 0, GRB_INFINITY, 0 };
+  Point point{ vector<double>(d_xVars.size()), 0, 0, -GRB_INFINITY, GRB_INFINITY };
 
   while (true)
   {
@@ -25,12 +25,12 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     if (candidate.d_alpha - point.d_rhs_ub > tol && check_mp_violation(tol))
     {
       add_mp_cut(point);           // add it to master
-      //cout << "diff: " << candidate.d_alpha - point.d_rhs_ub << '\n';
+      // cout << "diff: " << candidate.d_alpha - point.d_rhs_ub << '\n';
     }
     else   
       break;
   }
 
-  candidate.d_alpha = point.d_rhs_lb;     
+  candidate.d_alpha = point.d_rhs_lb;
   return candidate;       
 }

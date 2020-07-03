@@ -13,27 +13,43 @@ void Problem::enforce_ccr(double penalty)
   
   d_gen.append_r(d_q, penalty, nArtVars);      // updating costs
   d_gen.append_zeros(d_Wmat, nArtVars);        // appending columns (all-zeros)
-  
+
+  for (auto &q_vec : d_q_omega)
+    d_gen.append_r(q_vec, penalty, nArtVars);
+  for (auto &rec_mat : d_W_omega)
+    d_gen.append_zeros(rec_mat, nArtVars);
+
+
   size_t col = d_n2;      
   size_t con = 0;        // constraint counter
   
   for (; con != d_ss_leq; ++con)
   {
-    vector<double> &row = d_Wmat[con];
-    row[col] = -1.0; ++col;
+    d_Wmat[con][col] = -1.0;
+    for (auto &rec_mat : d_W_omega)
+      rec_mat[con][col] = -1.0;
+    ++col;
   }
   
   for (; con != d_ss_leq + d_ss_geq; ++con)
   {
-    vector<double> &row = d_Wmat[con];
-    row[col] = 1.0; ++col;     
+    d_Wmat[con][col] = 1.0;
+    for (auto &rec_mat : d_W_omega)
+      rec_mat[con][col] = 1.0;
+    ++col;
   }
   
   for (; con != d_m2; ++con)
   {
-    vector<double> &row = d_Wmat[con];
-    row[col] = -1.0; ++col;   
-    row[col] = 1.0; ++col;   
+    d_Wmat[con][col] = -1.0;
+    for (auto &rec_mat : d_W_omega)
+      rec_mat[con][col] = -1.0;
+    ++col;
+
+    d_Wmat[con][col] = 1.0;
+    for (auto &rec_mat : d_W_omega)
+      rec_mat[con][col] = 1.0;
+    ++col;
   }
   
   d_n2 += nArtVars;

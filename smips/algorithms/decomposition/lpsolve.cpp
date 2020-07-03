@@ -23,7 +23,6 @@ double Benders::lpSolve(double tol)
   cout << "Number of L-shaped iterations: " << iter << '\n'; 
   double obj;
   GRBgetdblattr(d_master.d_cmodel, "ObjVal", &obj);
-  
   return obj;
 }
 

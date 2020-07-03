@@ -13,6 +13,7 @@ vector<double> Master::extract_row(size_t row)
   GRBsvec tab_row{ len, inds, vals };
   
   GRBBinvRowi(d_cmodel, row, &tab_row);
+
         // converting to std::vector
   vector<double> tab_row_vec(nVars);
   for (size_t nz = 0; nz != tab_row.len; ++nz)

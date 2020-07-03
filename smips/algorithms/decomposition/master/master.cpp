@@ -1,6 +1,8 @@
 #include "master.h"
 
 Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
+:
+  d_zk_safe(zk_safe)
 {
   size_t n1 = problem.d_n1;
   size_t m1 = problem.d_m1;
@@ -20,18 +22,16 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
   double *rhs = problem.d_b.data();  
   double *l1 = problem.d_l1.data();
   double *u1 = problem.d_u1.data();
-  
   // instantiating c-api gurobi model (in order to use advanced simplex routines)
   
   GRBnewmodel(c_env, &d_cmodel, NULL, 0, NULL, NULL, NULL, NULL, NULL); 
   GRBaddvar(d_cmodel, 0, NULL, NULL, 1.0, problem.d_L, GRB_INFINITY, GRB_CONTINUOUS, NULL);     // theta
-  
+
   if (zk_safe)
   {  
       // we do not impose integer requirements on xvars: we solve the IP manually via B&B
       // we do not impose upper and lower bounds directly: we include them as constraints (to enable the B&B and to compute the simplex tableau)
-    GRBaddvars(d_cmodel, n1, 0, NULL, NULL, NULL, c, NULL, NULL, NULL, NULL);  // xvars 
-    
+    GRBaddvars(d_cmodel, n1, 0, NULL, NULL, NULL, c, NULL, NULL, NULL, NULL);  // xvars
     double val = 1;
     for (size_t idx = 0; idx != n1; ++idx)
     {
@@ -43,7 +43,6 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
       int var = idx + 1;
       GRBaddconstr(d_cmodel, 1, &var, &val, GRB_EQUAL, u1[idx], NULL);
     }
-    
     // adding slacks (x - s = l (n1 times), x + s = u (n1 times))
     size_t nBounds = 2 * n1;
     int vbeg[nBounds];
@@ -73,7 +72,7 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
     }
     
     d_nSlacks += 2 * n1;
-  } else
+  } else    // not zk-safe
   {
     char vtypes[n1];
     fill_n(vtypes, p1, GRB_INTEGER);

@@ -1,9 +1,7 @@
 #include "problem.h"
 
 void Problem::ssv95(size_t S, bool fs_continuous, bool ss_binary, bool standard_T)
-{ 
-  clear_sub();
-  
+{
   d_n1 = 2; d_m1 = 0; d_fs_leq = 0; d_fs_geq = 0;
   d_p1 = fs_continuous? 0 : 2;
   d_n2 = 4; d_p2 = 4; d_m2 = 2; d_ss_leq = 2; d_ss_geq = 0;

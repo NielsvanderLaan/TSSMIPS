@@ -6,7 +6,10 @@ Aggregator::Aggregator(GRBEnv &env, Problem &problem)
   d_probs(problem.d_probs),
   d_vw(env),
   d_omega(problem.d_omega),
-  d_Tmat(problem.d_Tmat)
+  d_Tmat(problem.d_Tmat),
+  d_q_omega(problem.d_q_omega),
+  d_W_omega(problem.d_W_omega),
+  d_fix_rec(problem.d_fix_rec)
 {
   d_cgmips.reserve(problem.d_S);
   

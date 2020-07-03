@@ -7,6 +7,10 @@ bool Tree::solve(size_t node_idx, vector<double> &incumbent, bool affine, double
 
   d_LB_nodes[node_idx] = bounds.d_LB;
 
+  cout << "LBs: ";
+  for_each(d_LB_nodes.begin(), d_LB_nodes.end(), [](double val){ cout << val << ' '; });
+  cout << '\n';
+
   d_LB_global = *min_element(d_LB_nodes.begin(), d_LB_nodes.end());
   if (bounds.d_UB < d_UB_global)
   {
