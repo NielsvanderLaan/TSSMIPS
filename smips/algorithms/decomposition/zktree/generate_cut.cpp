@@ -1,4 +1,4 @@
-#include "ZkTree.h"
+#include "zktree.h"
 
 BendersCut ZkTree::generate_cut(double *x, double theta, Master &master, size_t maxRounds, bool gomory)
 {
