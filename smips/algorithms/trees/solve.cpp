@@ -3,7 +3,10 @@
 bool Tree::solve(size_t node_idx, vector<double> &incumbent, bool affine, double global_tol, double local_tol)
 {
   Benders *node = d_nodes[node_idx];
-  Benders::Bounds bounds = node->hybrid_solve(d_UB_global- global_tol, affine, d_problem.d_p1 > 0, local_tol);      // solve node
+  double weight = 3.0;
+  double upper_bound = (d_UB_global + weight * d_LB_nodes[node_idx]) / (1 + weight);    // * d_UB_global- global_tol
+  Benders::Bounds bounds = node->hybrid_solve(upper_bound, affine, true, local_tol);      // *
+
 
   d_LB_nodes[node_idx] = bounds.d_LB;
 
@@ -18,13 +21,7 @@ bool Tree::solve(size_t node_idx, vector<double> &incumbent, bool affine, double
     copy_n(node->d_incumbent, incumbent.size(), incumbent.begin());
   }
 
-  if (bounds.d_LB > d_UB_global + 1e-8)    // fathom node (safe side here)
-  {
-    delete node;
-    d_nodes.erase(d_nodes.begin() + node_idx);
-    d_LB_nodes.erase(d_LB_nodes.begin() + node_idx);
-    return true;    // do not branch on this node
-  }
 
-  return bounds.d_LB > d_UB_global - global_tol;   // if true, then we do not branch further
+  return bounds.d_LB > d_LB_nodes[node_idx];  // *
+  return bounds.d_LB > d_UB_global - global_tol;  // if true, then we do not branch further *
 }

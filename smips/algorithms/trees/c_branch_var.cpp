@@ -3,7 +3,7 @@
 int Tree::c_branch_var(Benders *node, double *x)
 { 
   double best_score = -1;
-  double best_idx = -1;
+  int best_idx = -1;
 
 
   for (int var = 0; var != d_problem.d_n1; ++var)

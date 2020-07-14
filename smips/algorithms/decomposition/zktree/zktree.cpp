@@ -15,15 +15,18 @@ ZkTree::ZkTree(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
   d_nodes.push_back(root);
 
   // initializing cglp
-  d_alpha = d_cglp.addVar(-GRB_INFINITY, GRB_INFINITY, 0.0, GRB_CONTINUOUS);
+  d_alpha = d_cglp.addVar(-GRB_INFINITY, GRB_INFINITY, -1.0, GRB_CONTINUOUS, "alpha");
 
   vector<double> beta_lb(problem.d_n1, -GRB_INFINITY);
-  GRBVar *beta_ptr = d_cglp.addVars(beta_lb.data(), NULL, NULL, NULL, NULL, problem.d_n1);
+  string beta_names[problem.d_n1];
+  for (size_t var = 0; var != problem.d_n1; ++var)
+    beta_names[var] = "beta_" + to_string(var);
+  GRBVar *beta_ptr = d_cglp.addVars(beta_lb.data(), NULL, NULL, NULL, beta_names, problem.d_n1);
   copy_n(beta_ptr, problem.d_n1, d_beta.begin());
   delete[] beta_ptr;
 
-  d_tau = d_cglp.addVar(-GRB_INFINITY, GRB_INFINITY, 0.0, GRB_CONTINUOUS);
-  d_kappa = d_cglp.addVar(1.0, 1.0, 0.0, GRB_CONTINUOUS);
+  d_tau = d_cglp.addVar(0.0, GRB_INFINITY, 0.0, GRB_CONTINUOUS, "tau");
+  d_kappa = d_cglp.addVar(1.0, 1.0, 0.0, GRB_CONTINUOUS, "kappa");
 
   size_t m1 = problem.d_m1;
   vector<double> lambda_lb(m1, -GRB_INFINITY);
@@ -31,7 +34,11 @@ ZkTree::ZkTree(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
   fill_n(lambda_lb.begin() + problem.d_fs_leq, problem.d_fs_geq, 0.0);
   fill_n(lambda_ub.begin(), problem.d_fs_leq, 0.0);
 
-  GRBVar *lambda = d_cglp.addVars(lambda_lb.data(), lambda_ub.data(), NULL, NULL, NULL, m1);
+  string names[m1];
+  string base = "lambda_0_";
+  for (size_t mult = 0; mult != m1; ++mult)
+      names[mult] = base + to_string(mult);
+  GRBVar *lambda = d_cglp.addVars(lambda_lb.data(), lambda_ub.data(), NULL, NULL, names, m1);
   for (size_t mult = 0; mult != m1; ++mult)
     d_lambda[0].push_back(lambda[mult]);
 
@@ -48,7 +55,8 @@ ZkTree::ZkTree(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
 
     if (problem.d_u1[var] < 1e10)
     {
-      GRBVar mult = d_cglp.addVar(-GRB_INFINITY, 0.0, 0.0, GRB_CONTINUOUS);
+      string name = "lambda_0_" + to_string(d_lambda[0].size());
+      GRBVar mult = d_cglp.addVar(-GRB_INFINITY, 0.0, 0.0, GRB_CONTINUOUS, name);
       d_lambda[0].push_back(mult);
       d_ub_mult_inds[0][var] = d_lambda[0].size() - 1;
 
@@ -62,5 +70,6 @@ ZkTree::ZkTree(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
   d_constrs[0].push_back(d_cglp.addConstr(alpha_lhs >= d_alpha));
 
   delete[] lambda;
+
   d_cglp.update();
 }

@@ -5,7 +5,7 @@ CGMip::Point CGMip::solve_sub()
   d_sub.optimize();
   
   int status = d_sub.get(GRB_IntAttr_Status);
-  if (status != 2 and status != 13)
+  if (status != 2)
   {
     cout << "sub status: " << status << '\n';
     exit(1);

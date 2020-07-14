@@ -115,8 +115,7 @@ void Problem::sslp(size_t nServers, size_t nClients, size_t S)
   
   vector<double> probs(S, 1.0 / S);
 
-  
-  // TODO: omega
+
   vector<vector<double>> omega;
   for (size_t s = 0; s != S; ++s)
   {

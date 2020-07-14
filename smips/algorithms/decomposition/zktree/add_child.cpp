@@ -10,7 +10,12 @@ void ZkTree::add_child(size_t node_idx)
   size_t nMults = d_lambda[node_idx].size();
   double *lb_mults = d_cglp.get(GRB_DoubleAttr_LB, d_lambda[node_idx].data(), nMults);
   double *ub_mults = d_cglp.get(GRB_DoubleAttr_UB, d_lambda[node_idx].data(), nMults);
-  GRBVar *mults = d_cglp.addVars(lb_mults, ub_mults, NULL, NULL, NULL, nMults);
+
+  string names[nMults];
+  string base = "lambda_" + to_string(d_nodes.size() - 1) + "_";
+  for (size_t mult = 0; mult != nMults; ++mult)
+    names[mult] = base + to_string(mult);
+  GRBVar *mults = d_cglp.addVars(lb_mults, ub_mults, NULL, NULL, names, nMults);
   d_lambda.push_back(vector<GRBVar>(mults, mults + nMults));
   delete[] lb_mults, ub_mults;
 
@@ -21,8 +26,7 @@ void ZkTree::add_child(size_t node_idx)
   {
     GRBLinExpr lhs;
     for (size_t mult = 0; mult != nMults; ++mult)
-      coeff[mult] = d_cglp.getCoeff(d_constrs[node_idx][idx], d_lambda[node_idx][mult]);
-    lhs.addTerms(coeff, mults, nMults);
+      lhs += d_cglp.getCoeff(d_constrs[node_idx][idx], d_lambda[node_idx][mult]) * mults[mult];
     constrs.push_back(d_cglp.addConstr(lhs <= d_beta[idx]));
   }
 

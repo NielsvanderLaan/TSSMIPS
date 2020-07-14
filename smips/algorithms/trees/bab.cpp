@@ -10,23 +10,24 @@ vector<double> Tree::bab(bool affine, double tol)
     size_t node_idx = distance(d_LB_nodes.begin(), min_element(d_LB_nodes.begin(), d_LB_nodes.end()));
     cout << "\nExploring node " << node_idx << '\n';
 
-    bool fathom = solve(node_idx, incumbent, affine, tol, local_tol);  // solve() also updates global bounds
+    bool improved = solve(node_idx, incumbent, affine, tol, local_tol);  // solve() also updates global bounds
         
     cout << "GLOBAL LB = " << d_LB_global << " GLOBAL UB = " << d_UB_global << '\n';
     
     local_tol = max(tol / 10, local_tol / 1.1);
 
-    if (fathom) continue;
+    fathom();
+
+    if (improved) continue;   // else branch
       
     Split split = branch_var(node_idx);
     if (split.var == -1)
     {
-      if (d_LB_nodes[node_idx] <= d_LB_global)  // no improvement possible
+      if (d_LB_nodes[node_idx] <= d_LB_global + tol)  // no improvement possible
         break;
       else                                      // global improvement possible  
         continue;
-    }  
-    
+    }
     branch(node_idx, split);
   }
   

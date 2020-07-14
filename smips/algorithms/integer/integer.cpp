@@ -2,5 +2,5 @@
 
 bool is_integer(double val)
 {
-  return abs(val - floor(val + 0.5)) <= 1e-5;
+  return abs(val - floor(val + 0.5)) <= 2e-5;
 }

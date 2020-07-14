@@ -22,7 +22,8 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     set_sub_obj(candidate);        // attempt to find point which invalidates candidate cut
     point = solve_sub();
                                        // if cut is violated by point
-    if (candidate.d_alpha - point.d_rhs_ub > tol && check_mp_violation(tol))
+    double diff = candidate.d_alpha - point.d_rhs_ub;
+    if (diff > tol && check_mp_violation(max(0.5 * diff, tol)) )
     {
       add_mp_cut(point);           // add it to master
       // cout << "diff: " << candidate.d_alpha - point.d_rhs_ub << '\n';

@@ -27,5 +27,4 @@ Benders::Benders(const Benders &other)
   
   copy_n(other.d_xvals, d_n1, d_xvals);
   copy_n(other.d_incumbent, d_n1, d_incumbent);
-  //cout << "benders copy ctor called\n";
 }

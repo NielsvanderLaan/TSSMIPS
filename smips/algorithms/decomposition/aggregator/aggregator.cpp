@@ -1,6 +1,6 @@
 #include "aggregator.h"
 
-Aggregator::Aggregator(GRBEnv &env, Problem &problem)
+Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem)
 :  
   d_n1(problem.d_n1),
   d_probs(problem.d_probs),
@@ -12,13 +12,17 @@ Aggregator::Aggregator(GRBEnv &env, Problem &problem)
   d_fix_rec(problem.d_fix_rec)
 {
   d_cgmips.reserve(problem.d_S);
-  
-  for (size_t s =0; s != problem.d_S; ++s)
+  d_trees.reserve(problem.d_S);
+
+  for (size_t s = 0; s != problem.d_S; ++s)
   {
     CGMip cgmip{ env, problem, s };
     d_cgmips.push_back(cgmip);
+
+    ZkTree tree{ c_env, env, problem, s };
+    d_trees.push_back(tree);
   }
-  
+
       // Initializing d_vw
   size_t n2 = problem.d_n2;
   size_t p2 = problem.d_p2;    

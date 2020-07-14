@@ -10,7 +10,7 @@ d_lr(env, problem),
 d_gomory(env, problem),
 d_ald(c_env, problem),
 d_pslp(env, c_env, problem),
-d_agg(env, problem),
+d_agg(env, c_env, problem),
 d_lb(problem.d_l1),
 d_ub(problem.d_u1),
 d_S(problem.d_S),
@@ -28,6 +28,4 @@ d_objectives(problem.d_S)
     for (size_t s = 0; s != d_S; ++s)
       d_sub_omega.push_back(Sub {env, problem, s});
   }
-
-  //cout << "Benders ctor called\n";
 }

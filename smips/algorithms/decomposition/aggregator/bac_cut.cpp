@@ -1,13 +1,12 @@
 #include "aggregator.h"
 
-BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool affine, double tol, double rho_tol)
+BendersCut Aggregator::bac_cut(Master::Solution sol, Master &mp, double tol, size_t maxRounds, double rho_tol)
 {
   double rho = sol.thetaVal;
   double *x = sol.xVals.data();
   double cRho = rho_tol + 1;
   BendersCut cut;
-  
-  bool first_time = true;
+
   while (cRho > rho_tol)
   {
     cRho = -rho;
@@ -16,17 +15,11 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
     for (size_t s = 0; s != d_cgmips.size(); ++s)
     {
       double prob = d_probs[s];
-      cut += d_cgmips[s].generate_cut(x, rho, first_time, vx[s], affine, tol) * prob;
-
-      cRho -= prob * d_cgmips[s].mp_val();
+      cut += d_trees[s].generate_cut(x, rho, mp, maxRounds, true) * prob;
+      cRho -= prob * d_trees[s].cglp_val();
     }
-
     rho += cRho / (1 + cut.d_tau);
-
-    first_time = false;
-  } 
+  }
   //cout << "tau: " << cut.d_tau << '\n';
   return cut;
 }
-
-

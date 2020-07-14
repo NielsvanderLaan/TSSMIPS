@@ -2,7 +2,6 @@
 
 Benders::~Benders()
 {
-  //cout << "benders destructor called\n";
   delete[] d_xvals;
   delete[] d_incumbent;
 }

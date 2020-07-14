@@ -18,7 +18,7 @@ struct BendersCut
     d_feas_cut(false)
   {}
 
-  BendersCut(double alpha, vector<double> beta, double tau, bool feas_cut = false)
+  BendersCut(double alpha, const vector<double> &beta, double tau, bool feas_cut = false)
   :
     d_alpha(alpha),
     d_beta(beta),

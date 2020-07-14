@@ -1,8 +1,9 @@
 #include "zktree.h"
 
-void ZkTree::add_row_to_cglp(double *coeff_x, double coeff_theta, double coeff_eta, double rhs, size_t node_idx)
+void ZkTree::add_row_to_cglp(const double *coeff_x, double coeff_theta, double coeff_eta, double rhs, size_t node_idx)
 {
-  GRBVar lambda = d_cglp.addVar(0.0, GRB_INFINITY, 0.0, GRB_CONTINUOUS);
+  string name = "lambda_" + to_string(node_idx) + "_" + to_string(d_lambda[node_idx].size());
+  GRBVar lambda = d_cglp.addVar(0.0, GRB_INFINITY, 0.0, GRB_CONTINUOUS, name);
   d_lambda[node_idx].push_back(lambda);
 
   vector<GRBVar> lambda_vec(d_beta.size(), lambda);

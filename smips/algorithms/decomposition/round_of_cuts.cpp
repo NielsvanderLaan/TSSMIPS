@@ -10,5 +10,5 @@ bool Benders::round_of_cuts(Master::Solution sol, double tol)
     if (add_cut(cut, sol, tol))
       fail = false;  
   }
-  return false;  
+  return fail;
 }

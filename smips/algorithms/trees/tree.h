@@ -34,6 +34,8 @@ class Tree
     };
     bool branch(size_t node_idx, Split split);
     Split branch_var(size_t node_idx);
+    void fathom();
+
     int c_branch_var(Benders *node, double *x);
     int c_branch_var_diam(Benders* node);
     int i_branch_var(double *x);
