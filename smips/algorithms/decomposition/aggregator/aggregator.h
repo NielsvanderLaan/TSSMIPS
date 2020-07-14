@@ -2,7 +2,7 @@
 #define AGG_H
 
 #include "cgmip/cgmip.h"
-#include "zktree/zktree.h"
+#include "../zktree/zktree.h"
 #include "../master/master.h"
 
 class Aggregator
