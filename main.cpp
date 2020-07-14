@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
       Problem problem(rand, env);
       //problem.ssv95(21, 1, 0, 1);
 
-      problem.sizes(10);
+      problem.sizes(3);
 
       //problem.sslp(5, 25, 50);
       //problem.dcap(2,3,3,200);
