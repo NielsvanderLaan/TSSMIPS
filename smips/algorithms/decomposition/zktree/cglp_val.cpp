@@ -1,4 +1,4 @@
-#include "ZkTree.h"
+#include "zktree.h"
 
 double ZkTree::cglp_val()
 {
