@@ -9,7 +9,7 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
   double LB;
   double UB = GRB_INFINITY;
   int max_rounds = 25;
-  
+
   while (true)
   {
     Master::Solution sol = d_master.solve();
@@ -28,17 +28,18 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
       break;
     }
 
-    bool int_feas = all_of(x.begin(), x.begin() + d_p1, is_integer);
+    bool int_feas = all_of(x.begin(), x.begin() + d_p1, [](double val){ return is_integer(val); });
+
 
     if (not int_feas && round < max_rounds)
     {
-      if (round_of_cuts(sol, tol))      // no cuts were added
+      bool fail = round_of_cuts(sol, tol);
+      if (fail)      // no cuts were added
         round = max_rounds;
       else
         ++round;
       continue;
     }
-
 
 
     if (not int_feas)
@@ -67,21 +68,12 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
     }
     cout << "LB: " << LB << ". UB: " << UB << '\n';
 
-    // no scaled cuts
-
-
-
-
+    /*
     cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
     //cut = d_agg.bac_cut(sol, d_master, tol, 10);
     if (not add_cut(cut, sol, tol))
       continue;
-    else
-    {
-      copy(x.begin(), x.end(), d_xvals);
-      cout << "no improvement possible\n";
-      break;
-    }
+    */
 
     cut = d_agg.strong_cut(sol, vx, affine, tol);
 

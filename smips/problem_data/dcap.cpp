@@ -162,5 +162,6 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
 
 
   //d_p1 = d_n1;
+  //d_p2 = 0;
 
 }

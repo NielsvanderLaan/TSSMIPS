@@ -11,7 +11,6 @@ Master::Solution Master::solve()
 
   if (status == 3)      // model is infeasible
     return Solution{ vector<double>(0), -1, true };
-    
 
   vector<double> x(d_n1);
   GRBgetdblattrarray(d_cmodel, "X", 1, d_n1, x.data());   

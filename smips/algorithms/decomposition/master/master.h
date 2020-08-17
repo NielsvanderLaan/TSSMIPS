@@ -18,6 +18,12 @@ class Master
     //GRBVar *d_xVars;
     //GRBVar d_theta;
     //GRBModel d_model;
+    int d_n1;
+    size_t d_p1;
+    double d_L;
+    int d_nSlacks;
+    bool d_zk_safe;
+
     GRBmodel *d_cmodel;
       
       // internal storage: only valid for regular l-shaped and lbda cuts
@@ -25,12 +31,12 @@ class Master
     vector<double> d_kappa;
     vector<vector<double>> d_beta;
     vector<double> d_gamma;
+
+    vector<int> d_lb_con_inds, d_lb_slack_inds;
+    vector<int> d_ub_con_inds, d_ub_slack_inds;
+
     
-    size_t d_n1;
-    size_t d_p1;
-    double d_L;
-    size_t d_nSlacks;
-    bool d_zk_safe;
+
     
     struct Solution
     {
@@ -39,7 +45,7 @@ class Master
       bool infeasible;
     };
     
-    void update_bounds(size_t var, double val, bool lower); 
+    void update_bounds(int var, double val, bool lower);
      
     Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe); // initializes d_model and its variables
     Master(const Master &other);

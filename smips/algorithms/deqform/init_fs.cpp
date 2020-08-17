@@ -10,8 +10,6 @@ void DeqForm::init_fs(size_t n1, size_t p1, size_t m1,
   char vTypes[n1];
   fill_n(vTypes, p1, GRB_INTEGER);
   fill_n(vTypes + p1, n1 - p1, GRB_CONTINUOUS);
-  for_each(c, c + d_n1, [](double val){cout << val << ' '; });
-  //cout << '\n';
   d_xVars = d_model.addVars(lb, ub, c, vTypes, NULL, n1); 
     
       // constraints

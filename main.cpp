@@ -11,13 +11,14 @@
 #include "smips/algorithms/trees/tree.h"
 #include "smips/algorithms/decomposition/zktree/zktree.h"
 
+#include "run.h"
+
 using namespace std;
 
 int main(int argc, char *argv[])
 {
   try
   {
-
     Data rand(1234);  // test
 
     GRBEnv env;
@@ -30,6 +31,7 @@ int main(int argc, char *argv[])
     GRBsetintparam(c_env, "Threads", 1);
 
     {
+      run_ssv_ld_gaps(rand, env, c_env);
       /*
       size_t n1, p1, m1, n2, p2, m2, S;            // input size
 
@@ -68,16 +70,16 @@ int main(int argc, char *argv[])
 
 
 
-      Problem problem(rand, env);
-      //problem.ssv95(21, 1, 0, 1);
 
-      problem.sizes(3);
+      //Problem problem(rand, env);
+      //problem.ssv95(21, 0, 0, 0);
+      //problem.sizes(10);
 
-      //problem.sslp(5, 25, 50);
+      //problem.sslp(5, 25, 100);
       //problem.dcap(2,3,3,200);
-      problem.enforce_ccr(1e6);
+      //problem.enforce_ccr(1e6);
 
-
+    /*
       Tree tree(env, c_env, problem);
       auto t1 = chrono::high_resolution_clock::now();
       vector<double> x_bab = tree.bab(false, 1e-2);
@@ -85,18 +87,26 @@ int main(int argc, char *argv[])
       for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
       cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-
-
-/*
+    */
+    /*
       DeqForm DEF(env, problem);
       DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
       DEF.solve(1500.0);
-      double *x = DEF.d_xVals;
-      for_each(x, x + problem.d_n1, [](double val) { cout << val << ' '; });
-      cout << '\n';
-*/
+      //double *x = DEF.d_xVals;
+      //for_each(x, x + problem.d_n1, [](double val) { cout << val << ' '; });
+      //cout << '\n';
+      cout << DEF.d_objVal<< '\n';
+    */
+    /*
+      Benders ben(env, c_env, problem, false);
+      cout << "-------------L-shaped------------\n"; \
+      double lpLB = ben.lpSolve();
+      cout << "L-shaped LB: " << lpLB << '\n';
 
-
+      double ldLB = ben.ldSolve();
+      double strongLB = ben.ldSolve(false);
+      cout << "LD = " << ldLB << "\nstrong LB = " << strongLB << '\n';
+    */
 
       /*
       Benders ben(env, c_env, problem);

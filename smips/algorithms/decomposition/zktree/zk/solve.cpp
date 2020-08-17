@@ -8,7 +8,6 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
   while (not stop)
   {
         // solve the model by calling optimize(), which also updates d_objval and d_yvals
-    optimize();
     if (not optimize())  // if model is infeasible
       return false;      // return false
 

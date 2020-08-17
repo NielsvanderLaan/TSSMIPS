@@ -3,6 +3,6 @@
 
 #include <math.h>
 
-bool is_integer(double val);
+bool is_integer(double val, double tol = 2e-5);
 
 #endif

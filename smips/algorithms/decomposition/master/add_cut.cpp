@@ -35,9 +35,10 @@ bool Master::add_cut(BendersCut cut, Solution sol, double tol)
     d_kappa.push_back(1 + cut.d_tau);
     d_beta.push_back(cut.d_beta);
     d_gamma.push_back(cut.d_alpha);
-    
+
+    GRBupdatemodel(d_cmodel);
+
     return false;
   }
-  
   return true; // betaxgamma >= theta, no cut added 
 }

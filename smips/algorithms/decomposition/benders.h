@@ -61,8 +61,7 @@ class Benders
     double lpSolve(double tol = 1e-4);                                               // L_shaped 
     double strong_benders(double tol = 1e-4);                                          // uses strengthened L-shaped cuts
     void lbda(double *alpha, double gomoryTimeLimit = 1e6, double tol = 1e-4);       // LBDA(alpha)  
-    void ald_solve(double tol = 1e-4, size_t maxRounds = 25);    
-    double zk_solve(double tol = 1e-4, size_t maxRounds = 25);
+    void ald_solve(double tol = 1e-4, size_t maxRounds = 25);
     double ldSolve(bool affine = true, double tol = 1e-4);
     Bounds hybrid_solve(double upper_bound = GRB_INFINITY, bool affine = false, bool lp_cuts= false, double tol = 1e-4);
     

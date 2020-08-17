@@ -7,7 +7,6 @@ double Benders::lpSolve(double tol)
   
   while (not stop)
   {
-    ++iter;
       // solve master problem, and collect x and theta
     Master::Solution sol = d_master.solve();
     vector<double> x = sol.xVals;      
@@ -18,9 +17,11 @@ double Benders::lpSolve(double tol)
 
     if (stop)
       copy(x.begin(), x.end(), d_xvals);
+    else
+      ++iter;
   }
   
-  cout << "Number of L-shaped iterations: " << iter << '\n'; 
+  cout << "number of cuts: " << iter << '\n';
   double obj;
   GRBgetdblattr(d_master.d_cmodel, "ObjVal", &obj);
   return obj;

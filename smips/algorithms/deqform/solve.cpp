@@ -19,6 +19,5 @@ void DeqForm::solve(double time_limit)
     d_objBound = d_model.get(GRB_DoubleAttr_ObjBound);        
     d_xVals = d_model.get(GRB_DoubleAttr_X, d_xVars, d_n1);     
     d_runTime = d_model.get(GRB_DoubleAttr_Runtime);
-  }  
-  
+  }
 }
