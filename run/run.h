@@ -8,10 +8,10 @@
 #include "gurobi_c++.h"
 #include "gurobi_c.h"
 
-#include "problem.h"
-#include "deqform.h"
-#include "benders.h"
-#include "tree.h"
+#include "../smips/problem_data/problem.h"
+#include "../smips/algorithms/deqform/deqform.h"
+#include "../smips/algorithms/decomposition/benders.h"
+#include "../smips/algorithms/trees/tree.h"
 
 void run_ssv_ld_gaps(Data &rand, GRBEnv &env, GRBenv *c_env);
 void lbda_scheme(Problem &problem, GRBEnv &env, GRBenv *c_env, size_t nIter);

@@ -29,7 +29,7 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
       break;
     }
 
-    bool int_feas = all_of(x.begin(), x.begin() + d_p1, [](double val) { return is_integer(val); });
+    bool int_feas = all_of(x.begin(), x.begin() + d_p1, [](double val){ return is_integer(val); });
 
     if (not int_feas && round < max_rounds)
     {
@@ -42,8 +42,9 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
 
     if (not int_feas)
     {
-      copy(x.begin(), x.end(), d_xvals);
+
       //cout << "not integer feasible\n";
+      copy(x.begin(), x.end(), d_xvals);
       branch = true;
       break;
     }
@@ -59,19 +60,14 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
     //cout << "LB: " << LB << ". UB: " << UB << '\n';
 
     BendersCut cut;
-    /*
     if (lp_cuts)
     {
       cut = lpCut(x.data());
       if (not add_cut(cut, sol, tol))
         continue;
     }
-     */
 
-    //cut = d_agg.bac_cut(sol, d_master, tol, 10);
-
-    //cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
-    cut = sb_cut(x.data());
+    cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
     if (not add_cut(cut, sol, tol))
       continue;
     else
@@ -91,13 +87,14 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
       cout << "no improvement possible\n";
       branch = true;
       break;
-    } else
+    }
+    else
       ++iter;
   }
   //cout << "Number of hybrid cuts: " << iter << '\n';
   //cout << "LB: " << LB << ". UB: " << UB << '\n';
 
-  return Bounds{LB, UB, branch};
+  return Bounds { LB, UB, branch };
 }
 
 
