@@ -6,6 +6,7 @@ vector<double> Tree::bab(bool affine, double tol)
   double local_tol = tol;
 
   size_t tree_size = 1;
+  local_tol = tol / 10;
   while (d_UB_global > d_LB_global + tol && not d_nodes.empty())
   {
     //cout << "\nLBs: ";
@@ -16,7 +17,7 @@ vector<double> Tree::bab(bool affine, double tol)
     bool branch = solve(node_idx, incumbent, affine, tol, local_tol);  // solve() also updates global bounds
     //cout << "GLOBAL LB = " << d_LB_global << " GLOBAL UB = " << d_UB_global << '\n';
     
-    local_tol = max(tol / 10, local_tol / 1.1);
+    //local_tol = max(tol / 10, local_tol / 1.1);
 
     fathom();
 

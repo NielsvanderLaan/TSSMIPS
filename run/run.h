@@ -16,5 +16,6 @@
 void run_ssv_ld_gaps(Data &rand, GRBEnv &env, GRBenv *c_env);
 void lbda_scheme(Problem &problem, GRBEnv &env, GRBenv *c_env, size_t nIter);
 void solve_dcap(Data &rand, GRBEnv &env, GRBenv *c_env);
+void solve_sizes(Data &rand, GRBEnv &env, GRBenv *c_env);
 
 #endif //TSSMIPS_RUN_H
