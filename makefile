@@ -6,7 +6,7 @@ OBJECTS=$(SOURCES:.cpp=.o)
 EXECUTABLE=exe
 
 $(EXECUTABLE): $(OBJECTS)
-	$(CXX) $(LDFLAGS) $(OBJECTS) -o exe -I$(GUROBI_HOME)/include -L$(GUROBI_HOME)/lib -lgurobi_c++ -lgurobi70 -lm # link with correct gurobi libraries (...) 
+	$(CXX) $(LDFLAGS) $(OBJECTS) -o exe -I$(GUROBI_HOME)/include -L$(GUROBI_HOME)/lib -lgurobi_c++ -lgurobi90 -lm # link with correct gurobi libraries (...)
 
 
 .cpp.o:

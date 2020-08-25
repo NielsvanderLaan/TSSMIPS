@@ -59,16 +59,19 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
     //cout << "LB: " << LB << ". UB: " << UB << '\n';
 
     BendersCut cut;
+    /*
     if (lp_cuts)
     {
       cut = lpCut(x.data());
       if (not add_cut(cut, sol, tol))
         continue;
     }
+     */
 
     //cut = d_agg.bac_cut(sol, d_master, tol, 10);
 
-    cut = d_pslp.best_zk_cut(sol, d_master, 10, false);\
+    //cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
+    cut = sb_cut(x.data());
     if (not add_cut(cut, sol, tol))
       continue;
     else
