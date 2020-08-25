@@ -42,7 +42,6 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
 
     if (not int_feas)
     {
-
       //cout << "not integer feasible\n";
       copy(x.begin(), x.end(), d_xvals);
       branch = true;
@@ -62,7 +61,8 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
     BendersCut cut;
     if (lp_cuts)
     {
-      cut = lpCut(x.data());
+      //cut = lpCut(x.data());
+      cut = sb_cut(x.data());
       if (not add_cut(cut, sol, tol))
         continue;
     }

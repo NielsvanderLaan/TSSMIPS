@@ -37,12 +37,12 @@ int main(int argc, char *argv[])
       //problem.randomInstance();
       //problem.enforce_ccr(50.0);
 
-      //Problem problem(rand, env);
+      Problem problem(rand, env);
       //problem.ssv95(11, 0,1, 1);
       //problem.sizes(3);
 
       //problem.sslp(15, 45, 5);
-      //problem.dcap(2,3,3,200);
+      problem.dcap(3,3,2,300);
       //problem.enforce_ccr(100);
 
       /*
