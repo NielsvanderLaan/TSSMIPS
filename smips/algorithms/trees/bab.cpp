@@ -9,13 +9,13 @@ vector<double> Tree::bab(bool affine, double tol)
   local_tol = tol / 10;
   while (d_UB_global > d_LB_global + tol && not d_nodes.empty())
   {
-    cout << "\nLBs: ";
-    for_each(d_LB_nodes.begin(), d_LB_nodes.end(), [](double val){ cout << val << ' '; });
+    //cout << "\nLBs: ";
+    //for_each(d_LB_nodes.begin(), d_LB_nodes.end(), [](double val){ cout << val << ' '; });
     size_t node_idx = distance(d_LB_nodes.begin(), min_element(d_LB_nodes.begin(), d_LB_nodes.end()));
-    cout << "\nExploring node " << node_idx << '\n';
+    //cout << "\nExploring node " << node_idx << '\n';
 
     bool branch = solve(node_idx, incumbent, affine, tol, local_tol);  // solve() also updates global bounds
-    cout << "GLOBAL LB = " << d_LB_global << " GLOBAL UB = " << d_UB_global << '\n';
+    //cout << "GLOBAL LB = " << d_LB_global << " GLOBAL UB = " << d_UB_global << '\n';
     
     //local_tol = max(tol / 10, local_tol / 1.1);
 

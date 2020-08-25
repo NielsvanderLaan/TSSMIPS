@@ -10,6 +10,7 @@ void solve_sizes(Data &rand, GRBEnv &env, GRBenv *c_env)
 
     Problem problem(rand, env);
     problem.sizes(S);
+    problem.enforce_ccr(1e4);
     Tree tree(env, c_env, problem);
     auto t1 = chrono::high_resolution_clock::now();
     vector<double> x_bab = tree.bab( false, 1e-2);
