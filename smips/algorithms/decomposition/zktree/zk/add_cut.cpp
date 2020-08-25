@@ -33,12 +33,10 @@ bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
   double rhs = cut.rhs - cut.r * theta;
   for (size_t var = 0; var != d_n1; ++var)
     rhs -= cut.Trow[var] * x[var];
-    
   
   if (lhs >= rhs - tol)
-  {
     return false;
-  }
+
   
     // updating cut coefficients
   d_omega.push_back(cut.rhs);

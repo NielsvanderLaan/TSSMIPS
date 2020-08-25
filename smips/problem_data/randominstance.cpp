@@ -1,6 +1,7 @@
 #include "problem.h"
 
-void Problem::randomInstance(int A_low, int A_high ,
+void Problem::randomInstance(double sigma, double mu,
+                        int A_low, int A_high ,
                         int T_low, int T_high,
                         int W_low, int W_high,
                         int c_low, int c_high,
@@ -16,12 +17,9 @@ void Problem::randomInstance(int A_low, int A_high ,
   d_q = d_gen.rand_unif_vec(d_n2, q_low, q_high);
 
   d_fix_rec = true;
-  for (size_t s = 0; s != d_S; ++s)
-  {
-    vector<double> costs(d_n2, 100.0);
-    d_q_omega.push_back(d_q);
-    d_W_omega.push_back(d_Wmat);
-  }
 
+  d_u1 = vector<double> (d_n1, 5.0);
+  //d_u2 = vector<double> (d_n2, 1.0);
 
+  set_omega_gaus(mu, sigma);
 }

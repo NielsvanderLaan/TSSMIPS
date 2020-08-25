@@ -33,6 +33,9 @@ BendersCut Benders::sb_cut(double *x)
     d_lr.update(ws, s, pi);
     double Lpiw = d_lr.solve();
     alpha += prob * Lpiw;
+
+
+
     
 
     for (size_t row = 0; row != d_m2; ++row)

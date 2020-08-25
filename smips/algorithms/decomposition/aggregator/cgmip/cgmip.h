@@ -45,7 +45,7 @@ class CGMip
     void solve_mp();
     BendersCut get_candidate();
     Point solve_sub();
-    void set_mp_obj(double *x, double theta);  // takes (x, theta) and sets master objective coefficients
+    void set_mp_obj(double *x, double &theta);  // takes (x, theta) and sets master objective coefficients
     void set_sub_obj(BendersCut &cut);                        // takes (alpha, beta, tau) and sets subproblem coefficients
     void add_mp_cut(Point const &point);
     void remove_mp_cuts();

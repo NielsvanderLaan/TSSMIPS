@@ -35,7 +35,8 @@ class Problem
     Problem(const Problem &other) = delete;
     ~Problem();
           
-    void randomInstance(int A_low = 1, int A_high = 6,
+    void randomInstance(double sigma = 0.1, double mu = 10.0,
+                        int A_low = 1, int A_high = 6,
                         int T_low = 1, int T_high = 6,
                         int W_low = 1, int W_high = 6,
                         int c_low = 1, int c_high = 5,

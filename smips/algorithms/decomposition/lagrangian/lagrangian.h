@@ -13,7 +13,7 @@ class Lagrangian
     GRBModel d_model;
     size_t d_n1, d_m2, d_n2;
     Problem &d_problem;
-    GRBConstr *d_constrs;
+    vector<GRBConstr> d_constrs;
     GRBVar *d_z_vars;
     GRBVar *d_y_vars;
     Lagrangian(GRBEnv &env, Problem &problem);

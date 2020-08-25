@@ -8,6 +8,7 @@ CGMip::Point CGMip::solve_sub()
   if (status != 2)
   {
     cout << "sub status: " << status << '\n';
+    d_sub.write("sub.lp");
     exit(1);
   }  
   

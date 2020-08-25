@@ -21,7 +21,7 @@ double Benders::lpSolve(double tol)
       ++iter;
   }
   
-  cout << "number of cuts: " << iter << '\n';
+  //cout << "number of lshaped cuts: " << iter << '\n';
   double obj;
   GRBgetdblattr(d_master.d_cmodel, "ObjVal", &obj);
   return obj;

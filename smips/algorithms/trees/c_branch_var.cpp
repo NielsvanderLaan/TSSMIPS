@@ -8,7 +8,7 @@ int Tree::c_branch_var(Benders *node, double *x)
 
   for (int var = 0; var != d_problem.d_n1; ++var)
   {
-    if (x[var] == node->d_lb[var] || x[var] == node->d_ub[var])
+    if (x[var] == node->d_lb[var] || x[var] == node->d_ub[var]) // not really safe... (build in tolerance)
       continue;
     
     double lb = d_problem.d_l1[var];

@@ -67,6 +67,8 @@ d_problem(problem)
     TxWy[conIdx].addTerms(Wmat[conIdx].data(), d_y_vars, n2);
   }
       // add constraints
-  d_constrs = d_model.addConstrs(TxWy, senses, rhs, NULL, m2);
+  GRBConstr *cons = d_model.addConstrs(TxWy, senses, rhs, NULL, m2);
+  d_constrs = vector<GRBConstr> (cons, cons + m2);
+  delete[] cons;
   d_model.update();
 }

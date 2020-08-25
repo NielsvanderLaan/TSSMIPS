@@ -10,6 +10,7 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
 {
   //d_mp.set(GRB_IntParam_ScaleFlag, 0);    // we can play with this
   //d_mp.set(GRB_IntParam_OutputFlag, 1);
+  //d_mp.set(GRB_IntParam_NumericFocus, 3);
   //d_sub.set(GRB_IntParam_OutputFlag, 1);
   //d_sub.set(GRB_DoubleParam_MIPGap, 0);
 

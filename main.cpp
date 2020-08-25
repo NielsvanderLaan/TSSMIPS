@@ -11,7 +11,7 @@
 #include "smips/algorithms/trees/tree.h"
 #include "smips/algorithms/decomposition/zktree/zktree.h"
 
-#include "run.h"
+#include "run/run.h"
 
 using namespace std;
 
@@ -19,7 +19,7 @@ int main(int argc, char *argv[])
 {
   try
   {
-    Data rand(1234);  // test
+    Data rand(51615);  // test
 
     GRBEnv env;
     env.set(GRB_IntParam_OutputFlag, 0);
@@ -31,87 +31,47 @@ int main(int argc, char *argv[])
     GRBsetintparam(c_env, "Threads", 1);
 
     {
-      run_ssv_ld_gaps(rand, env, c_env);
-      /*
-      size_t n1, p1, m1, n2, p2, m2, S;            // input size
-
-      n1 = 2;
-      p1 = 2;
-      m1 = 2;
-      n2 = 5;
-      p2 = 5;
-      m2 = 3;
-      S = 10;
-      // parameter bounds (uniform distribution)
-      size_t A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high;
-      A_low = 1;
-      A_high = 4;
-      T_low = 1;
-      T_high = 3;
-      W_low = 1;
-      W_high = 2;
-      c_low = 1;
-      c_high = 3;
-      b_low = 10, b_high = 15;
-      q_low = 25;
-      q_high = 35;
+      solve_dcap(rand, env, c_env);
       // create problem
-      Problem problem(n1, p1, m1, n2, p2, m2, S, rand, env, m1, 0, 0, m2);
-      problem.randomInstance(A_low, A_high, T_low, T_high, W_low, W_high, c_low, c_high, b_low, b_high, q_low, q_high);
-      problem.set_omega_gaus(25.0, 2.0);
-      problem.enforce_ccr(50.0);
-
-      vector<double> l1(n1, 0.0);
-      vector<double> u1(n1, 5.0);
-      vector<double> l2(n2, 0.0);
-      vector<double> u2(n2, 20.0);
-      problem.set_bounds(l1, u1, l2, u2);
-      */
-
-
-
+      //Problem problem(10, 0, 0, 5, 5, 5, 100, rand, env, 0, 0, 0, 5);
+      //problem.randomInstance();
+      //problem.enforce_ccr(50.0);
 
       //Problem problem(rand, env);
-      //problem.ssv95(21, 0, 0, 0);
-      //problem.sizes(10);
+      //problem.ssv95(11, 0,1, 1);
+      //problem.sizes(3);
 
-      //problem.sslp(5, 25, 100);
+      //problem.sslp(15, 45, 5);
       //problem.dcap(2,3,3,200);
-      //problem.enforce_ccr(1e6);
+      //problem.enforce_ccr(100);
 
-    /*
+      /*
       Tree tree(env, c_env, problem);
       auto t1 = chrono::high_resolution_clock::now();
-      vector<double> x_bab = tree.bab(false, 1e-2);
+      vector<double> x_bab = tree.bab( false, 1e-2);
       auto t2 = chrono::high_resolution_clock::now();
       for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
       cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-    */
-    /*
+      */
+
+      /*
       DeqForm DEF(env, problem);
       DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
-      DEF.solve(1500.0);
+      DEF.solve(300.0);
       //double *x = DEF.d_xVals;
       //for_each(x, x + problem.d_n1, [](double val) { cout << val << ' '; });
       //cout << '\n';
       cout << DEF.d_objVal<< '\n';
-    */
-    /*
-      Benders ben(env, c_env, problem, false);
-      cout << "-------------L-shaped------------\n"; \
-      double lpLB = ben.lpSolve();
-      cout << "L-shaped LB: " << lpLB << '\n';
+      */
 
-      double ldLB = ben.ldSolve();
-      double strongLB = ben.ldSolve(false);
-      cout << "LD = " << ldLB << "\nstrong LB = " << strongLB << '\n';
-    */
 
       /*
       Benders ben(env, c_env, problem);
-      cout << "-------------L-shaped------------\n"; \
       double lpLB = ben.lpSolve();
+      double SB = ben.strong_benders();
+      cout << "lshaped: " << lpLB << ". SB: " << SB << '\n';
+
       cout << "L-shaped LB: " << lpLB << '\n';
       x = ben.d_xvals;
       cout << "x: ";

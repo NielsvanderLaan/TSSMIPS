@@ -24,7 +24,12 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
     for (size_t var = 0; var != d_n2; ++var)
        cout << d_yvals[var] << ' ';
     cout << endl;
+    double obj;
+    GRBgetdblattr(d_model, "ObjVal", &obj);
+    cout << "objective = " << obj << '\n';
     */
+
+
     size_t nCuts = 0;
     for (size_t row = 0; row != d_nConstrs; ++row)    // loop over rows of simplex tableau 
     {
@@ -38,6 +43,7 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
         continue;                            // then do not derive a cut
 
       Cut cut = gomory ? generate_gmi_cut(master, row, yval) : d_cglp.generate_cut(x, theta, d_yvals.data(), basic_var, floor(yval));
+
 
       if (add_cut(cut, x, theta, tol, d_nConstrs + nCuts))    // ret = true iff cut was added (iff cut is proper)
       {

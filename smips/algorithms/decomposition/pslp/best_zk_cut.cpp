@@ -12,12 +12,13 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRou
     {
       d_zk[s].update(x, GRB_INFINITY);
       d_zk[s].solve(x, GRB_INFINITY, master, maxRounds, false);
+    } else
+    {
+      d_zk[s].update(x, rho);
+      d_zk[s].solve(x, rho, master, maxRounds, true, 1e-2);
     }
-
-    d_zk[s].update(x, rho);
-    d_zk[s].solve(x, rho, master, maxRounds, true, 1e-2);
   }
-  
+
   BendersCut cut;
   
   while (cRho > tol)
@@ -32,7 +33,7 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRou
 
       cut += d_zk[s].subgradient() * d_probs[s];
       cRho += d_probs[s] * d_zk[s].d_objVal;
-    } 
+    }
     
     rho += cRho / (1 + cut.d_tau);
   }

@@ -5,7 +5,7 @@ void run_ssv_ld_gaps(Data &rand, GRBEnv &env, GRBenv *c_env)
   vector<bool> fs_cont {false, true};
   vector<bool> ss_bin {false, true};
   vector<bool> standard_T {false, true};
-  vector<double> size {11, 21};
+  vector<double> size {11};
 
   for (bool fs : fs_cont)
   {

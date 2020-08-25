@@ -65,7 +65,8 @@ class ZK
     void compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel *master);    // support functions for generate_gmi_cut()
     void compute_tab_row_y(double *tab_row_y, int row);                                       // idem
     void gmi_cut(double *tab_row_x, double *tab_row_y, double a0, double *coef_x, double *coef_y, double &coef_theta, int nVarsMaster);  // idem
-    void transform_cut(double *coef_x, double *coef_y, double &coef_theta, double &coef_rhs, vector<double> &kappa, vector<vector<double>> &beta, vector<double> &gamma, size_t nSlacks);  // idem  
+    void transform_cut(double *coef_x, double *coef_y, double &coef_theta, double &coef_rhs, vector<double> &kappa, vector<vector<double>> &beta, vector<double> &gamma, size_t nSlacks);  // idem
+    void transform_ycut(double *coef_x, double *coef_y, double &coef_theta, double &coef_rhs);
     
     double probe(size_t var_idx, double val, bool lower); // temporarily adjusts lb/ub of y[var_idx] to val, and returns increase in objective value. On return, leaves object unchanged.
   

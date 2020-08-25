@@ -9,7 +9,7 @@ Master::Solution Master::solve()
   int status;
   GRBgetintattr(d_cmodel, "Status", &status);
 
-  if (status == 3)      // model is infeasible
+  if (status == 3 || status == 4)      // model is infeasible
     return Solution{ vector<double>(0), -1, true };
 
   vector<double> x(d_n1);

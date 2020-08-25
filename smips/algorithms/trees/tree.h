@@ -32,7 +32,7 @@ class Tree
       int var;
       double left, right;  
     };
-    bool branch(size_t node_idx, Split split);
+    bool add_branch(size_t node_idx, Split split);
     Split branch_var(size_t node_idx);
     void fathom();
 
