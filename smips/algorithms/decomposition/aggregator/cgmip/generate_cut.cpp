@@ -15,11 +15,11 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
   while (true)
   {
     ++nPoints;
-    cout << "number of points: " << nPoints << '\n';
+    cout << "number of points: " << nPoints << endl;
     solve_mp();
     if (not mp_optimal())   // numerical issue occured
     {
-      cout << "mp unbounded\n";
+      cout << "mp unbounded" << endl;
       break;
     }
 

@@ -4,7 +4,7 @@
 
 bool Benders::round_of_cuts(Master::Solution sol, double tol)
 {
-  cout << "Benders::round_of_cuts()\n";
+  cout << "Benders::round_of_cuts()" << endl;
 
   bool fail = true;
 
