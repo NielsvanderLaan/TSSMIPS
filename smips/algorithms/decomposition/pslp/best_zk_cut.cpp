@@ -2,7 +2,6 @@
 
 BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRounds, bool lap_cuts, double tol)
 {
-  cout << "best_zk_cut()\n";
   double *x = sol.xVals.data();
   double rho = sol.thetaVal;
   double cRho = 1;
@@ -38,7 +37,6 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRou
     
     rho += cRho / (1 + cut.d_tau);
   }
-  cout << "end best_zk_cut()" << endl;
   return cut;
 }
 

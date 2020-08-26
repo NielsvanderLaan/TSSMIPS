@@ -16,7 +16,7 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
     Master::Solution sol = d_master.solve();
     if (sol.infeasible)
     {
-      cout << "mp infeasible" << endl;
+      //cout << "mp infeasible" << endl;
       return Bounds{GRB_INFINITY, GRB_INFINITY};
     }
 
@@ -25,7 +25,7 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
 
     if (LB > upper_bound)
     {
-      cout << "LB > upper_bound (LB = " << LB << ")" << endl;
+      //cout << "LB > upper_bound (LB = " << LB << ")" << endl;
       break;
     }
 
@@ -42,7 +42,7 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
 
     if (not int_feas)
     {
-      cout << "not integer feasible" << endl;
+      //cout << "not integer feasible" << endl;
       copy(x.begin(), x.end(), d_xvals);
       branch = true;
       break;
@@ -86,7 +86,7 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
     if (add_cut(cut, sol, tol))     // adding strong cut
     {
       copy(x.begin(), x.end(), d_xvals);
-      cout << "no improvement possible" << endl;
+      //cout << "no improvement possible" << endl;
       branch = true;
       break;
     }

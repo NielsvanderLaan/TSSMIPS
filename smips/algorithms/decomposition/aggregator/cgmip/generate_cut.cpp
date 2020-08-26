@@ -11,11 +11,8 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
   BendersCut candidate{ 0, vector<double>(d_beta.size()), 0 };
   Point point{ vector<double>(d_xVars.size()), 0, 0, -GRB_INFINITY, GRB_INFINITY };
 
-  size_t nPoints = 0;
   while (true)
   {
-    ++nPoints;
-    cout << "number of points: " << nPoints << endl;
     solve_mp();
     if (not mp_optimal())   // numerical issue occured
     {
