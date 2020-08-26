@@ -16,7 +16,7 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
     Master::Solution sol = d_master.solve();
     if (sol.infeasible)
     {
-      //cout << "mp infeasible\n";
+      cout << "mp infeasible\n";
       return Bounds{GRB_INFINITY, GRB_INFINITY};
     }
 
@@ -25,7 +25,7 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
 
     if (LB > upper_bound)
     {
-      //cout << "LB > upper_bound (LB = " << LB << ")\n";
+      cout << "LB > upper_bound (LB = " << LB << ")\n";
       break;
     }
 
@@ -42,7 +42,7 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
 
     if (not int_feas)
     {
-      //cout << "not integer feasible\n";
+      cout << "not integer feasible\n";
       copy(x.begin(), x.end(), d_xvals);
       branch = true;
       break;
@@ -56,24 +56,22 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
       copy(x.begin(), x.end(), d_incumbent);
       UB = cx + Qx;
     }
-    //cout << "LB: " << LB << ". UB: " << UB << '\n';
+    cout << "LB: " << LB << ". UB: " << UB << '\n';
 
     BendersCut cut;
-    /*
+
     if (lp_cuts)
     {
       cut = lpCut(x.data());
-      //cut = sb_cut(x.data());
+      cut = sb_cut(x.data());
       if (not add_cut(cut, sol, tol))
         continue;
     }
-    */
 
-
-    //cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
-    cut = sb_cut(x.data());
+    cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
     if (not add_cut(cut, sol, tol))
       continue;
+    /*
     else
     {
       copy(x.begin(), x.end(), d_xvals);
@@ -81,8 +79,7 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
       branch = true;
       break;
     }
-
-
+    */
 
     cut = d_agg.strong_cut(sol, vx, affine, tol);
 
