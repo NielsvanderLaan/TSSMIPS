@@ -19,12 +19,10 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
       cut += d_cgmips[s].generate_cut(x, rho, first_time, vx[s], affine, tol) * prob;
       cRho -= prob * d_cgmips[s].mp_val();
     }
-
     rho += cRho / (1 + cut.d_tau);
 
     first_time = false;
   }
-
   //cout << "tau: " << cut.d_tau << '\n';
   return cut;
 }

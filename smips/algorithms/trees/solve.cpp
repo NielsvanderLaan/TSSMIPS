@@ -18,5 +18,5 @@ bool Tree::solve(size_t node_idx, vector<double> &incumbent, bool affine, double
   }
 
 
-  return bounds.branch;  // *
+  return bounds.branch;
 }

@@ -56,14 +56,13 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
       copy(x.begin(), x.end(), d_incumbent);
       UB = cx + Qx;
     }
-    cout << "LB: " << LB << ". UB: " << UB << endl;
+    //cout << "LB: " << LB << ". UB: " << UB << endl;
 
     BendersCut cut;
 
     if (lp_cuts)
     {
       cut = lpCut(x.data());
-      //cut = sb_cut(x.data());
       if (not add_cut(cut, sol, tol))
         continue;
     }

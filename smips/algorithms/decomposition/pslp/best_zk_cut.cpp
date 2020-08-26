@@ -22,7 +22,7 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRou
   BendersCut cut;
   
   while (cRho > tol)
-  { 
+  {
     cRho = -rho;
     cut = BendersCut{ 0, vector<double>(d_n1), 0 };
 

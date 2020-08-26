@@ -43,7 +43,10 @@ int main(int argc, char *argv[])
       //problem.sizes(3);
 
       //problem.sslp(15, 45, 5);
-      problem.dcap(3,4,2,500);
+      cout << "DCAP_" << argv[1] << '_' << argv[2] << '_' << argv[3] << '_' << argv[4] << '\n';
+
+
+      problem.dcap(stoi(argv[1]),stoi(argv[2]),stoi(argv[3]),stoi(argv[4]));
       //problem.enforce_ccr(1e4);
 
 
