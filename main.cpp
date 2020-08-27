@@ -45,18 +45,18 @@ int main(int argc, char *argv[])
       //problem.sslp(15, 45, 5);
 
 
-      //problem.dcap(2,3,3,200);
+      //problem.dcap(3,4,2,200);
       //problem.enforce_ccr(1e4);
 
-    /*
+      /*
       Tree tree(env, c_env, problem);
       auto t1 = chrono::high_resolution_clock::now();
-      vector<double> x_bab = tree.bab( false, 1e-2);
+      vector<double> x_bab = tree.bab( true, 1e-2);
       auto t2 = chrono::high_resolution_clock::now();
       for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
       cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-    */
+      */
 
     /*
       DeqForm DEF(env, problem);
