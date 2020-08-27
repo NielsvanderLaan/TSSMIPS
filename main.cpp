@@ -31,8 +31,8 @@ int main(int argc, char *argv[])
     GRBsetintparam(c_env, "Threads", 1);
 
     {
-      //solve_sizes(rand, env, c_env);
-      solve_dcap(rand, env, c_env);
+      solve_sizes(rand, env, c_env);
+      //solve_dcap(rand, env, c_env);
       // create problem
       //Problem problem(10, 0, 0, 5, 5, 5, 100, rand, env, 0, 0, 0, 5);
       //problem.randomInstance();

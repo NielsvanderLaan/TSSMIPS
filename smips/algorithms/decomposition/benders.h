@@ -63,7 +63,7 @@ class Benders
     void lbda(double *alpha, double gomoryTimeLimit = 1e6, double tol = 1e-4);       // LBDA(alpha)  
     void ald_solve(double tol = 1e-4, size_t maxRounds = 25);
     double ldSolve(bool affine = true, double tol = 1e-4);
-    Bounds hybrid_solve(double upper_bound = GRB_INFINITY, bool affine = false, bool lp_cuts= false, double tol = 1e-4);
+    Bounds hybrid_solve(double upper_bound = GRB_INFINITY, bool affine = false, double tol = 1e-4);
     
 
     //bool add_cut(double *beta, double gamma, double kappa, double *x , double theta, double tol); 

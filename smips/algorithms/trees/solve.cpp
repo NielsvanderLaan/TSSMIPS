@@ -5,7 +5,7 @@ bool Tree::solve(size_t node_idx, vector<double> &incumbent, bool affine, double
   Benders *node = d_nodes[node_idx];
   double weight = 3.0;
   double upper_bound = (d_UB_global + weight * d_LB_nodes[node_idx]) / (1 + weight);    // * d_UB_global- global_tol
-  Benders::Bounds bounds = node->hybrid_solve(upper_bound, affine, true, local_tol);     
+  Benders::Bounds bounds = node->hybrid_solve(upper_bound, affine, local_tol);
 
   d_LB_nodes[node_idx] = bounds.d_LB;
 
