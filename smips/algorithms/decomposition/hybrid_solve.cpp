@@ -60,16 +60,16 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, double to
 
     BendersCut cut;
 
-    //cut = lpCut(x.data());
-    cut = sb_cut(x.data());
+    cut = lpCut(x.data());
+    //cut = sb_cut(x.data());
     if (not add_cut(cut, sol, tol))
       continue;
 
-    /*
+
     cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
     if (not add_cut(cut, sol, tol))
       continue;
-    */
+
 
     /*
     cut = d_agg.strong_cut(sol, vx, affine, tol);
