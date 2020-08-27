@@ -23,9 +23,10 @@ class Tree
     Tree(GRBEnv &emv, GRBenv *c_env, Problem &problem, Benders &root);
     ~Tree();
     
-    vector<double> bab(bool affine = false, double tol = 1e-4);
+    vector<double> bab(bool lp_cuts, bool sb_cuts, bool zk_cuts, bool strong_cuts, bool affine = false, double tol = 1e-4);
         // auxiliary functions
-    bool solve(size_t node_idx, vector<double> &incumbent, bool affine, double local_tol);
+    bool solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, bool strong_cuts,
+               bool affine, size_t node_idx, vector<double> &incumbent, double local_tol);
     
     struct Split
     {

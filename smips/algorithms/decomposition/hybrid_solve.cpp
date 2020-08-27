@@ -1,6 +1,7 @@
 #include "benders.h"
 
-Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, double tol)
+Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, bool strong_cuts,
+                                      double upper_bound, bool affine, double tol)
 {
   size_t iter = 0;        // number of benders cuts
   size_t round = 0;       // rounds of gmi cuts added
@@ -59,23 +60,30 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, double to
     //cout << "LB: " << LB << ". UB: " << UB << endl;
 
     BendersCut cut;
-
-    //cut = lpCut(x.data());
-    cut = sb_cut(x.data());
-    if (not add_cut(cut, sol, tol))
-      continue;
-
-
-    cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
-    if (not add_cut(cut, sol, tol))
-      continue;
-
-
-    /*
-    cut = d_agg.strong_cut(sol, vx, affine, tol);
-    if (not add_cut(cut, sol, tol))
-      continue;
-    */
+    if (lp_cuts)
+    {
+      cut = lpCut(x.data());
+      if (not add_cut(cut, sol, tol))
+        continue;
+    }
+    if (sb_cuts)
+    {
+      cut = lpCut(x.data());
+      if (not add_cut(cut, sol, tol))
+        continue;
+    }
+    if (zk_cuts)
+    {
+      cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
+      if (not add_cut(cut, sol, tol))
+        continue;
+    }
+    if (strong_cuts)
+    {
+      cut = d_agg.strong_cut(sol, vx, affine, tol);
+      if (not add_cut(cut, sol, tol))
+        continue;
+    }
 
     copy(x.begin(), x.end(), d_xvals);
     //cout << "no improvement possible\n";

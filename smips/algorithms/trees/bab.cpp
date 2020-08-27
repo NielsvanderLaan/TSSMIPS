@@ -1,6 +1,6 @@
 #include "tree.h"
 
-vector<double> Tree::bab(bool affine, double tol)
+vector<double> Tree::bab(bool lp_cuts, bool sb_cuts, bool zk_cuts, bool strong_cuts, bool affine, double tol)
 { 
   vector<double> incumbent(d_problem.d_n1);
   double local_tol = tol;
@@ -14,7 +14,7 @@ vector<double> Tree::bab(bool affine, double tol)
     size_t node_idx = distance(d_LB_nodes.begin(), min_element(d_LB_nodes.begin(), d_LB_nodes.end()));
     //cout << "\nExploring node " << node_idx << endl;
 
-    bool branch = solve(node_idx, incumbent, affine, local_tol);  // solve() also updates global bounds
+    bool branch = solve(lp_cuts, sb_cuts, zk_cuts, strong_cuts, affine, node_idx,incumbent, local_tol);  // solve() also updates global bounds
     //cout << "GLOBAL LB = " << d_LB_global << " GLOBAL UB = " << d_UB_global << endl;
     
     //local_tol = max(tol / 10, local_tol / 1.1);

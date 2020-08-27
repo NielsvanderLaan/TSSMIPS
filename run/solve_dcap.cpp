@@ -17,7 +17,7 @@ void solve_dcap(Data &rand, GRBEnv &env, GRBenv *c_env)
       problem.dcap(size[0], size[1], size[2], S);
       Tree tree(env, c_env, problem);
       auto t1 = chrono::high_resolution_clock::now();
-      vector<double> x_bab = tree.bab( false, 1e-2);
+      vector<double> x_bab = tree.bab(true, false, true, false, false, 1e-2);
       auto t2 = chrono::high_resolution_clock::now();
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << endl;
 
