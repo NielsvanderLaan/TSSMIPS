@@ -68,7 +68,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
     }
     if (sb_cuts)
     {
-      cut = lpCut(x.data());
+      cut = sb_cut(x.data());
       if (not add_cut(cut, sol, tol))
         continue;
     }
