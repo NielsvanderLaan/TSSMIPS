@@ -1,6 +1,6 @@
 #include "tree.h"
 
-bool Tree::solve(size_t node_idx, vector<double> &incumbent, bool affine, double global_tol, double local_tol)
+bool Tree::solve(size_t node_idx, vector<double> &incumbent, bool affine, double local_tol)
 {
   Benders *node = d_nodes[node_idx];
   double weight = 3.0;

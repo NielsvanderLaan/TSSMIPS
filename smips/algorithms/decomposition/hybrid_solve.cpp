@@ -70,15 +70,12 @@ Benders::Bounds Benders::hybrid_solve(double upper_bound, bool affine, bool lp_c
     cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
     if (not add_cut(cut, sol, tol))
       continue;
-    /*
-    else
-    {
-      copy(x.begin(), x.end(), d_xvals);
-      //cout << "no improvement possible\n";
-      branch = true;
-      break;
-    }
-    */
+
+    copy(x.begin(), x.end(), d_xvals);
+    //cout << "no improvement possible\n";
+    branch = true;
+    break;
+
 
     cut = d_agg.strong_cut(sol, vx, affine, tol);
 
