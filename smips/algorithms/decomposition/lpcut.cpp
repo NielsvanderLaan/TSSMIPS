@@ -18,9 +18,8 @@ BendersCut Benders::lpCut(double *x)
     for (size_t row = 0; row!= d_m2; ++row) // compute element-by-element
       rhs[row] = ws[row] - Tx[row];
 
-    Sub &sub = d_problem.d_fix_rec ? d_sub : d_sub_omega[s];
-    sub.update(rhs);
-    Sub::Multipliers info = sub.solve();
+    d_sub.update(rhs, s);
+    Sub::Multipliers info = d_sub.solve();
     double *lambda = info.lambda;
     QLP += prob * info.obj;
     

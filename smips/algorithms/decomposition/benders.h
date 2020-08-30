@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <chrono>
 #include <string>
+#include <numeric>
 
 #include "../../problem_data/problem.h"
 #include "master/master.h"
@@ -26,7 +27,6 @@ class Benders
     size_t d_n1, d_p1, d_m2, d_n2, d_S;
     Master d_master;    // master problem
     Sub d_sub;          // sub-problem
-    vector<Sub> d_sub_omega;
     Lagrangian d_lr;    // lagrangian relaxation
     Gomory d_gomory;    // Gomory relaxation  
     Ald d_ald;          // For deriving ALD cuts  
@@ -51,7 +51,8 @@ class Benders
     void update_bounds(size_t var, double val, bool lower);
 
     BendersCut lpCut(double *x); 
-    BendersCut sb_cut(double *x);     
+    BendersCut sb_cut(double *x);
+    BendersCut lr_cut(double *x, vector<double> &vx);
     void ald_cut(double *x, double *beta, double &tau, double &gamma, size_t maxRounds); // RBA
     BendersCut lbdaCut(double *x, double *alpha);
     double compute_gomory(size_t s, int *vBasis, int *cBasis, double *ws, double *alpha);

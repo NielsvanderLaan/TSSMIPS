@@ -4,6 +4,7 @@
 #include "gurobi_c++.h"
 
 #include "../../../problem_data/problem.h"
+#include "../cut/benderscut.h"
 
 using namespace std;
 
@@ -20,8 +21,12 @@ class Lagrangian
     Lagrangian(const Lagrangian &other);
     ~Lagrangian();
 
-    void update(double *rhs, size_t s, double *pi);
+    void update(size_t s,  vector<double> &pi);
+    void update_pi( vector<double> &pi);
     double solve();
+    BendersCut strong_cut(size_t s, vector<double> &pi);
+    BendersCut lr_cut(size_t s, double *x, double vwx,  vector<double> &pi);
+    vector<double> z_vals();
 };
 
 #endif

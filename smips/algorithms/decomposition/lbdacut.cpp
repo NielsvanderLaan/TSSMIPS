@@ -18,7 +18,7 @@ BendersCut Benders::lbdaCut(double *x, double *alpha)
     double rhs[d_m2];          // rhs vector of subproblem (c-style array)  
     for (size_t row = 0; row != d_m2; ++row) // compute element-by-element
       rhs[row] = ws[row] - Tx[row];
-    d_sub.update(rhs);           
+    d_sub.update(rhs, s);
     Sub::GomInfo info = d_sub.solve2();     // solve subproblem 
     
     double *lambda = info.lambda;           // extract lambda (for optimality cut)

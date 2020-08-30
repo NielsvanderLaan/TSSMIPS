@@ -5,7 +5,7 @@ Benders::Benders(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
 d_problem(problem),
 d_env(env),
 d_master(env, c_env, problem, zk_safe),
-d_sub(env, problem, -1),
+d_sub(env, problem),
 d_lr(env, problem),
 d_gomory(env, problem),
 d_ald(c_env, problem),
@@ -23,9 +23,4 @@ d_objectives(problem.d_S)
 {
   d_xvals = new double[d_n1];
   d_incumbent = new double[d_n1];
-  if (not problem.d_fix_rec)
-  {
-    for (size_t s = 0; s != d_S; ++s)
-      d_sub_omega.push_back(Sub {env, problem, s});
-  }
 }

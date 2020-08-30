@@ -1,8 +1,8 @@
 #include "lagrangian.h"
 
-void Lagrangian::update(double *rhs, size_t s, double *pi)
+void Lagrangian::update(size_t s, vector<double> &pi)
 {
-  d_model.set(GRB_DoubleAttr_RHS, d_constrs.data(), rhs, d_constrs.size());
+  d_model.set(GRB_DoubleAttr_RHS, d_constrs.data(), d_problem.d_omega[s].data(), d_constrs.size());
 
   if (not d_problem.d_fix_rec)
   {
@@ -16,6 +16,6 @@ void Lagrangian::update(double *rhs, size_t s, double *pi)
 
   }
 
-  d_model.set(GRB_DoubleAttr_Obj, d_z_vars, pi, d_n1);
+  update_pi(pi);
   d_model.update();
 }

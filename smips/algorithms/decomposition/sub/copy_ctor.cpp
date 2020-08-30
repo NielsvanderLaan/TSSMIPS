@@ -1,6 +1,7 @@
 #include "sub.h"
 
 Sub::Sub(const Sub &other):
+d_problem(other.d_problem),
 d_n2(other.d_n2),
 d_m2(other.d_m2),
 d_model(other.d_model),
