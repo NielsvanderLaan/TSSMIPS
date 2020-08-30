@@ -57,7 +57,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       copy(x.begin(), x.end(), d_incumbent);
       UB = cx + Qx;
     }
-    cout << "LB: " << LB << ". UB: " << UB << endl;
+    //cout << "LB: " << LB << ". UB: " << UB << endl;
 
     BendersCut cut;
     if (lp_cuts)
