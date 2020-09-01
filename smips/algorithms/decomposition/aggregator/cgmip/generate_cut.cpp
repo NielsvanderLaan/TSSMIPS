@@ -34,7 +34,6 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
       break;
   }
 
-
   candidate.d_alpha = point.d_rhs_lb;
   return candidate;       
 }

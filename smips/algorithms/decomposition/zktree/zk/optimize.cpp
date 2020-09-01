@@ -11,5 +11,12 @@ bool ZK::optimize()
   
   GRBgetdblattr(d_model, "ObjVal", &d_objVal);
   GRBgetdblattrarray(d_model, GRB_DBL_ATTR_X, 0, d_n2, d_yvals.data());
+
+  double violation, resid;
+  GRBgetdblattr(d_model, "ConstrVio", &violation);
+  GRBgetdblattr(d_model, "ConstrResidual", &resid);
+  if (violation + resid > 1e-4)
+    cout << "violation = " << violation + resid << '\n';
+
   return true;
 }

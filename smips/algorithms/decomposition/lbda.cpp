@@ -26,7 +26,7 @@ void Benders::lbda(double *alpha, double gomoryTimeLimit, double tol)
       copy(x.begin(), x.end(), d_xvals);
   }
   
-  cout << "Number of LBDA iterations: " << iter << '\n'; 
+  //cout << "Number of LBDA iterations: " << iter << '\n';
 }
 
 

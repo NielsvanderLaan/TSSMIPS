@@ -1,11 +1,14 @@
 #include "zk.h"
 
-void ZK::gmi_cut(double *tab_row_x, double *tab_row_y, double a0, double *coef_x, double *coef_y, double &coef_theta, int nVarsMaster)
+bool ZK::gmi_cut(double *tab_row_x, double *tab_row_y, double a0, double *coef_x, double *coef_y, double &coef_theta, int nVarsMaster)
 {
   double a_theta = tab_row_x[0];
-  double a0_prime = a0 + a_theta * d_L;
+  //cout << "a_theta = " << a_theta << '\n';
+  double a0_prime = a0 - a_theta * d_L;
   double f0 = a0_prime - floor(a0_prime);
 
+  if (f0 < 1e-8  || 1 - f0 < 1e-8)
+    return false;
       // theta
   coef_theta = max(a_theta / f0, -a_theta / (1 - f0));
 
@@ -40,4 +43,5 @@ void ZK::gmi_cut(double *tab_row_x, double *tab_row_y, double a0, double *coef_x
     }
   }
 
+  return true;
 }

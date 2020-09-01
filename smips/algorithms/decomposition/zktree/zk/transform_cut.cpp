@@ -2,7 +2,10 @@
 
 void ZK::transform_cut(double *coef_x, double *coef_y, double &coef_theta, double &coef_rhs, vector<double> &kappa, vector<vector<double>> &beta, vector<double> &gamma, size_t nSlacks)
 {
+  //cout << " coef_rhs = " << coef_rhs << ' ';
   coef_rhs += coef_theta * d_L;
+  //cout << "coef_rhs (after) = " << coef_rhs << '\n';
+
   for (size_t slack = 0; slack != nSlacks; ++slack)
   {    
     double coef_slack = coef_x[d_n1 + slack];

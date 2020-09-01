@@ -1,7 +1,5 @@
 #include "benders.h"
 
-
-
 bool Benders::round_of_cuts(Master::Solution sol, double tol)
 {
   bool fail = true;

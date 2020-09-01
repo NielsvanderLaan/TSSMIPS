@@ -23,7 +23,7 @@ class Problem
     vector<double> d_probs;
     double d_L; // lb of v
     
-    Data d_gen; // used to generate (random) data
+    Data &d_gen; // used to generate (random) data
     GRBEnv &d_env;
     
     Problem(Data &generator, GRBEnv &env);
@@ -54,7 +54,9 @@ class Problem
     void sslp(size_t nServers, size_t nClients, size_t S);
     void dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S);
     void classic_ri();
-    
+    void caroe(size_t S);
+    void caroe_LD(size_t S);
+
     
     double evaluate(double *x);  // evaluates cx + Q(x) (does not check feasibility)      
     

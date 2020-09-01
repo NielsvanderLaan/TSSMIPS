@@ -9,13 +9,13 @@ static bool abs_compare(int a, int b)
 
 bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
 {
-  Cut copy = cut;
   double Tmax = *max_element(cut.Trow.begin(), cut.Trow.end(), abs_compare);
   double Wmax = *max_element(cut.Wrow.begin(), cut.Wrow.end(), abs_compare);
   double abs_max = max(max(Tmax, Wmax), max(abs(cut.r), abs(cut.rhs)));
   if (abs_max < 1e-8)
     return false;
-  
+
+
   double scale = 1 / abs_max;
 
   cut.rhs *= scale;
