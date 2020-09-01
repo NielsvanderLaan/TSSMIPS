@@ -80,6 +80,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
       if (not add_cut(cut, sol, tol))
         continue;
+
     }
     if (strong_cuts)
     {
@@ -95,7 +96,6 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
   }
   //cout << "Number of hybrid cuts: " << iter << '\n';
   cout << "LB: " << LB << ". UB: " << UB << '\n';
-
   return Bounds { LB, UB, branch };
 }
 

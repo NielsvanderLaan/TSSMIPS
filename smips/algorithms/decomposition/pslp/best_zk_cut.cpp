@@ -30,8 +30,8 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRou
     {
       d_zk[s].update(x, rho);
       d_zk[s].optimize();
-
       cut += d_zk[s].subgradient() * d_probs[s];
+
       cRho += d_probs[s] * d_zk[s].d_objVal;
     }
     

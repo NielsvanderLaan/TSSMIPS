@@ -4,12 +4,14 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
 {
   bool stop = false;
   size_t round = 0;
+
       
   while (not stop)
   {
         // solve the model by calling optimize(), which also updates d_objval and d_yvals
     if (not optimize())  // if model is infeasible
       return false;      // return false
+
 
     ++round;
     stop = true;        // resets to false if we add a cut (which we attempt to do if solution violates integer constraints)
@@ -55,6 +57,7 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
     d_nConstrs += nCuts;
     d_nVars += nCuts;     // slacks
   }
+  //cout << "d_objVal = " << d_objVal << " true_obj = " << true_obj << '\n';
   return true; // model is feasible
 }
 

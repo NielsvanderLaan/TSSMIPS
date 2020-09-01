@@ -14,7 +14,7 @@ void Problem::caroe(size_t S)
   d_ss_leq = 0;
   d_ss_geq = 1;
 
-  d_L = -2;
+  d_L = -2.0;
 
   d_S = S;
   d_probs = vector<double> (S, 1.0 / S);
@@ -44,7 +44,7 @@ void Problem::caroe(size_t S)
   d_l2.push_back(1.0);
   d_u2.push_back(1.0);
   d_Wmat[0].push_back(0.0);
-     */
+    */
 
 
 }

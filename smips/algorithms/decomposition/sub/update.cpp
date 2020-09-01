@@ -19,5 +19,6 @@ void Sub::update(double *rhs, size_t s)
 
   }
 
+  d_model.update();
 
 }

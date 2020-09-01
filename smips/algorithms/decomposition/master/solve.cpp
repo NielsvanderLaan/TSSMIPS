@@ -5,7 +5,7 @@
 Master::Solution Master::solve()
 {
   GRBoptimize(d_cmodel);
-  
+
   int status;
   GRBgetintattr(d_cmodel, "Status", &status);
 

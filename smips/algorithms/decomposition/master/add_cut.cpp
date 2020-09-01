@@ -1,5 +1,6 @@
 #include "master.h"
 
+
 bool Master::add_cut(BendersCut cut, Solution sol, double tol)
 {
       // adding the constraint: (1 + tau) theta + beta^T x >= alpha  
@@ -14,7 +15,7 @@ bool Master::add_cut(BendersCut cut, Solution sol, double tol)
   if (add_cut) // then add cut and return false
   {
     ++d_nSlacks;
-    
+
         // adding the cut to d_cmodel
     GRBaddvar(d_cmodel, 0, NULL, NULL, 0, 0, GRB_INFINITY, GRB_CONTINUOUS, NULL);  // slack
     
@@ -39,6 +40,5 @@ bool Master::add_cut(BendersCut cut, Solution sol, double tol)
     GRBupdatemodel(d_cmodel);
     return false;
   }
-
   return true; // betaxgamma >= theta, no cut added 
 }

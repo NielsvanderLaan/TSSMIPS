@@ -42,22 +42,22 @@ int main(int argc, char *argv[])
       //problem.sizes(3);
 
       //problem.sslp(15, 45, 5);
-      problem.dcap(2,3,3,200);
+      //problem.dcap(2,3,3,200);
       //problem.enforce_ccr(1e4);
-      //problem.caroe(100);
+      problem.caroe(100);
 
 
-
+    /*
       Tree tree(env, c_env, problem);
       auto t1 = chrono::high_resolution_clock::now();
-      vector<double> x_bab = tree.bab(true, false, true, false, false, 1e-2);
+      vector<double> x_bab = tree.bab(false, false, true, false, false, 1e-2);
       auto t2 = chrono::high_resolution_clock::now();
       for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
       cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
+    */
 
 
-    /*
       DeqForm DEF(env, problem);
       DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
       DEF.solve(300.0);
@@ -65,14 +65,14 @@ int main(int argc, char *argv[])
       //for_each(x, x + problem.d_n1, [](double val) { cout << val << ' '; });
       //cout << '\n';
       cout << DEF.d_objVal<< '\n';
-    */
 
-    /*
+
+
       Benders ben(env, c_env, problem);
       double lpLB = ben.lpSolve();
       cout << "lshaped: " << lpLB << '\n';
       ben.hybrid_solve(false, false, true, false, GRB_INFINITY, true);
-*/
+
 
       /*
       double LD = ben.ldSolve(true);
