@@ -77,7 +77,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
     }
     if (zk_cuts)
     {
-      cut = d_pslp.best_zk_cut(sol, d_master, 10, false);
+      cut = d_pslp.best_zk_cut(sol, d_master, 10, true);
       if (not add_cut(cut, sol, tol))
         continue;
 
