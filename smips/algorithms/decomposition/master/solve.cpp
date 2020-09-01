@@ -17,5 +17,5 @@ Master::Solution Master::solve()
   
   double theta;
   GRBgetdblattrelement(d_cmodel, "X", 0, &theta);
-  return Solution{ x, theta, false };
+  return Solution{ x, theta + d_L, false };
 }

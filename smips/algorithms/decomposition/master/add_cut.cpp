@@ -30,10 +30,10 @@ bool Master::add_cut(BendersCut cut, Solution sol, double tol)
     copy_n(cut.d_beta.begin(), d_n1, cval + 1); 
     cval[numVars - 1] = -1;        // >= constraint, so slack features with -1
     
-    GRBaddconstr(d_cmodel, numVars, cind, cval, GRB_EQUAL, cut.d_alpha, NULL);
+    GRBaddconstr(d_cmodel, numVars, cind, cval, GRB_EQUAL, cut.d_alpha - kappa * d_L, NULL);
     
     // update slack identities
-    d_kappa.push_back(1 + cut.d_tau);
+    d_kappa.push_back(kappa);
     d_beta.push_back(cut.d_beta);
     d_gamma.push_back(cut.d_alpha);
 

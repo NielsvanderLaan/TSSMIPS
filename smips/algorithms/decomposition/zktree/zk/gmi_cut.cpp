@@ -2,13 +2,12 @@
 
 bool ZK::gmi_cut(double *tab_row_x, double *tab_row_y, double a0, double *coef_x, double *coef_y, double &coef_theta, int nVarsMaster)
 {
-  double a_theta = tab_row_x[0];
   double f0 = a0 - floor(a0);
 
   if (f0 < 1e-8  || 1 - f0 < 1e-8)
     return false;
       // theta
-  coef_theta = max(a_theta / f0, -a_theta / (1 - f0));
+  coef_theta = max(tab_row_x[0] / f0, -tab_row_x[0] / (1 - f0));
 
       // x variables
   for (size_t var = 1; var != nVarsMaster; ++var)

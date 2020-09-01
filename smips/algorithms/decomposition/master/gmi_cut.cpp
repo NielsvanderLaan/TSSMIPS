@@ -1,7 +1,5 @@
 #include "master.h"
 
-// write round_of_cuts(), which returns row indices and a0
-
 BendersCut Master::gmi_cut(size_t row, double a0)
 {
         // extracting tableau row

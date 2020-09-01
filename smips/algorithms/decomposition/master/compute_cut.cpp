@@ -4,8 +4,7 @@ void Master::compute_cut(vector<double> &tab_row, double a0, double &coef_theta,
 {
   double a_theta = tab_row[0];
 
-  double a0_prime = a0 + a_theta * d_L;
-  double f0 = a0_prime - floor(a0_prime);
+  double f0 = a0 - floor(a0);
 
   coef_theta = max(a_theta / f0, -a_theta / (1 - f0));
   
