@@ -37,14 +37,15 @@ void Problem::caroe(size_t S)
   d_l2.push_back(0.0);
   d_u2.push_back(1.0);
 
-    /*
+  /*
   d_L = 0;
   d_n2 = 2;
   d_q.push_back(2.0);
   d_l2.push_back(1.0);
   d_u2.push_back(1.0);
   d_Wmat[0].push_back(0.0);
-    */
+  */
+
 
 
 }

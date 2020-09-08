@@ -51,7 +51,7 @@ class ZK
     
   
     void update(double *x, double theta);    // computes and updates rhs
-    bool solve(double *x, double theta, Master &master, size_t maxRounds, bool gomory = true, bool zk = true, double tol = 1e-2);    // returns false if model is infeasible (may happen due to branching)
+    bool solve(double *x, double theta, Master &master, size_t maxRounds, bool gomory = true, bool zk = true, double tol = 1e-6);    // returns false if model is infeasible (may happen due to branching)
     BendersCut subgradient();  // v_w(x) >= alpha + beta^T x + tau * theta  
     bool optimize();    // returns false if model is infeasible (may happen due to branching)
     

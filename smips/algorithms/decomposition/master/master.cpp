@@ -7,7 +7,8 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
   d_lb_slack_inds(d_n1, -1),
   d_ub_con_inds(d_n1, -1),
   d_ub_slack_inds(d_n1, -1),
-  d_zk_safe(zk_safe)
+  d_zk_safe(zk_safe),
+  d_interceptor(env)
 {
   size_t n1 = d_n1;
   size_t m1 = problem.d_m1;
@@ -130,7 +131,27 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
   }
 
   GRBupdatemodel(d_cmodel);
-  // GRBwrite(d_cmodel, "master.lp");
+
+  vector<char> vtypes(n1, GRB_CONTINUOUS);
+  fill(vtypes.begin(), vtypes.begin() + p1, GRB_INTEGER);
+
+
+  // initializing d_interceptor
+  GRBVar *xvars = d_interceptor.addVars(problem.d_l1.data(), problem.d_u1.data(), NULL, vtypes.data(), NULL, n1);
+  d_xvars = vector<GRBVar>(xvars, xvars + n1);
+  delete[] xvars;
+  d_theta = d_interceptor.addVar(0.0, GRB_INFINITY,0.0,GRB_CONTINUOUS);
+
+  GRBLinExpr lhsExprs[m1];
+  for (size_t conIdx = 0; conIdx != m1; ++conIdx)
+    lhsExprs[conIdx].addTerms(Amat[conIdx].data(), d_xvars.data(), d_xvars.size());
+
+  char senses[m1];
+  fill(senses,                   senses + fs_leq,          GRB_LESS_EQUAL);
+  fill(senses + fs_leq,          senses + fs_leq + fs_geq, GRB_GREATER_EQUAL);
+  fill(senses + fs_leq + fs_geq, senses + m1,              GRB_EQUAL);
+
+  delete[] d_interceptor.addConstrs(lhsExprs, senses, problem.d_b.data(), NULL, m1);
 }
 
 

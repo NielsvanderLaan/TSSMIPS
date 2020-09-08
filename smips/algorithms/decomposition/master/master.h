@@ -23,10 +23,13 @@ class Master
     double d_L;
     int d_nSlacks;
     bool d_zk_safe;
+    GRBModel d_interceptor;
+    vector<GRBVar> d_xvars;
+    GRBVar d_theta;
+
 
     GRBmodel *d_cmodel;
-      
-      // internal storage: only valid for regular l-shaped and lbda cuts
+
       // slack variable identities s = kappa * theta + beta * x - gamma
     vector<double> d_kappa;
     vector<vector<double>> d_beta;
@@ -61,7 +64,9 @@ class Master
     vector<double> extract_row(size_t row);
     void compute_cut(vector<double> &tab_row, double a0, double &coef_theta, double *coef_x);
     BendersCut transform_cut(double coef_theta, double *coef_x);
-    
+
+    void strengthen_cut(BendersCut &cut);
+
     Solution solve(); // solves the model 
 };
 

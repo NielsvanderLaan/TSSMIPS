@@ -13,7 +13,7 @@ void solve_sizes(bool lp_cuts, bool sb_cuts, bool zk_cuts, bool strong_cuts, Dat
     problem.enforce_ccr(1e4);
     Tree tree(env, c_env, problem);
     auto t1 = chrono::high_resolution_clock::now();
-    vector<double> x_bab = tree.bab(lp_cuts, sb_cuts, zk_cuts, strong_cuts, false, 1e-2);
+    vector<double> x_bab = tree.bab(lp_cuts, sb_cuts, zk_cuts, strong_cuts, false);
     auto t2 = chrono::high_resolution_clock::now();
     cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << endl;
 

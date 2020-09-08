@@ -36,7 +36,6 @@ bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
   
   if (lhs >= rhs - tol)
     return false;
-
   
     // updating cut coefficients
   d_omega.push_back(cut.rhs);

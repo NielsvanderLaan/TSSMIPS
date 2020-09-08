@@ -11,11 +11,11 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRou
     if (lap_cuts)
     {
       d_zk[s].update(x, rho);
-      d_zk[s].solve(x, rho, master, maxRounds, false, false, 1e-6);
+      d_zk[s].solve(x, rho, master, maxRounds, false, false);
     } else
     {
       d_zk[s].update(x, rho);
-      d_zk[s].solve(x, rho, master, maxRounds, true, true,1e-6);
+      d_zk[s].solve(x, rho, master, maxRounds, true, true);
     }
   }
 

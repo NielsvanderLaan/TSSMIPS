@@ -29,6 +29,8 @@ BendersCut Lagrangian::lr_cut(size_t s, double *x, double vwx, vector<double> &p
     step = (1.0 + m) / (k + m) * (vwx - qmu_k) / gk_squared;
     if (step * step * gk_squared < 1e-4)
       break;
+    if (k > 100)
+      break;
 
     //cout << "step = " << step << '\n';
 

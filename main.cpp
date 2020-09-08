@@ -38,40 +38,46 @@ int main(int argc, char *argv[])
       //problem.enforce_ccr(50.0);
 
       Problem problem(rand, env);
-      //problem.ssv95(11, 1,1, 1);
-      //problem.sizes(3);
-
+      //problem.ssv95(11, 1,1, 0);
+      problem.sizes(3);
       //problem.sslp(15, 45, 5);
       //problem.dcap(2,3,3,200);
       //problem.enforce_ccr(1e4);
-      problem.caroe(100);
+      //size_t S = 100;
+      //problem.caroe(S);
+      //problem.enforce_ccr(1e4);
+
 
 
     /*
       Tree tree(env, c_env, problem);
       auto t1 = chrono::high_resolution_clock::now();
-      vector<double> x_bab = tree.bab(false, false, true, false, false, 1e-2);
+      vector<double> x_bab = tree.bab(true, true, false, false, false);
       auto t2 = chrono::high_resolution_clock::now();
       for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
       cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
     */
 
-
+    /*
       DeqForm DEF(env, problem);
-      DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
       DEF.solve(300.0);
-      //double *x = DEF.d_xVals;
-      //for_each(x, x + problem.d_n1, [](double val) { cout << val << ' '; });
-      //cout << '\n';
-      cout << DEF.d_objVal<< '\n';
+      cout << "eta_star = " << DEF.d_objVal << '\n';
 
-
+      Problem ld(rand, env);
+      ld.caroe_LD(S);
+      DeqForm DEF2(env, ld);
+      DEF2.solve(300.0);
+      cout << "LD = " << DEF2.d_objVal<< '\n';
+    */
 
       Benders ben(env, c_env, problem);
-      double lpLB = ben.lpSolve();
-      cout << "lshaped: " << lpLB << '\n';
-      ben.hybrid_solve(false, false, true, false, GRB_INFINITY, true);
+      ben.lpSolve();
+
+      //cout << "lshaped: " << lpLB << '\n';
+      ben.hybrid_solve(true, true, false, true, true, false, 10000, GRB_INFINITY);
+
+      //cout << "x = " << *ben.d_incumbent << '\n';
 
 
       /*

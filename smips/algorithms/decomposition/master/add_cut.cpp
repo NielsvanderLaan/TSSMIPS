@@ -3,6 +3,7 @@
 
 bool Master::add_cut(BendersCut cut, Solution sol, double tol)
 {
+  strengthen_cut(cut);
       // adding the constraint: (1 + tau) theta + beta^T x >= alpha  
   double alpha_betax = -inner_product(cut.d_beta.begin(), cut.d_beta.end(), sol.xVals.begin(), -cut.d_alpha);    // alpha - beta^T x
   double kappa = 1 + cut.d_tau;
@@ -38,6 +39,7 @@ bool Master::add_cut(BendersCut cut, Solution sol, double tol)
     d_gamma.push_back(cut.d_alpha);
 
     GRBupdatemodel(d_cmodel);
+
     return false;
   }
   return true; // betaxgamma >= theta, no cut added 

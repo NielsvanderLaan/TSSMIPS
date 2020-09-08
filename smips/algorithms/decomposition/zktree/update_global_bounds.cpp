@@ -12,5 +12,5 @@ void ZkTree::update_global_bounds(size_t node_idx, vector<double> &lb_nodes, dou
     if (is_feasible(node))                   // check if solution is integer
       UB = min(node->d_objVal, UB);          // update UB accordingly
   } else
-    lb_nodes[node_idx] = GRB_INFINITY;               // LP-relaxation is infeasible
+    lb_nodes[node_idx] = GRB_INFINITY;       // LP-relaxation is infeasible
 }
