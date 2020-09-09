@@ -14,5 +14,6 @@ bool CGMip::solve_mp(bool focus)
     d_mp.set(GRB_IntParam_ScaleFlag, -1);
     d_mp.set(GRB_IntParam_NumericFocus, 0);
   }
+
   return mp_optimal();
 }

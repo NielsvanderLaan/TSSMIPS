@@ -90,9 +90,7 @@ int main(int argc, char *argv[])
         ben.hybrid_solve(true, true, false, true, true, false, 10000, GRB_INFINITY);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-        ben.hybrid_solve(true, false, true, true, false, false, 10000, GRB_INFINITY);
       }
-      /*
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
@@ -101,7 +99,7 @@ int main(int argc, char *argv[])
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-       */
+
 
 
 
