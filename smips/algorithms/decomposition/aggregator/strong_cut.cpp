@@ -15,7 +15,6 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
 
     for (size_t s = 0; s != d_cgmips.size(); ++s)
     {
-      cout << "s = " << s << '\n';
       double prob = d_probs[s];
       cut += d_cgmips[s].generate_cut(x, rho, first_time, vx[s], affine, tol) * prob;
       cRho -= prob * d_cgmips[s].mp_val();
