@@ -7,8 +7,7 @@ void Master::strengthen_cut(BendersCut &cut)
 
   d_interceptor.optimize();
   double alpha_prime = d_interceptor.get(GRB_DoubleAttr_ObjBound);
-  if (alpha_prime > cut.d_alpha + 1e-4)
-    cout << "alpha = " << cut.d_alpha << ". alpha' = " << alpha_prime << '\n';
+
 
   cut.d_alpha = max(cut.d_alpha, alpha_prime);
 

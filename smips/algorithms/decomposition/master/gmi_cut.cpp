@@ -10,6 +10,8 @@ BendersCut Master::gmi_cut(size_t row, double a0)
   double coef_x[tab_row.size() - 1];               // original x variables and slacks     
 
   compute_cut(tab_row, a0, coef_theta, coef_x);    // return by argument
-  
-  return transform_cut(coef_theta, coef_x);
+
+  BendersCut cut = transform_cut(coef_theta, coef_x);
+  strengthen_cut(cut);
+  return cut;
 }

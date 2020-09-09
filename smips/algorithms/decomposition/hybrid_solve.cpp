@@ -3,7 +3,12 @@
 Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, bool strong_cuts, bool affine,
                                       bool force_int, size_t max_rounds, double upper_bound, double tol)
 {
-  size_t iter = 0;        // number of benders cuts
+  size_t gmi_cuts = 0;
+  size_t nlp_cuts = 0;
+  size_t nsb_cuts = 0;
+  size_t nzk_cuts = 0;
+  size_t nstrong_cuts = 0;
+
   size_t round = 0;       // rounds of gmi cuts added
 
   double LB;
@@ -11,8 +16,17 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
 
   bool branch = false;
 
+  double time_limit = 7200;
+  auto t1 = chrono::high_resolution_clock::now();
   while (true)
   {
+    auto t2 = chrono::high_resolution_clock::now();
+    if (chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 > time_limit)
+    {
+      cout << "OOT\n";
+      break;
+    }
+
     Master::Solution sol = d_master.solve();
     if (sol.infeasible)
     {
@@ -21,6 +35,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
     }
 
     vector<double> x = sol.xVals;
+
     LB = get_lb();
 
     if (LB > upper_bound)// || LB > UB - 1e-8)
@@ -34,11 +49,11 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
 
     if (not int_feas && round < max_rounds)
     {
-      cout << "computing gmi cuts\n";
-      if (not round_of_cuts(sol, 1e-6))      // at least one cut was added
+      size_t nCuts = round_of_cuts(sol, 1e-4);
+      gmi_cuts += nCuts;
+      if (nCuts > 0)      // at least one cut was added
       {
         ++round;
-        cout << "gmi cut added\n";
         continue;
       }
     }
@@ -51,6 +66,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       if (force_int)
         break;
     }
+
 
     double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
     vector<double> vx = d_agg.compute_vwx(x.data());
@@ -65,26 +81,30 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
     BendersCut cut;
     if (lp_cuts)
     {
-      cout << "computing lp cut\n";
       cut = lpCut(x.data());
       if (not add_cut(cut, sol, tol))
+      {
+        ++nlp_cuts;
         continue;
+      }
     }
     if (sb_cuts)
     {
-      //cut = sb_cut(x.data());
-      cut = lr_cut(x.data(), vx);
+      cut = sb_cut(x.data());
+      //cut = lr_cut(x.data(), vx);
       if (not add_cut(cut, sol, tol))
+      {
+        ++nsb_cuts;
         continue;
+      }
     }
     if (zk_cuts)
     {
-      cout << "computing zk cut\n";
       cut = d_pslp.best_zk_cut(sol, d_master, 25, false);
       //cut = d_agg.bac_cut(sol, d_master, tol);
       if (not add_cut(cut, sol, tol))
       {
-        cout << "zk cut added\n";
+        ++nzk_cuts;
         continue;
       }
     }
@@ -94,7 +114,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       cut = d_agg.strong_cut(sol, vx, affine, tol);
       if (not add_cut(cut, sol, tol))
       {
-        cout << "strong cut added\n";
+        ++nstrong_cuts;
         continue;
       }
     }
@@ -105,6 +125,11 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
     break;
   }
   //cout << "Number of hybrid cuts: " << iter << '\n';
+  cout << "gmi cuts: " << gmi_cuts << '\n';
+  cout << "lp cuts: " << nlp_cuts << '\n';
+  cout << "sb cuts: " << nsb_cuts << '\n';
+  cout << "zk cuts: " << nzk_cuts << '\n';
+  cout << "strong cuts: " << nstrong_cuts << '\n';
   cout << "LB: " << LB << ". UB: " << UB << '\n';
   return Bounds { LB, UB, branch };
 }

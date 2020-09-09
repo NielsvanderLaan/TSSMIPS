@@ -73,7 +73,7 @@ class Benders
               // adds the cut kappa theta - beta^T x>= gamma  and returns false if cut was added
               // add_cut() updates the master problem, but also the cglp objects via pslp
               
-    bool round_of_cuts(Master::Solution sol, double tol); 
+    size_t round_of_cuts(Master::Solution sol, double tol);
 };
 
 #endif

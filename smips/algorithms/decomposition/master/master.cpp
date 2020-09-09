@@ -152,6 +152,8 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
   fill(senses + fs_leq + fs_geq, senses + m1,              GRB_EQUAL);
 
   delete[] d_interceptor.addConstrs(lhsExprs, senses, problem.d_b.data(), NULL, m1);
+
+  d_interceptor.update();
 }
 
 

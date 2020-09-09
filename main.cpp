@@ -36,10 +36,23 @@ int main(int argc, char *argv[])
       //Problem problem(10, 0, 0, 5, 5, 5, 100, rand, env, 0, 0, 0, 5);
       //problem.randomInstance();
       //problem.enforce_ccr(50.0);
-
       Problem problem(rand, env);
+      bool sizes = stoi(argv[1]);
+      if (sizes)
+      {
+        cout << "SIZES" << argv[2] << endl;
+        problem.sizes(stoi(argv[2]));
+        problem.enforce_ccr(1e4);
+      } else
+      {
+        cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << '\n';
+        problem.dcap(stoi(argv[2]),stoi(argv[3]), stoi(argv[4]),stoi(argv[5]));
+      }
+
+
+
       //problem.ssv95(11, 1,1, 0);
-      problem.sizes(3);
+
       //problem.sslp(15, 45, 5);
       //problem.dcap(2,3,3,200);
       //problem.enforce_ccr(1e4);
@@ -70,12 +83,29 @@ int main(int argc, char *argv[])
       DEF2.solve(300.0);
       cout << "LD = " << DEF2.d_objVal<< '\n';
     */
+      {
+        auto t1 = chrono::high_resolution_clock::now();
+        Benders ben(env, c_env, problem);
+        ben.lpSolve();
+        ben.hybrid_solve(true, true, false, true, true, false, 10000, GRB_INFINITY);
+        auto t2 = chrono::high_resolution_clock::now();
+        cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
+      }
+      {
+        auto t1 = chrono::high_resolution_clock::now();
+        Benders ben(env, c_env, problem);
+        ben.lpSolve();
+        ben.hybrid_solve(true, false, true, true, false, false, 10000, GRB_INFINITY);
+        auto t2 = chrono::high_resolution_clock::now();
+        cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
+      }
 
-      Benders ben(env, c_env, problem);
-      ben.lpSolve();
 
-      //cout << "lshaped: " << lpLB << '\n';
-      ben.hybrid_solve(true, true, false, true, true, false, 10000, GRB_INFINITY);
+
+
+
+
+
 
       //cout << "x = " << *ben.d_incumbent << '\n';
 

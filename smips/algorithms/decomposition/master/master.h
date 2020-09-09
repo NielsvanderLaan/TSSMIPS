@@ -23,10 +23,10 @@ class Master
     double d_L;
     int d_nSlacks;
     bool d_zk_safe;
+
     GRBModel d_interceptor;
     vector<GRBVar> d_xvars;
     GRBVar d_theta;
-
 
     GRBmodel *d_cmodel;
 
@@ -64,6 +64,9 @@ class Master
     vector<double> extract_row(size_t row);
     void compute_cut(vector<double> &tab_row, double a0, double &coef_theta, double *coef_x);
     BendersCut transform_cut(double coef_theta, double *coef_x);
+
+    struct Point {vector<double> d_x; double d_theta;};
+    vector<Point> d_points;
 
     void strengthen_cut(BendersCut &cut);
 
