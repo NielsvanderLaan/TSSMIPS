@@ -33,10 +33,15 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     double diff = candidate.d_alpha - point.d_rhs_ub;
     if (diff > tol && check_mp_violation(max(diff - 1e-6, tol)))
     {
+      cout << "adding mp cut\n";
       add_mp_cut(point);           // add it to master
     }
-    else   
+    else
+    {
+      cout << "diff = " << diff << '\n'
       break;
+
+    }
   }
 
   candidate.d_alpha = point.d_rhs_lb;
