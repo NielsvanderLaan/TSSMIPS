@@ -38,7 +38,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     }
     else
     {
-      cout << "diff = " << diff << '\n'
+      cout << "diff = " << diff << '\n';
       break;
 
     }
