@@ -14,7 +14,8 @@ bool CGMip::check_mp_violation(double tol)
     d_mp.set(GRB_IntParam_ScaleFlag, -1);
     d_mp.set(GRB_IntParam_NumericFocus, 0);
     violation = d_mp.get(GRB_DoubleAttr_ConstrVio) + d_mp.get(GRB_DoubleAttr_ConstrResidual);
-    cout << "violation  = " << violation << endl;
+    if (violation > tol)
+      cout << "violation  = " << violation << endl;
   }
 
 
