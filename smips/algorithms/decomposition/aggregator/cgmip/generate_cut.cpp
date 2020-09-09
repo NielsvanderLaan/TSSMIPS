@@ -13,12 +13,9 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
 
   while (true)
   {
-    solve_mp();
-    if (not mp_optimal())   // numerical issue occured
+    if (not solve_mp())   // numerical issue occured
     {
-      d_mp.reset();         // this works (strangely)
-      solve_mp();
-      if (not mp_optimal())
+      if (not solve_mp(true))
       {
         cout << "mp unbounded\n";
         break;

@@ -42,7 +42,7 @@ class CGMip
 
     BendersCut generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol);  // uses benders decomposition to find best cut
             // auxiliary functions for generate_cut()
-    void solve_mp();
+    bool solve_mp(bool focus = false);
     BendersCut get_candidate();
     Point solve_sub();
     void set_mp_obj(double *x, double &theta);  // takes (x, theta) and sets master objective coefficients
