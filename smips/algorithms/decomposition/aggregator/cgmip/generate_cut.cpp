@@ -1,6 +1,6 @@
 #include "cgmip.h"
 
-BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol)
+BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol, double &gap)
 {
   d_tau.set(GRB_DoubleAttr_UB, affine ? 0 : GRB_INFINITY);      // force tau = 0 if only affine cuts are allowed
   
@@ -33,7 +33,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     else
       break;
   }
-
+  gap += candidate.d_alpha - point.d_rhs_lb;
   candidate.d_alpha = point.d_rhs_lb;
   return candidate;       
 }
