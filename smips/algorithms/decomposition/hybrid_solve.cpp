@@ -27,7 +27,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       break;
     }
 
-    Master::Solution sol = d_master.solve();
+    Master::Solution sol = d_master.solve(tol);
     if (sol.infeasible)
     {
       cout << "mp infeasible" << endl;

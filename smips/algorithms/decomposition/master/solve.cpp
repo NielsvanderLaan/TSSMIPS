@@ -2,10 +2,9 @@
 
 #include <string>
 
-Master::Solution Master::solve()
+Master::Solution Master::solve(double tol)
 {
   GRBoptimize(d_cmodel);
-
 
   int status;
   GRBgetintattr(d_cmodel, "Status", &status);
@@ -13,7 +12,15 @@ Master::Solution Master::solve()
   double violation, resid;
   GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
   GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
-  cout << "master violation = " << violation + resid << '\n';
+  if (violation + resid > tol)
+  {
+    GRBreset(d_cmodel, 0);
+    GRBsetintparam(GRBgetenv(d_cmodel), "ScaleFlag", 0);
+    GRBsetintparam(GRBgetenv(d_cmodel), "NumericFocus", 3);
+    GRBoptimize(d_cmodel);
+    GRBsetintparam(GRBgetenv(d_cmodel), "ScaleFlag", -1);
+    GRBsetintparam(GRBgetenv(d_cmodel), "NumericFocus", 0);
+  }
 
 
   if (status == 3 || status == 4)      // model is infeasible

@@ -8,7 +8,7 @@ double Benders::lpSolve(double tol)
   while (not stop)
   {
       // solve master problem, and collect x and theta
-    Master::Solution sol = d_master.solve();
+    Master::Solution sol = d_master.solve(tol);
     vector<double> x = sol.xVals;      
   
     BendersCut cut = lpCut(x.data());  

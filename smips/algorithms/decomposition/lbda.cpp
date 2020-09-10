@@ -12,7 +12,7 @@ void Benders::lbda(double *alpha, double gomoryTimeLimit, double tol)
   {
     ++iter;
       // solve master problem, and collect x and theta
-    Master::Solution sol = d_master.solve();
+    Master::Solution sol = d_master.solve(tol);
 
     vector<double> x = sol.xVals;      
     double theta = sol.thetaVal;        

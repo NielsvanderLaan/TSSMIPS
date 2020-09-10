@@ -10,7 +10,7 @@ void Benders::ald_solve(double tol, size_t maxRounds)
     cout << "iteration: " << iter << '\n';
     ++iter;
       // solve master problem, and collect x and theta
-    Master::Solution sol = d_master.solve();
+    Master::Solution sol = d_master.solve(tol);
     // double runtime = d_master.d_model.get(GRB_DoubleAttr_Runtime);
     // cout << "SOLVING MASTER TOOK: " << runtime << " seconds\n"; 
     // bottom line: this becomes expensive (really quickly)

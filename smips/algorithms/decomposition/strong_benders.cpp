@@ -10,7 +10,7 @@ double Benders::strong_benders(double tol)
   {
     ++iter;
       // solve master problem, and collect x and theta
-    Master::Solution sol = d_master.solve();
+    Master::Solution sol = d_master.solve(tol);
     vector<double> x = sol.xVals;      
       // derive cut
     BendersCut cut = sb_cut(x.data());  

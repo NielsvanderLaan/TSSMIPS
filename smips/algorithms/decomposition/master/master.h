@@ -70,7 +70,7 @@ class Master
 
     void strengthen_cut(BendersCut &cut);
 
-    Solution solve(); // solves the model 
+    Solution solve(double tol); // solves the model
 };
 
 #endif

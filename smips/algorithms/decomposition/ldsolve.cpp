@@ -12,7 +12,7 @@ double Benders::ldSolve(bool affine, double tol)
   while (not stop)
   {
     //cout << "iter = " << iter << '\n';
-    Master::Solution sol = d_master.solve();
+    Master::Solution sol = d_master.solve(tol);
     vector<double> x = sol.xVals;
     LB = get_lb();
     //cout << "LB = " << LB << '\n';
