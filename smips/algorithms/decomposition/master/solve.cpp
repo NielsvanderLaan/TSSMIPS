@@ -10,6 +10,12 @@ Master::Solution Master::solve()
   int status;
   GRBgetintattr(d_cmodel, "Status", &status);
 
+  double violation, resid;
+  GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
+  GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
+  cout << "master violation = " << violation + resid << '\n';
+
+
   if (status == 3 || status == 4)      // model is infeasible
     return Solution{ vector<double>(0), -1, true };
 
