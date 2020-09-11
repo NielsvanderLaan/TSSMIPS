@@ -9,20 +9,6 @@ Master::Solution Master::solve(double tol)
   int status;
   GRBgetintattr(d_cmodel, "Status", &status);
 
-  double violation, resid;
-  GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
-  GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
-  if (violation + resid > tol)
-  {
-    GRBreset(d_cmodel, 0);
-    GRBsetintparam(GRBgetenv(d_cmodel), "ScaleFlag", 0);
-    GRBsetintparam(GRBgetenv(d_cmodel), "NumericFocus", 3);
-    GRBoptimize(d_cmodel);
-    GRBsetintparam(GRBgetenv(d_cmodel), "ScaleFlag", -1);
-    GRBsetintparam(GRBgetenv(d_cmodel), "NumericFocus", 0);
-  }
-
-
   if (status == 3 || status == 4)      // model is infeasible
     return Solution{ vector<double>(0), -1, true };
 

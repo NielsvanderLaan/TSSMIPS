@@ -14,6 +14,11 @@ bool Master::add_cut(BendersCut cut, Solution sol, double tol)
   
   if (add_cut) // then add cut and return false
   {
+    /*
+    cout << "alpha = " << cut.d_alpha << "\nbeta = ";
+    for_each(cut.d_beta.begin(), cut.d_beta.end(), [](double val){cout << val << ' ';});
+    cout << "\ntau = " << cut.d_tau << '\n';
+    */
     ++d_nSlacks;
 
         // adding the cut to d_cmodel

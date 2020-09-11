@@ -111,7 +111,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
 
     if (strong_cuts)
     {
-      cut = d_agg.strong_cut(sol, vx, affine, tol);
+      cut = d_agg.strong_cut(sol, vx, affine, tol, int_feas);
       if (not add_cut(cut, sol, tol))
       {
         ++nstrong_cuts;
