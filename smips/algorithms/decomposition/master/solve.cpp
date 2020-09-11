@@ -4,10 +4,21 @@
 
 Master::Solution Master::solve(double tol)
 {
+  GRBreset(d_cmodel,0);
   GRBoptimize(d_cmodel);
 
   int status;
   GRBgetintattr(d_cmodel, "Status", &status);
+
+
+  double violation, resid;
+  GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
+  GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
+
+  if (violation + resid > 1e-4)
+    cout << "master violation = " << violation << ", resid = " << resid << '\n';
+
+
 
   if (status == 3 || status == 4)      // model is infeasible
     return Solution{ vector<double>(0), -1, true };

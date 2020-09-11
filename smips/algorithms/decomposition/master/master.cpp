@@ -34,6 +34,8 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
   GRBnewmodel(c_env, &d_cmodel, NULL, 0, NULL, NULL, NULL, NULL, NULL);
   GRBaddvar(d_cmodel, 0, NULL, NULL, 1.0, 0.0, GRB_INFINITY, GRB_CONTINUOUS, NULL);     // theta
   GRBsetdblattr(d_cmodel, "ObjCon", d_L);
+  GRBsetdblparam(GRBgetenv(d_cmodel), "NumericFocus", 3);
+  GRBsetdblparam(GRBgetenv(d_cmodel), "ScaleFlag", 0);
 
   size_t con_idx = 0;
   if (zk_safe)

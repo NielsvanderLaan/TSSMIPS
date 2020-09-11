@@ -16,6 +16,7 @@ d_ub_con_inds(other.d_ub_con_inds),
 d_ub_slack_inds(other.d_ub_slack_inds),
 d_points(other.d_points)
 {
+  exit(156);
   GRBupdatemodel(other.d_cmodel);
   d_cmodel = GRBcopymodel(other.d_cmodel);
 
