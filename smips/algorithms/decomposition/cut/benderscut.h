@@ -42,6 +42,14 @@ struct BendersCut
 
     return *this;
   }
+
+  void scale()
+  {
+    double kappa = 1 + d_tau;
+    d_tau = 0;
+    d_alpha /= kappa;
+    for_each(d_beta.begin(), d_beta.end(), [kappa](double &val){val /= kappa;});
+  }
 };
 
 #endif

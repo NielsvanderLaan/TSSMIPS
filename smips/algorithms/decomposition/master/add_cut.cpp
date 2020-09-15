@@ -10,7 +10,7 @@ bool Master::add_cut(BendersCut cut, Solution sol, double tol)
   //cout << "old theta = " << sol.thetaVal << ". new theta = " << alpha_betax - cut.d_tau * sol.thetaVal << ".\n";
   //cout << "theta = " << alpha_betax / (1 + cut.d_tau) << '\n';
 
-  bool add_cut = (kappa > 1) ? alpha_betax / kappa > sol.thetaVal + tol : alpha_betax > kappa * sol.thetaVal + tol;
+  bool add_cut = alpha_betax > kappa * sol.thetaVal + tol;
   
   if (add_cut) // then add cut and return false
   {
@@ -26,10 +26,10 @@ bool Master::add_cut(BendersCut cut, Solution sol, double tol)
     cind[d_n1 + 1] = d_n1 + d_nSlacks;
     
     double cval[numVars];
-    cval[0] = 1 + cut.d_tau;
-    copy_n(cut.d_beta.begin(), d_n1, cval + 1); 
-    cval[numVars - 1] = -1;        // >= constraint, so slack features with -1
-    
+    cval[0] = kappa;
+    copy_n(cut.d_beta.begin(), d_n1, cval + 1);
+
+    cval[numVars - 1] = -1;     // >= constraint, so slack features with -1
     GRBaddconstr(d_cmodel, numVars, cind, cval, GRB_EQUAL, cut.d_alpha - kappa * d_L, NULL);
     
     // update slack identities

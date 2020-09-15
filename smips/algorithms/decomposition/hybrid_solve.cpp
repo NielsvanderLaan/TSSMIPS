@@ -53,6 +53,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       gmi_cuts += nCuts;
       if (nCuts > 0)      // at least one cut was added
       {
+        cout << "added gmi cuts\n";
         ++round;
         continue;
       }
@@ -70,7 +71,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
 
     double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
     vector<double> vx = d_agg.compute_vwx(x.data());
-    double Qx = accumulate(vx.begin(), vx.end(), 0.0) / d_S;
+    double Qx = accumulate(vx.begin(), vx.end(),0.0) / d_S;
     if (int_feas && cx + Qx < UB)
     {
       copy(x.begin(), x.end(), d_incumbent);
@@ -84,6 +85,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       cut = lpCut(x.data());
       if (not add_cut(cut, sol, tol))
       {
+        cout << "added lp cut\n";
         ++nlp_cuts;
         continue;
       }
@@ -94,6 +96,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       //cut = lr_cut(x.data(), vx);
       if (not add_cut(cut, sol, tol))
       {
+        cout << "added sb cut\n";
         ++nsb_cuts;
         continue;
       }
@@ -104,6 +107,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       //cut = d_agg.bac_cut(sol, d_master, tol);
       if (not add_cut(cut, sol, tol))
       {
+        cout << "added zk cut\n";
         ++nzk_cuts;
         continue;
       }
@@ -114,6 +118,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       cut = d_agg.strong_cut(sol, vx, affine, tol, int_feas);
       if (not add_cut(cut, sol, tol))
       {
+        cout << "added strong cut\n";
         ++nstrong_cuts;
         continue;
       }

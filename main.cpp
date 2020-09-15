@@ -77,12 +77,14 @@ int main(int argc, char *argv[])
       DEF.solve(300.0);
       cout << "eta_star = " << DEF.d_objVal << '\n';
 
+
       Problem ld(rand, env);
       ld.caroe_LD(S);
       DeqForm DEF2(env, ld);
       DEF2.solve(300.0);
       cout << "LD = " << DEF2.d_objVal<< '\n';
     */
+
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
@@ -92,6 +94,7 @@ int main(int argc, char *argv[])
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
 
+    /*
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
@@ -100,7 +103,7 @@ int main(int argc, char *argv[])
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-
+    */
 
 
 

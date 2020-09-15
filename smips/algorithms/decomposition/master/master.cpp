@@ -36,6 +36,7 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
   GRBsetdblattr(d_cmodel, "ObjCon", d_L);
   GRBsetdblparam(GRBgetenv(d_cmodel), "NumericFocus", 3);
   GRBsetdblparam(GRBgetenv(d_cmodel), "ScaleFlag", 0);
+  GRBsetdblparam(GRBgetenv(d_cmodel), "Method", 0);
 
   size_t con_idx = 0;
   if (zk_safe)
@@ -142,7 +143,7 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
   GRBVar *xvars = d_interceptor.addVars(problem.d_l1.data(), problem.d_u1.data(), NULL, vtypes.data(), NULL, n1);
   d_xvars = vector<GRBVar>(xvars, xvars + n1);
   delete[] xvars;
-  d_theta = d_interceptor.addVar(0.0, GRB_INFINITY,0.0,GRB_CONTINUOUS);
+  d_theta = d_interceptor.addVar(d_L, GRB_INFINITY,0.0,GRB_CONTINUOUS);
 
   GRBLinExpr lhsExprs[m1];
   for (size_t conIdx = 0; conIdx != m1; ++conIdx)

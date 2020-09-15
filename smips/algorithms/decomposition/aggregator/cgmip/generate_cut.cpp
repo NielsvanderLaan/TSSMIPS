@@ -6,7 +6,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
 
   set_mp_obj(x, theta);
   if (init)      // add initial point to mp to prevent unbounded rays
-    add_mp_cut(Point{ vector<double>(x, x + d_xVars.size()), theta, int_feas ? vwx : 1e7, 0.0, 0.0});
+    add_mp_cut(Point{ vector<double>(x, x + d_xVars.size()), theta, int_feas ? vwx : 1e6, 0.0, 0.0});
 
   BendersCut candidate{ 0, vector<double>(d_beta.size()), 0 };
   Point point{ vector<double>(d_xVars.size()), 0, GRB_INFINITY, -GRB_INFINITY, GRB_INFINITY };
@@ -30,9 +30,10 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     Point old_point = point;
     point = solve_sub();
 
-    if (candidate.d_alpha - point.d_rhs_ub < tol)     // optimal within tolerance
+    double diff = candidate.d_alpha - point.d_rhs_ub;
+    if (diff < tol)     // optimal within tolerance
       break;
-    if (distance(old_point, point) < 1e-8)
+    if (distance(old_point, point) < 1e-8 || check_mp_violation(max(diff - 1e-6, tol)))
     {
       if (first_strike)
       {
