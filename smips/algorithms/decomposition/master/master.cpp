@@ -101,7 +101,6 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
   for (size_t con = 0; con != m1; ++con)
     GRBaddconstr(d_cmodel, n1, cind, Amat[con].data(), GRB_EQUAL, rhs[con], NULL);
 
-
   // adding slacks
 
   size_t nSlacks = fs_leq + fs_geq;
