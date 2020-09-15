@@ -16,7 +16,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
 
   bool branch = false;
 
-  double time_limit = 7200;
+  double time_limit = 6 * 3600;
   auto t1 = chrono::high_resolution_clock::now();
   while (true)
   {
@@ -53,7 +53,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       gmi_cuts += nCuts;
       if (nCuts > 0)      // at least one cut was added
       {
-        cout << "added gmi cuts\n";
+        cout << "added " << nCuts <<  " gmi cuts\n";
         ++round;
         continue;
       }
