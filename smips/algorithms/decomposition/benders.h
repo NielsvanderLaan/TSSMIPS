@@ -6,7 +6,7 @@
 #include <string>
 #include <numeric>
 
-#include "../../debug.h"
+#include "../../../debug.h"
 #include "../../problem_data/problem.h"
 #include "master/master.h"
 #include "sub/sub.h"
