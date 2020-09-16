@@ -1,5 +1,5 @@
 CXX=g++
-CXXFLAGS=-c -O3 -D_GLIBCXX_USE_CXX11_ABI=0 # I have no clue what this does, but it makes gurobi do what it is supposed to do
+CXXFLAGS=-c -O3
 LDFLAGS=
 SOURCES=$(shell find . -name "*.cpp") # searches all subdirectories
 OBJECTS=$(SOURCES:.cpp=.o)
@@ -10,7 +10,7 @@ $(EXECUTABLE): $(OBJECTS)
 
 
 .cpp.o:
-	$(CXX) $(CXXFLAGS) $<  -o $@
+	$(CXX) $(CXXFLAGS) $<  -o $@ -I$(GUROBI_HOME)/include -L$(GUROBI_HOME)/lib -lgurobi_c++ -lgurobi90 -lm
 
 clean:
 	rm $(OBJECTS) $(EXECUTABLE)

@@ -135,7 +135,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
   cout << "sb cuts: " << nsb_cuts << '\n';
   cout << "zk cuts: " << nzk_cuts << '\n';
   cout << "strong cuts: " << nstrong_cuts << '\n';
-  cout << "LB: " << LB << ". UB: " << UB << '\n';
+  cout << "LB: " << LB << ". UB: " << UB << endl;
   return Bounds { LB, UB, branch };
 }
 
