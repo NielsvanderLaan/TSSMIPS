@@ -103,8 +103,8 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
     }
     if (zk_cuts)
     {
-      cut = d_pslp.best_zk_cut(sol, d_master, 25, false);
-      //cut = d_agg.bac_cut(sol, d_master, tol);
+      //cut = d_pslp.best_zk_cut(sol, d_master, 25, false);
+      cut = d_agg.bac_cut(sol, d_master, tol);
       if (not add_cut(cut, sol, tol))
       {
         cout << "added zk cut\n";

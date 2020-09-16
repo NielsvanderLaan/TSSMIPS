@@ -16,7 +16,7 @@ void ZkTree::branch_cut(double *x, double theta, Master &master, size_t maxRound
   size_t node_idx = distance(lb_nodes.begin(), node_iterator);
   double LB = *node_iterator;    
 
-  size_t node_cap = 5;
+  size_t node_cap = 100;
   while (LB < UB - tol && d_nodes.size() < node_cap)
   { 
     if (lb_nodes[node_idx] >= UB)    // sub-optimal node, skip this one (but NEVER fathom)

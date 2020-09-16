@@ -4,7 +4,7 @@
 
 Master::Solution Master::solve(double tol)
 {
-  //GRBreset(d_cmodel,0);   // we do this conditionally
+  //GRBreset(d_cmodel,0);   // does not help much
   GRBoptimize(d_cmodel);
 
   int status;
@@ -15,17 +15,7 @@ Master::Solution Master::solve(double tol)
   GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
 
   if (violation + resid > 1e-4)
-  {
     cout << "(before) master violation = " << violation << ", resid = " << resid << '\n';
-    GRBreset(d_cmodel,0);
-    GRBoptimize(d_cmodel);
-
-    GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
-    GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
-    cout << "(after) master violation = " << violation << ", resid = " << resid << '\n';
-  }
-  GRBwrite(d_cmodel, "master.lp");
-
 
 
   if (status == 3 || status == 4)      // model is infeasible
