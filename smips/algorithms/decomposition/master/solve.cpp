@@ -24,7 +24,7 @@ Master::Solution Master::solve(double tol)
     GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
     cout << "(after) master violation = " << violation << ", resid = " << resid << '\n';
   }
-
+  GRBwrite(d_cmodel, "master.lp");
 
 
 

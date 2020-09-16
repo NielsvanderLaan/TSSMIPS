@@ -37,6 +37,7 @@ int main(int argc, char *argv[])
       //problem.randomInstance();
       //problem.enforce_ccr(50.0);
       Problem problem(rand, env);
+      /*
       bool sizes = stoi(argv[1]);
       if (sizes)
       {
@@ -48,6 +49,8 @@ int main(int argc, char *argv[])
         cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << '\n';
         problem.dcap(stoi(argv[2]),stoi(argv[3]), stoi(argv[4]),stoi(argv[5]));
       }
+      */
+      problem.ssv95(11, 0, 1, 1);
 
 
 
@@ -72,7 +75,7 @@ int main(int argc, char *argv[])
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
     */
 
-    /*
+/*
       DeqForm DEF(env, problem);
       DEF.solve(300.0);
       cout << "eta_star = " << DEF.d_objVal << '\n';
@@ -85,36 +88,25 @@ int main(int argc, char *argv[])
       cout << "LD = " << DEF2.d_objVal<< '\n';
     */
 
-    /*
-      {
-        auto t1 = chrono::high_resolution_clock::now();
-        Benders ben(env, c_env, problem);
-        ben.lpSolve();
-        ben.hybrid_solve(true, true, false, true, true, false, 10000, GRB_INFINITY);
-        auto t2 = chrono::high_resolution_clock::now();
-        cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-      }
-      */
-
 
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
         ben.lpSolve();
-        ben.hybrid_solve(true, false, true, true, false, false, 10000, GRB_INFINITY);
+        ben.hybrid_solve(true, false, false, true, true, false, 10000, GRB_INFINITY);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
 
 
-
-
-
-
-
-
-
-
+      {
+        auto t1 = chrono::high_resolution_clock::now();
+        Benders ben(env, c_env, problem);
+        ben.lpSolve();
+        ben.hybrid_solve(true, false, false, true, false, false, 10000, GRB_INFINITY);
+        auto t2 = chrono::high_resolution_clock::now();
+        cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
+      }
 
       //cout << "x = " << *ben.d_incumbent << '\n';
 

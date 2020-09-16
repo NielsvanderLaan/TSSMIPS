@@ -16,7 +16,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
 
   bool branch = false;
 
-  double time_limit = 2 * 24 * 3600;
+  double time_limit = 7200;
   auto t1 = chrono::high_resolution_clock::now();
   while (true)
   {

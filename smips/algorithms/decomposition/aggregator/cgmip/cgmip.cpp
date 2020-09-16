@@ -22,7 +22,8 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   size_t m2 = problem.d_m2;
  
   // Initializing MP
-  double M = 1e8;
+  double M = GRB_INFINITY;
+  //M = 1e8;
   vector<double> lb(n1, -M);
   vector<double> ub(n1, M);
 
