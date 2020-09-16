@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
       //problem.randomInstance();
       //problem.enforce_ccr(50.0);
       Problem problem(rand, env);
-      /*
+
       bool sizes = stoi(argv[1]);
       if (sizes)
       {
@@ -49,8 +49,8 @@ int main(int argc, char *argv[])
         cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << '\n';
         problem.dcap(stoi(argv[2]),stoi(argv[3]), stoi(argv[4]),stoi(argv[5]));
       }
-      */
-      problem.ssv95(11, 0, 1, 1);
+
+      //problem.ssv95(11, 0, 1, 1);
 
 
 
