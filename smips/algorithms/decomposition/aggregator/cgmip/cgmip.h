@@ -5,6 +5,7 @@
 #include "gurobi_c++.h"
 #include "../../cut/benderscut.h"
 #include "../../../../problem_data/problem.h"
+#include "../../../../debug.h"
 
 using namespace std;
 

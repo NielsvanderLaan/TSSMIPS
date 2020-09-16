@@ -53,7 +53,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       gmi_cuts += nCuts;
       if (nCuts > 0)      // at least one cut was added
       {
-        cout << "added " << nCuts <<  " gmi cuts\n";
+        print("added " << nCuts <<  " gmi cuts\n");
         ++round;
         continue;
       }
@@ -61,7 +61,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
 
     if (not int_feas)
     {
-      cout << "not integer feasible" << endl;
+      //cout << "not integer feasible" << endl;
       copy(x.begin(), x.end(), d_xvals);
       branch = true;
       if (force_int)
@@ -77,7 +77,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       copy(x.begin(), x.end(), d_incumbent);
       UB = cx + Qx;
     }
-    cout << "LB: " << LB << ". UB: " << UB << endl;
+    print("LB: " << LB << ". UB: " << UB << endl);
 
     BendersCut cut;
     if (lp_cuts)
@@ -85,7 +85,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       cut = lpCut(x.data());
       if (not add_cut(cut, sol, tol))
       {
-        cout << "added lp cut\n";
+        print("added lp cut\n");
         ++nlp_cuts;
         continue;
       }
@@ -96,7 +96,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       //cut = lr_cut(x.data(), vx);
       if (not add_cut(cut, sol, tol))
       {
-        cout << "added sb cut\n";
+        print("added sb cut\n");
         ++nsb_cuts;
         continue;
       }
@@ -107,7 +107,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       cut = d_agg.bac_cut(sol, d_master, tol);
       if (not add_cut(cut, sol, tol))
       {
-        cout << "added zk cut\n";
+        print("added zk cut\n");
         ++nzk_cuts;
         continue;
       }
@@ -118,7 +118,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
       cut = d_agg.strong_cut(sol, vx, affine, tol, int_feas);
       if (not add_cut(cut, sol, tol))
       {
-        cout << "added strong cut\n";
+        print("added strong cut\n");
         ++nstrong_cuts;
         continue;
       }

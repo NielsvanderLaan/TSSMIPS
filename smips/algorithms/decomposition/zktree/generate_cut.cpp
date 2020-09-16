@@ -7,10 +7,12 @@ BendersCut ZkTree::generate_cut(double *x, double theta, Master &master, size_t 
   for (size_t idx = 0; idx != d_nodes.size(); ++idx)
   {
     ZK* node = d_nodes[idx];
-    node->optimize(); // what if problem is infeasible?
+    if (not node->optimize()) // what if problem is infeasible?
+    {
+      cerr << "bac cut: subproblem is infeasible (CCR assumption not satisfied)\n";
+      exit(1);
+    }
     BendersCut cut = node->subgradient();
-    //cout << "alpha = " << cut.d_alpha << ". beta = " << cut.d_beta[0] << ". tau = " << cut.d_tau << '\n';
-    //cout << -inner_product(cut.d_beta.begin(), cut.d_beta.end(), x, -cut.d_alpha) << '\n';
     add_row_to_cglp(cut.d_beta.data(), cut.d_tau, 1.0, cut.d_alpha, idx);
   }
 
