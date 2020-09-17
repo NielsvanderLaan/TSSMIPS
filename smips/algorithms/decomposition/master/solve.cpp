@@ -15,7 +15,7 @@ Master::Solution Master::solve(double tol)
   GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
 
   if (violation + resid > 1e-4)
-    cout << "(before) master violation = " << violation << ", resid = " << resid << '\n';
+    cout << "master violation = " << violation << ", resid = " << resid << '\n';
 
 
   if (status == 3 || status == 4)      // model is infeasible

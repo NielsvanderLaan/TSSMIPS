@@ -1,5 +1,3 @@
-
-
 #include <iostream>
 #include <chrono>
 #include <vector>
@@ -39,7 +37,6 @@ int main(int argc, char *argv[])
       //problem.enforce_ccr(50.0);
 
       Problem problem(rand, env);
-      /*
       bool sizes = stoi(argv[1]);
       if (sizes)
       {
@@ -51,11 +48,10 @@ int main(int argc, char *argv[])
         cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << '\n';
         problem.dcap(stoi(argv[2]),stoi(argv[3]), stoi(argv[4]),stoi(argv[5]));
       }
-    */
 
 
 
-      problem.ssv95(21, 1, 1, 1);
+      //problem.ssv95(21, 1, 0, 1);
 
 
 
@@ -76,7 +72,7 @@ int main(int argc, char *argv[])
       for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
       cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-    */
+      */
 
     /*
       DeqForm DEF(env, problem);
@@ -91,27 +87,27 @@ int main(int argc, char *argv[])
       cout << "LD = " << DEF2.d_objVal<< '\n';
     */
 
-    /*
+
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
         ben.lpSolve();
         ben.hybrid_solve(true, false, false, true, true, false, 10000, GRB_INFINITY);
+        ben.hybrid_solve(false, false, true, true, false, false, 10000, GRB_INFINITY);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-    */
 
+    /*
       {
-        cout << "INSTANCE: 1 1 1 21\n";
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
         ben.lpSolve();
-        ben.hybrid_solve(true, false, false, true, false, false, 10000, GRB_INFINITY);
+        ben.hybrid_solve(false, true, false, true, false, true, 25, GRB_INFINITY);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-
+      */
 
 
       //cout << "x = " << *ben.d_incumbent << '\n';

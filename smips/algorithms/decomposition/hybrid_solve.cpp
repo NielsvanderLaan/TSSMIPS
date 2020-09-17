@@ -49,7 +49,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
 
     if (not int_feas && round < max_rounds)
     {
-      size_t nCuts = round_of_cuts(sol, 1e-4);
+      size_t nCuts = round_of_cuts(sol, 1e-6);
       gmi_cuts += nCuts;
       if (nCuts > 0)      // at least one cut was added
       {
@@ -116,6 +116,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
     if (strong_cuts)
     {
       cut = d_agg.strong_cut(sol, vx, affine, tol, int_feas);
+      cout << "tau = " << cut.d_tau << '\n';
       if (not add_cut(cut, sol, tol))
       {
         print("added strong cut\n");
