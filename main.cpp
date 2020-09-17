@@ -32,13 +32,13 @@ int main(int argc, char *argv[])
     GRBsetintparam(c_env, "Threads", 1);
 
     {
-      run_ssv_ld_gaps(rand, env, c_env);
+      //run_ssv_ld_gaps(rand, env, c_env);
       // create problem
       //Problem problem(10, 0, 0, 5, 5, 5, 100, rand, env, 0, 0, 0, 5);
       //problem.randomInstance();
       //problem.enforce_ccr(50.0);
 
-      //Problem problem(rand, env);
+      Problem problem(rand, env);
       /*
       bool sizes = stoi(argv[1]);
       if (sizes)
@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
 
 
 
-      //problem.ssv95(11, 0, 0, 0);
+      problem.ssv95(21, 1, 1, 1);
 
 
 
@@ -101,16 +101,17 @@ int main(int argc, char *argv[])
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
     */
-    /*
+
       {
+        cout << "INSTANCE: 1 1 1 21\n";
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
         ben.lpSolve();
-        ben.hybrid_solve(true, false, true, true, false, false, 10000, GRB_INFINITY);
+        ben.hybrid_solve(true, false, false, true, false, false, 10000, GRB_INFINITY);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-      */
+
 
 
       //cout << "x = " << *ben.d_incumbent << '\n';
