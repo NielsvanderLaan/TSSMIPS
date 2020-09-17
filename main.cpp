@@ -74,11 +74,11 @@ int main(int argc, char *argv[])
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       */
 
-    /*
+
       DeqForm DEF(env, problem);
-      DEF.solve(300.0);
-      cout << "eta_star = " << DEF.d_objVal << '\n';
-    */
+      //DEF.solve(300.0);
+      //cout << "eta_star = " << DEF.d_objVal << '\n';
+
     /*
       Problem ld(rand, env);
       ld.caroe_LD(S);
@@ -92,22 +92,23 @@ int main(int argc, char *argv[])
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
         ben.lpSolve();
-        ben.hybrid_solve(true, false, false, true, true, false, 10000, GRB_INFINITY);
-        ben.hybrid_solve(false, false, true, true, false, false, 10000, GRB_INFINITY);
+        ben.hybrid_solve(false, true, false, true, true, false, 10000, GRB_INFINITY);
+        ben.hybrid_solve(true, false, true, true, false, false, 10000, GRB_INFINITY);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
+
 
     /*
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
         ben.lpSolve();
-        ben.hybrid_solve(false, true, false, true, false, true, 25, GRB_INFINITY);
+        ben.hybrid_solve(true, false, true, true, false, false, 10000, GRB_INFINITY);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-      */
+    */
 
 
       //cout << "x = " << *ben.d_incumbent << '\n';

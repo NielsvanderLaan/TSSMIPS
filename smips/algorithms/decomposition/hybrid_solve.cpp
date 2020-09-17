@@ -49,7 +49,7 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
 
     if (not int_feas && round < max_rounds)
     {
-      size_t nCuts = round_of_cuts(sol, 1e-6);
+      size_t nCuts = round_of_cuts(sol, 1e-4);
       gmi_cuts += nCuts;
       if (nCuts > 0)      // at least one cut was added
       {
