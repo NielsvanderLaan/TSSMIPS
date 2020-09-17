@@ -5,4 +5,4 @@
 #SBATCH --job-name=ssv
 #SBATCH --output=output/log-%j.log
 #SBATCH --mem=16000
-./exe
+./exe $*

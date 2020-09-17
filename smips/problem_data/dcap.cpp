@@ -161,7 +161,7 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
   stoFile.close();
 
 
-  d_p1 = 0;//d_n1;
+  //d_p1 = 0;//d_n1;
   //d_p2 = 0;
 
 }
