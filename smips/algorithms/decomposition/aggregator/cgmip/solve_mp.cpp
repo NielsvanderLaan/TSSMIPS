@@ -11,7 +11,7 @@ bool CGMip::solve_mp(bool focus, double M)
   }
 
   d_mp.optimize();
-  /*
+
   if (mp_optimal())
   {
     if (mp_max_coeff() > M)
@@ -21,7 +21,6 @@ bool CGMip::solve_mp(bool focus, double M)
       set_mp_bounds(GRB_INFINITY);
     }
   }
-  */
 
 
   if (focus)    // reset params to default

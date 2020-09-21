@@ -78,8 +78,8 @@ int main(int argc, char *argv[])
     /*
       DeqForm DEF(env, problem);
       DEF.solve(300.0);
-      cout << "eta_star = " << DEF.d_objVal << '\n';
-*/
+      cout << "eta_star = " << DEF.d_objVal << ". LB = " << DEF.d_objBound << '\n';
+    */
     /*
       Problem ld(rand, env);
       ld.caroe_LD(S);
