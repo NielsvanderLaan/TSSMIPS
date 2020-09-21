@@ -17,7 +17,7 @@ Master::Solution Master::solve(double tol)
   if (violation + resid > 1e-4)
   {
     cout << "master violation = " << violation << ", resid = " << resid << '\n';
-    GRBwrite(d_cmodel, "master.lp");
+    //GRBwrite(d_cmodel, "master.lp");
   }
 
 
