@@ -14,7 +14,6 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
   bool first_strike = false;
   while (true)
   {
-    //d_mp.set(GRB_IntParam_OutputFlag, 1);
     if (not solve_mp(first_strike))
     {
       if (first_strike)
@@ -26,19 +25,13 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
       continue;
     }
     candidate = get_candidate();   // candidate cut
-    /*
-    d_mp.write("mp.lp");
-    GRBVar *vars = d_mp.getVars();
-    for (size_t idx = 0; idx != d_mp.get(GRB_IntAttr_NumVars); ++ idx)
-      cout << vars[idx].get(GRB_StringAttr_VarName) << ": " << vars[idx].get(GRB_DoubleAttr_X) << '\n';
-    exit(123);
-    */
 
     set_sub_obj(candidate);        // attempt to find point which invalidates candidate cut
     Point old_point = point;
     point = solve_sub();
 
     double diff = candidate.d_alpha - point.d_rhs_ub;
+    //cout << "diff = " << diff << '\n';
     if (diff < tol)     // optimal within tolerance
       break;
     if (distance(old_point, point) < 1e-8 || check_mp_violation(max(diff - 1e-6, tol)))

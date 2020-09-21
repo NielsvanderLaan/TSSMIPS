@@ -116,7 +116,6 @@ Benders::Bounds Benders::hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, 
     if (strong_cuts)
     {
       cut = d_agg.strong_cut(sol, vx, affine, tol, int_feas);
-      cout << "tau = " << cut.d_tau << '\n';
       if (not add_cut(cut, sol, tol))
       {
         print("added strong cut\n");

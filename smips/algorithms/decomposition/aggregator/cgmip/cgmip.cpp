@@ -22,12 +22,10 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   size_t m2 = problem.d_m2;
  
   // Initializing MP
-  double M = 1e8;
-  vector<double> lb(n1, -M);
-  vector<double> ub(n1, M);
+  vector<double> lb(n1, -GRB_INFINITY);
 
-  d_alpha = d_mp.addVar(-M, M, -1.0, GRB_CONTINUOUS);
-  GRBVar *beta = d_mp.addVars(lb.data(), ub.data(), NULL, NULL, NULL, n1);
+  d_alpha = d_mp.addVar(-GRB_INFINITY, GRB_INFINITY, -1.0, GRB_CONTINUOUS);
+  GRBVar *beta = d_mp.addVars(lb.data(), NULL, NULL, NULL, NULL, n1);
   d_tau = d_mp.addVar(0.0, GRB_INFINITY, 0.0, GRB_CONTINUOUS);
 
   // Initializing SP

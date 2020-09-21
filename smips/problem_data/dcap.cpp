@@ -162,6 +162,7 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
 
 
   //d_p1 = 0;//d_n1;
+  //d_u1 = vector<double>(d_n1, 10.0);
   //d_p2 = 0;
 
 }
