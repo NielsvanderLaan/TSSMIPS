@@ -8,7 +8,7 @@ static bool abs_compare(int a, int b)
 double CGMip::mp_max_coeff()
 {
   double *beta = d_mp.get(GRB_DoubleAttr_X, d_beta.data(), d_beta.size());
-  double beta_max = *max_element(beta , beta + d_beta.size(), abs_compare);
+  double beta_max = abs(*max_element(beta , beta + d_beta.size(), abs_compare));
   delete[] beta;
 
   double alpha = abs(d_alpha.get(GRB_DoubleAttr_X));

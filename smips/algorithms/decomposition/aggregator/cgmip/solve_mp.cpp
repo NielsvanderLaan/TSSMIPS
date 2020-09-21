@@ -22,7 +22,6 @@ bool CGMip::solve_mp(bool focus, double M)
     }
   }
 
-
   if (focus)    // reset params to default
   {
     d_mp.set(GRB_IntParam_ScaleFlag, -1);

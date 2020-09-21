@@ -46,9 +46,10 @@ int main(int argc, char *argv[])
         problem.enforce_ccr(1e4);
       } else
       {
-        cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << '\n';
-        problem.dcap(stoi(argv[2]),stoi(argv[3]), stoi(argv[4]),stoi(argv[5]));
+        cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << ' ' << argv[6] << ' ' << argv[7] << '\n';
+        problem.dcap(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]), stoi(argv[6]), stod(argv[7]));
       }
+
 
 
 
@@ -75,11 +76,13 @@ int main(int argc, char *argv[])
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       */
 
-    /*
+      /*
       DeqForm DEF(env, problem);
+      DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
       DEF.solve(300.0);
       cout << "eta_star = " << DEF.d_objVal << ". LB = " << DEF.d_objBound << '\n';
-    */
+      */
+
     /*
       Problem ld(rand, env);
       ld.caroe_LD(S);
