@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
       //problem.enforce_ccr(50.0);
 
       Problem problem(rand, env);
-      /*
+
       bool sizes = stoi(argv[1]);
       if (sizes)
       {
@@ -49,11 +49,11 @@ int main(int argc, char *argv[])
         cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << ' ' << argv[6] << ' ' << argv[7] << '\n';
         problem.dcap(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]), stoi(argv[6]), stod(argv[7]));
       }
-      */
 
 
 
-      problem.ssv95(11, 1, 1, 1);
+
+      //problem.ssv95(11, 1, 1, 1);
 
 
 
@@ -91,7 +91,7 @@ int main(int argc, char *argv[])
       cout << "LD = " << DEF2.d_objVal<< '\n';
     */
 
-      /*
+
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
@@ -103,9 +103,9 @@ int main(int argc, char *argv[])
         auto t3 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t3 - t2).count() / 1000.0 << '\n';
       }
-      */
 
 
+    /*
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
@@ -114,6 +114,7 @@ int main(int argc, char *argv[])
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
+      */
 
 
 
