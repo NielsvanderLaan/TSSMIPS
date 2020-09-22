@@ -36,8 +36,15 @@ int main(int argc, char *argv[])
       //problem.randomInstance();
       //problem.enforce_ccr(50.0);
 
+
       Problem problem(rand, env);
+      //problem.sslp(15, 45, 5);
+      problem.ssv95(11, 1, 1, 1);
+      //problem.caroe(100);
+      //problem.enforce_ccr(1e4);
+
       string instance(argv[1]);
+
       if (instance == "SIZES")
       {
         cout << "SIZES" << argv[2] << endl;
@@ -51,14 +58,10 @@ int main(int argc, char *argv[])
       }
 
 
-      //problem.ssv95(11, 1, 1, 1);
+      vector<Type> types = string_to_type(argv, argc);
+      for_each(types.begin(), types.end(), [](Type type){cout << name(type) << "s\n";});
 
-      //problem.sslp(15, 45, 5);
-      //problem.dcap(2,3,3,200);
-      //problem.enforce_ccr(1e4);
-      //size_t S = 100;
-      //problem.caroe(S);
-      //problem.enforce_ccr(1e4);
+
 
 
 
@@ -79,30 +82,14 @@ int main(int argc, char *argv[])
       cout << "eta_star = " << DEF.d_objVal << ". LB = " << DEF.d_objBound << '\n';
       */
 
-      vector<Type> types = string_to_type(argv, argc);
-      for_each(types.begin(), types.end(), [](Type type){cout << name(type) << "s\n";});
-
 
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
-        ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 12*3600);
+        ben.lpSolve();
+        ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 24*3600);
         auto t2 = chrono::high_resolution_clock::now();
       }
-
-
-
-      /*
-      {
-        auto t1 = chrono::high_resolution_clock::now();
-        Benders ben(env, c_env, problem);
-        vector<Type> types {SC_RG};
-        ben.hybrid_solve(types, false, 10000);
-        auto t2 = chrono::high_resolution_clock::now();
-        cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-      }
-       */
-
 
     }
 
