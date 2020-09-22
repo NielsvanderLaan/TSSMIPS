@@ -80,6 +80,8 @@ int main(int argc, char *argv[])
       */
 
       vector<Type> types = string_to_type(argv, argc);
+      for_each(types.begin(), types.end(), [](Type type){cout << name(type) << "s\n";});
+
 
       {
         auto t1 = chrono::high_resolution_clock::now();
