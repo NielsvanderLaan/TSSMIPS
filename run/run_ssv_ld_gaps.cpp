@@ -21,7 +21,8 @@ void run_ssv_ld_gaps(Data &rand, GRBEnv &env, GRBenv *c_env)
 
           auto t1 = chrono::high_resolution_clock::now();
           Benders ben(env, c_env, problem);
-          ben.hybrid_solve(true, false, false, true, false, false, 10000, GRB_INFINITY);
+          vector<Type> types {LP, SC_RG};
+          ben.hybrid_solve(types, false,10000);
           auto t2 = chrono::high_resolution_clock::now();
           cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
         }

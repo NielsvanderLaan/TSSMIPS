@@ -6,6 +6,7 @@
 #include <string>
 #include <numeric>
 
+#include "type.h"
 #include "../../../debug.h"
 #include "../../problem_data/problem.h"
 #include "master/master.h"
@@ -65,9 +66,8 @@ class Benders
     void lbda(double *alpha, double gomoryTimeLimit = 1e6, double tol = 1e-4);       // LBDA(alpha)  
     void ald_solve(double tol = 1e-4, size_t maxRounds = 25);
     double ldSolve(bool affine = true, double tol = 1e-4);
-    Bounds hybrid_solve(bool lp_cuts, bool sb_cuts, bool zk_cuts, bool strong_cuts, bool affine, bool force_int,
-                        size_t max_rounds = 25, double upper_bound = GRB_INFINITY, double tol = 1e-4);
-    
+    Bounds hybrid_solve(vector<Type> types, bool force_int, size_t max_rounds = 25,
+                        double upper_bound = GRB_INFINITY, double tol = 1e-4, double time_limit = 7200);
 
     //bool add_cut(double *beta, double gamma, double kappa, double *x , double theta, double tol); 
     bool add_cut(BendersCut &cut, Master::Solution sol, double tol);
@@ -75,6 +75,8 @@ class Benders
               // add_cut() updates the master problem, but also the cglp objects via pslp
               
     size_t round_of_cuts(Master::Solution sol, double tol);
+
+    BendersCut compute_cut(Type type, Master::Solution &sol, bool int_feas, vector<double> &vx, double tol, double *alpha = nullptr);
 };
 
 #endif

@@ -48,7 +48,6 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     add_mp_cut(point);
   }
 
-
   gap += candidate.d_alpha - point.d_rhs_lb;
   candidate.d_alpha = point.d_rhs_lb;
   return candidate;

@@ -15,8 +15,8 @@
 
 void run_ssv_ld_gaps(Data &rand, GRBEnv &env, GRBenv *c_env);
 void lbda_scheme(Problem &problem, GRBEnv &env, GRBenv *c_env, size_t nIter);
-void solve_dcap(bool lp_cuts, bool sb_cuts, bool zk_cuts, bool strong_cuts, Data &rand, GRBEnv &env, GRBenv *c_env);
-void solve_sizes(bool lp_cuts, bool sb_cuts, bool zk_cuts, bool strong_cuts, Data &rand, GRBEnv &env, GRBenv *c_env);
+void solve_dcap(vector<Type> types, Data &rand, GRBEnv &env, GRBenv *c_env);
+void solve_sizes(vector<Type> types, Data &rand, GRBEnv &env, GRBenv *c_env);
 void solve_ri(Data &rand, GRBEnv &env, GRBenv *c_env);
 
 #endif //TSSMIPS_RUN_H
