@@ -65,6 +65,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     {
       copy(x.begin(), x.end(), d_incumbent);
       UB = cx + Qx;
+      reverse_cut(UB);
     }
     print("LB: " << LB << ". UB: " << UB << endl);
 

@@ -2,12 +2,14 @@
 
 CGMip::CGMip(const CGMip &other)
 :
+  d_problem(other.d_problem),
   d_mp(other.d_mp),
   d_beta(other.d_beta.size()),
   d_sub(other.d_sub),
   d_xVars(other.d_xVars.size()),
   d_yVars(other.d_yVars.size()),
-  d_points(other.d_points)
+  d_points(other.d_points),
+  d_rcut(other.d_rcut)
 {
   size_t n1 = d_beta.size();
 

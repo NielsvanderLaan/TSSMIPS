@@ -1,4 +1,5 @@
 #include "benders.h"
+#include <fstream>
 
 bool Benders::add_cut(BendersCut &cut, Master::Solution sol, double tol)
 {

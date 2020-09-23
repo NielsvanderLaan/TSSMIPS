@@ -2,10 +2,12 @@
 
 ZkTree::ZkTree(const ZkTree &other)
 :
+  d_problem(other.d_problem),
   d_cglp(other.d_cglp),
   d_L(other.d_L),
   d_lb_mult_inds(other.d_lb_mult_inds),
-  d_ub_mult_inds(other.d_ub_mult_inds)
+  d_ub_mult_inds(other.d_ub_mult_inds),
+  d_rcut_inds(other.d_rcut_inds)
 {
   d_nodes.reserve(other.d_nodes.size());
   for (ZK *node : other.d_nodes)

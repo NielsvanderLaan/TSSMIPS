@@ -14,15 +14,14 @@ using namespace std;
 
 class Master
 {
-  public:  
-    //GRBVar *d_xVars;
-    //GRBVar d_theta;
-    //GRBModel d_model;
+  public:
+    Problem &d_problem;
     int d_n1;
     size_t d_p1;
     double d_L;
     int d_nSlacks;
     bool d_zk_safe;
+    int d_rcut_idx;   // reverse cut constraint index
 
     GRBModel d_interceptor;
     vector<GRBVar> d_xvars;
@@ -56,7 +55,9 @@ class Master
     
       // adds cut theta >= beta^T x + gamma, if this cut is violated (ret =  true), else cut is not added (ret = false). 
     bool add_ald_cut(double *beta, double gamma, double tau, double *x, double theta, double tol);
-    bool add_cut(BendersCut cut, Solution sol, double tol);  // adds the cut kappa theta >= beta^T x + gamma 
+    bool add_cut(BendersCut cut, Solution sol, double tol);  // adds the cut kappa theta >= beta^T x + gamma
+    void add_cut(BendersCut &cut);
+    void reverse_cut(double UB);
     
     vector<BendersCut> round_of_cuts();
     BendersCut gmi_cut(size_t row, double a0);

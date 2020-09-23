@@ -2,12 +2,14 @@
 
 Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
 :
+  d_problem(problem),
   d_n1(problem.d_n1),
   d_lb_con_inds(d_n1, -1),
   d_lb_slack_inds(d_n1, -1),
   d_ub_con_inds(d_n1, -1),
   d_ub_slack_inds(d_n1, -1),
   d_zk_safe(zk_safe),
+  d_rcut_idx(-1),
   d_interceptor(env)
 {
   size_t n1 = d_n1;
@@ -132,13 +134,18 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
     d_gamma.push_back(rhs[con]);
   }
 
+
+
+
+
   GRBupdatemodel(d_cmodel);
 
-  vector<char> vtypes(n1, GRB_CONTINUOUS);
-  fill(vtypes.begin(), vtypes.begin() + p1, GRB_INTEGER);
 
 
   // initializing d_interceptor
+  vector<char> vtypes(n1, GRB_CONTINUOUS);
+  fill(vtypes.begin(), vtypes.begin() + p1, GRB_INTEGER);
+
   GRBVar *xvars = d_interceptor.addVars(problem.d_l1.data(), problem.d_u1.data(), NULL, vtypes.data(), NULL, n1);
   d_xvars = vector<GRBVar>(xvars, xvars + n1);
   delete[] xvars;

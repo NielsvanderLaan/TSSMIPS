@@ -7,6 +7,7 @@
 class ZkTree
 {
   public:
+    Problem &d_problem;
     vector<ZK *> d_nodes;  // LP-relaxations of nodes
     double d_L;
     GRBModel d_cglp;
@@ -18,6 +19,7 @@ class ZkTree
     vector<vector<GRBConstr>> d_constrs; // for each term in the disjunction, we store the constraints (n + 3)
     vector<vector<GRBVar>> d_lambda;
     vector<vector<int>> d_lb_mult_inds, d_ub_mult_inds;
+    vector<int> d_rcut_inds;
     
     ZkTree(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario);
     ZkTree(const ZkTree &other);     // copy ctor
@@ -40,11 +42,11 @@ class ZkTree
     void add_row_to_cglp(const double *coeff_x, double coeff_theta, double coeff_eta, double rhs, size_t node_idx);
     void add_benders_cut(const BendersCut &cut); // calls add_row_to_cglp for every node_idx
     void update_fs_bounds(size_t var, double val, bool lower); // updates cglp to incorporate changes to fs bounds (resulting from branching)
+    void reverse_cut(double UB);
 
     BendersCut generate_cut(double *x, double theta, Master &master, size_t maxRounds, bool gomory = true); // calls branch_cut() and computes cut by solving cglp
     double cglp_val();
 
-    // generate cut
      
 };
 

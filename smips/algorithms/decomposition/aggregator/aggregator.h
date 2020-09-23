@@ -29,6 +29,7 @@ class Aggregator
     BendersCut bac_cut(Master::Solution sol, Master &mp, double tol, size_t maxRounds = 25, double rho_tol = 1e-4);
 
     void update_bounds(size_t var, double val, bool lower);
+    void reverse_cut(double UB);
 };
 
 #endif

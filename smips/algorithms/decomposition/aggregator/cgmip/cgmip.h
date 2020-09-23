@@ -15,6 +15,7 @@ class CGMip
     // eta + beta^T x + tau theta >= alpha
   public: 
         // master problem
+    Problem &d_problem;
     GRBModel d_mp;          
     GRBVar d_alpha;
     vector<GRBVar> d_beta;
@@ -36,10 +37,11 @@ class CGMip
     };
     
     vector<Point> d_points;
+    bool d_rcut;
  
     CGMip(GRBEnv &env, Problem &problem, size_t s);
     CGMip(const CGMip &other);
-    CGMip(CGMip &&other) = delete;    // could be implemented for efficiency reasons. We would need ptrs do d_mp etc. Move ctor would set old ptrs to null, dtor would check for nullptrs
+    CGMip(CGMip &&other) = delete;
 
     BendersCut generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol, bool int_feas, double &gap);  // uses benders decomposition to find best cut
             // auxiliary functions for generate_cut()
@@ -52,6 +54,7 @@ class CGMip
     void remove_mp_cuts();
     
     void add_row(BendersCut &cut); // add the Benders' cut kappa theta >= beta^T x + gamma to d_sub
+    void reverse_cut(double UB);
     void update_bound(size_t var, double val, bool lower);
     double mp_val();
     bool mp_optimal();

@@ -2,11 +2,13 @@
 
 CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
 :
+  d_problem(problem),
   d_mp(env),
   d_sub(env),
   d_beta(problem.d_n1),
   d_xVars(problem.d_n1),
-  d_yVars(problem.d_n2)
+  d_yVars(problem.d_n2),
+  d_rcut(false)
 {
   //d_mp.set(GRB_IntParam_ScaleFlag, 0);    // we can play with this
   //d_mp.set(GRB_IntParam_OutputFlag, 1);

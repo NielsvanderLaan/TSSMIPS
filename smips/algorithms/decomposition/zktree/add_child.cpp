@@ -6,6 +6,7 @@ void ZkTree::add_child(size_t node_idx)
   
   d_lb_mult_inds.push_back(d_lb_mult_inds[node_idx]);
   d_ub_mult_inds.push_back(d_ub_mult_inds[node_idx]);
+  d_rcut_inds.push_back(d_rcut_inds[node_idx]);
 
   size_t nMults = d_lambda[node_idx].size();
   double *lb_mults = d_cglp.get(GRB_DoubleAttr_LB, d_lambda[node_idx].data(), nMults);
