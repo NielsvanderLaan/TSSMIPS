@@ -11,7 +11,6 @@ void CGMip::reverse_cut(double UB)
     GRBLinExpr lhs = d_theta;                        // kappa * theta + beta^T x
     lhs.addTerms(d_problem.d_c.data(), d_xVars.data(), d_xVars.size());
     d_sub.addConstr(lhs, GRB_LESS_EQUAL, UB, "rcut");
-    d_sub.update();
     d_rcut = true;
   }
 
@@ -27,5 +26,7 @@ void CGMip::reverse_cut(double UB)
       d_mp.remove(mp_cons[con]);
     }
   }
+  d_sub.update();
+  d_mp.update();
   delete[] mp_cons;
 }

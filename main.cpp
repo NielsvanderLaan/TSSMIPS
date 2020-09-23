@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
       //problem.caroe(100);
       //problem.enforce_ccr(1e4);
 
-
+    /*
       string instance(argv[1]);
       if (instance == "SIZES")
       {
@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
         cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << ' ' << argv[6] << ' ' << argv[7] << '\n';
         problem.dcap(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]), stoi(argv[6]), stod(argv[7]));
       }
-
+    */
 
 
 
@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
-        //ben.lpSolve();
+        ben.lpSolve();
         ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 24*3600);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
