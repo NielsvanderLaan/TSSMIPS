@@ -8,9 +8,9 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
   size_t nCaps = nResources * nPeriods;
   size_t combs= nClients * nResources * nPeriods;
 
-  d_m1 = nCaps;
-  d_n1 = 2 * nCaps;
-  d_p1 = nCaps;
+  d_m1 = fs_cont ? 0 : nCaps;
+  d_n1 = fs_cont ? nCaps : 2 * nCaps;
+  d_p1 = fs_cont ? 0 : nCaps;
   d_m2 = nCaps + nClients * nPeriods;
   d_n2 = nResources * nClients * nPeriods + nClients * nPeriods;
   d_p2 = d_n2;
@@ -20,7 +20,7 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
   d_ss_leq = nCaps; d_ss_geq = 0;
 
   d_l1 = vector<double> (d_n1, 0.0);
-  d_u1 = vector<double> (d_n1, 1.0);
+  d_u1 = vector<double> (d_n1, fs_ub);
   d_l2 = vector<double> (d_n2, 0.0);
   d_u2 = vector<double> (d_n2, 1.0);
 
@@ -36,7 +36,6 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
   d_b = vector<double> (d_m1, 0.0);
 
 
-
   d_Tmat = vector<vector<double>> ();
   for (size_t res = 0; res != nResources; ++res)
   {
@@ -47,6 +46,7 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
       d_Tmat.push_back(row);
     }
   }
+
   for (size_t con = 0; con != nClients * nPeriods; ++con)
     d_Tmat.push_back(vector<double>(d_n1,0.0));
 
@@ -69,7 +69,6 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
     }
   }
 
-
   ifstream lpFile;
   string id = to_string(nResources)+ to_string(nClients) + to_string(nPeriods);
   string base = "dcap/" + id + "/dcap" + id + "_" + to_string(S);
@@ -79,7 +78,7 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
   string line;
   string previous;
 
-  d_c = vector<double> (d_n1);
+  d_c = vector<double> (d_n1, 0.0);
 
   while (lpFile >> line)
   {
@@ -90,14 +89,14 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
     {
       size_t resource = stoi(line.substr(2,1)) - 1;
       size_t period = stoi(line.substr(4, 1)) - 1;
-      d_c[resource * nPeriods + period] = stod(previous);
+      d_c[resource * nPeriods + period] += stod(previous);
     }
 
     if (line[0] == 'x')
     {
       size_t resource = stoi(line.substr(2,1)) - 1;
       size_t period = stoi(line.substr(4, 1)) - 1;
-      d_c[nCaps + resource * nPeriods + period ] = stod(previous);
+      d_c[d_p1 + resource * nPeriods + period] += stod(previous);
     }
 
     if (line[0] == 'y')
@@ -159,10 +158,6 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
 
   }
   stoFile.close();
-
-  if (fs_cont)
-    d_p1 = 0;
-  d_u1 = vector<double>(d_n1, fs_ub);
   //d_p2 = 0;
 
 }

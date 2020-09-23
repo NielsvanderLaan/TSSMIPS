@@ -82,7 +82,6 @@ int main(int argc, char *argv[])
       cout << "eta_star = " << DEF.d_objVal << ". LB = " << DEF.d_objBound << '\n';
       */
 
-
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
