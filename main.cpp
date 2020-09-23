@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
-        ben.lpSolve();
+        //ben.lpSolve();
         ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 24*3600);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
