@@ -1,7 +1,8 @@
 #include "cglp.h"
 
 Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario)
-:  
+:
+  d_problem(problem),
   d_model(env),
   d_n1(problem.d_n1),
   d_p1(problem.d_p1),
@@ -13,7 +14,8 @@ Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario)
   d_l1_mults(d_n1, -1),
   d_u1_mults(d_n1, -1),
   d_l2_mults(d_n2, -1),
-  d_u2_mults(d_n2, -1)
+  d_u2_mults(d_n2, -1),
+  d_rcut_idx(-1)
 {  
   //d_model.set(GRB_IntParam_OutputFlag, 1);
   d_model.set(GRB_IntParam_ScaleFlag, 0);

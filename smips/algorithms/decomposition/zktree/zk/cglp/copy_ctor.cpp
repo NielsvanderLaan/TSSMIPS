@@ -1,6 +1,7 @@
 #include "cglp.h"
 
 Cglp::Cglp(const Cglp &other):
+  d_problem(other.d_problem),
   d_model(other.d_model),
   d_n1(other.d_n1), 
   d_p1(other.d_p1), 
@@ -16,6 +17,7 @@ Cglp::Cglp(const Cglp &other):
   d_u1_mults(other.d_u1_mults),
   d_l2_mults(other.d_l2_mults),
   d_u2_mults(other.d_u2_mults),
+  d_rcut_idx(other.d_rcut_idx),
   d_Trow(d_n1),
   d_Wrow(d_n2),
   d_lambda1(d_nMults),

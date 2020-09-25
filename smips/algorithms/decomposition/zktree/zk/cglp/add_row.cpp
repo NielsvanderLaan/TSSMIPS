@@ -18,10 +18,10 @@ void Cglp::add_row(double *coef_x, double coef_theta, double *coef_y, double rhs
   vals[d_n1] = coef_theta;
   copy_n(coef_y, d_n2, &vals[d_n1 + 1]);
   vals[d_n1 + d_n2 + 1] = rhs - coef_theta*d_L;         // cglp is in terms of theta' = theta - L
-  
+
   d_model.chgCoeffs(d_constrs1.data(), lambda1_vec.data(), vals.data(), nConstrs);
   d_model.chgCoeffs(d_constrs2.data(), lambda2_vec.data(), vals.data(), nConstrs);
-  
-  
+
+
   d_model.update();
 }

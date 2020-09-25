@@ -60,6 +60,7 @@ class ZK
     bool add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx);                                  
     void update_bound(int var, double val, bool lower, bool fs);                     // updates lower/upper bounds in first/second-stage
     void add_cglp_row(double *coef_x, double coef_theta, double *coef_y, double rhs);   // calls cglp::add_row() to add cutting plane or optimality cut to cglp
+    void reverse_cut(double UB);
   
     Cut generate_gmi_cut(Master &master, size_t row, double yval, double *x, bool zk);    // generates a gmi cut
     void compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel *master, bool zk);    // support functions for generate_gmi_cut()

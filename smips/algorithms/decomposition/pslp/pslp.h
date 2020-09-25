@@ -21,6 +21,7 @@ class Pslp
     
     void update_bounds(size_t var, double val, bool lower); // calls cglp::update_bound() via zk::update_bound()
     void add_cglp_rows(double *coef_x, double coef_theta, double *coef_y, double rhs);
+    void reverse_cut(double UB);
 };
 
 

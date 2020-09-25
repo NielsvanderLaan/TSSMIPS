@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 
       Problem problem(rand, env);
       //problem.sslp(15, 45, 5);
-      //problem.ssv95(11, 1, 0, 1);
+      //problem.ssv95(11, 1,0,1);
       //problem.caroe(100);
       //problem.enforce_ccr(1e4);
 
@@ -77,13 +77,12 @@ int main(int argc, char *argv[])
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       */
 
-      /*
+    /*
       DeqForm DEF(env, problem);
       DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
       DEF.solve(300.0);
       cout << "eta_star = " << DEF.d_objVal << ". LB = " << DEF.d_objBound << '\n';
       */
-
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
@@ -92,6 +91,7 @@ int main(int argc, char *argv[])
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
+
 
     }
 
