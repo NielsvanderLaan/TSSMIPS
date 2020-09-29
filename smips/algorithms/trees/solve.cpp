@@ -9,14 +9,14 @@ bool Tree::solve(vector<Type> types, size_t node_idx, vector<double> &incumbent,
 
   d_LB_nodes[node_idx] = bounds.d_LB;
 
-
   d_LB_global = *min_element(d_LB_nodes.begin(), d_LB_nodes.end());
   if (bounds.d_UB < d_UB_global)
   {
     d_UB_global = bounds.d_UB;
     copy_n(node->d_incumbent, incumbent.size(), incumbent.begin());
+    for (Benders *node: d_nodes)
+      node->update(bounds.d_UB);
   }
-
 
   return bounds.branch;
 }

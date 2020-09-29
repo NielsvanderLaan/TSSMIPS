@@ -4,11 +4,10 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
                                       double upper_bound, double tol, double time_limit)
 {
   size_t gmi_cuts = 0;
-  vector<size_t> nCuts(7, 0);
+  vector<size_t> nCuts(types.size(), 0);
   size_t round = 0;       // rounds of gmi cuts added
 
   double LB;
-  double UB = GRB_INFINITY;
   bool branch = false;
 
   auto t1 = chrono::high_resolution_clock::now();
@@ -30,6 +29,8 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     }
 
     vector<double> x = sol.xVals;
+    for_each(x.begin(), x.end(), [](double val){cout << val << ' ';});
+    cout << '\n';
     LB = get_lb();
 
     if (LB > upper_bound)// || LB > UB - 1e-8)
@@ -61,21 +62,20 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
     vector<double> vx = d_agg.compute_vwx(x.data());
     double Qx = accumulate(vx.begin(), vx.end(),0.0) / d_S;
-    if (int_feas && cx + Qx < UB)
+    if (int_feas && cx + Qx < d_UB)
     {
       copy(x.begin(), x.end(), d_incumbent);
-      UB = cx + Qx;
-      reverse_cut(UB);
+      update(cx + Qx);    // updates UB and calls reverse_cut
     }
-    print("LB: " << LB << ". UB: " << UB << endl);
+    print("LB: " << LB << ". UB: " << d_UB << endl);
 
-    for (Type type : types)
+    for (size_t idx = 0; idx != types.size(); ++idx)
     {
-      BendersCut cut = compute_cut(type, sol, int_feas, vx, tol);
+      BendersCut cut = compute_cut(types[idx], sol, int_feas, vx, tol);
       if (not add_cut(cut, sol, tol))
       {
-        print("added " << name(type) << '\n');
-        ++nCuts[type];
+        print("added " << name(types[idx]) << '\n');
+        ++nCuts[idx];
         goto start;
       }
     }
@@ -85,12 +85,12 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     branch = true;
     break;
   }
-  cout << "gmi cuts: " << gmi_cuts << '\n';
-  for (Type type : types)
-    cout << name(type) << "s: " << nCuts[type] << '\n';
+  cout << "gmi cuts: " << gmi_cuts << " (" << round << " rounds)\n";
+  for (size_t idx = 0; idx != types.size(); ++idx)
+    cout << name(types[idx]) << "s: " << nCuts[idx] << '\n';
 
-  cout << "LB: " << LB << ". UB: " << UB << endl;
-  return Bounds { LB, UB, branch };
+  cout << "LB: " << LB << ". UB: " << d_UB << endl;
+  return Bounds { LB, d_UB, branch };
 }
 
 

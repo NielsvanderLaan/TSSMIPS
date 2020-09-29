@@ -11,7 +11,8 @@ void Master::reverse_cut(double UB)
     int nCons;
     GRBgetintattr(d_cmodel, "NumConstrs", &nCons);
     d_rcut_idx = nCons - 1;
-    return;
-  }
-  GRBsetdblattrelement(d_cmodel, "RHS", d_rcut_idx, -UB + d_L);
+  } else
+    GRBsetdblattrelement(d_cmodel, "RHS", d_rcut_idx, -UB + d_L);
+
+  GRBoptimize(d_cmodel);
 }

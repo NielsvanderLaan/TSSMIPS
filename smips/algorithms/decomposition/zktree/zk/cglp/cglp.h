@@ -35,7 +35,7 @@ class Cglp
     
     void create_disjunction(size_t var_idx, double val);  // creates the disjunction: y[k] <= val, y[k] >= val + 1
     
-    void add_row(double *coef_x, double coef_theta, double *coef_y, double rhs);
+    void add_row(double *coef_x, double coef_theta, double *coef_y, double rhs, bool geq = true);
     void update_bound(size_t var, double val, bool lower, bool fs);    // updates cglp, called if a  bound changes
     void set_obj(double *x, double theta, double *y);
 

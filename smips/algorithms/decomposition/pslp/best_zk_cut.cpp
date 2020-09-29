@@ -1,6 +1,6 @@
 #include "pslp.h"
 
-BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRounds, bool lap_cuts, double tol)
+BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, bool lap_cuts, bool affine, size_t maxRounds, double tol)
 {
   double *x = sol.xVals.data();
   double rho = sol.thetaVal;
@@ -10,8 +10,8 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, size_t maxRou
   {
     if (lap_cuts)
     {
-      d_zk[s].update(x, GRB_INFINITY);
-      d_zk[s].solve(x, GRB_INFINITY, master, maxRounds, false, false);
+      d_zk[s].update(x, affine ? GRB_INFINITY : rho);
+      d_zk[s].solve(x, affine ? GRB_INFINITY : rho, master, maxRounds, false, false);
     } else
     {
       d_zk[s].update(x, rho);

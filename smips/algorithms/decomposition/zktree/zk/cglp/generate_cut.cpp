@@ -5,9 +5,7 @@ Cut Cglp::generate_cut(double *x, double theta, double *y, size_t var_idx, doubl
   create_disjunction(var_idx, val);
   set_obj(x, theta - d_L, y);    // cglp is in terms of theta' = theta - L
   d_model.optimize();
-  
-  double cglp_value = d_model.get(GRB_DoubleAttr_ObjVal); 
-   
+
   double r = d_r.get(GRB_DoubleAttr_X);
   double rhs = d_h.get(GRB_DoubleAttr_X) + r * d_L;   // cglp is in terms of theta' = theta - L
   
@@ -19,7 +17,7 @@ Cut Cglp::generate_cut(double *x, double theta, double *y, size_t var_idx, doubl
   
   delete[] Trow_values;
   delete[] Wrow_values;
-  
+
           // strengthening the cut
   double lambda1_0 = d_lambda1[0].get(GRB_DoubleAttr_X); 
   double lambda2_0 = d_lambda2[0].get(GRB_DoubleAttr_X); 

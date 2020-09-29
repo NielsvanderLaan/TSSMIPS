@@ -26,7 +26,7 @@ class Benders
   public:
     Problem &d_problem;  // contains problem data
     GRBEnv &d_env;
-    size_t d_n1, d_p1, d_m2, d_n2, d_S;
+    size_t d_n1, d_p1, d_n2, d_m2, d_S;
     Master d_master;    // master problem
     Sub d_sub;          // sub-problem
     Lagrangian d_lr;    // lagrangian relaxation
@@ -41,6 +41,7 @@ class Benders
     
     double *d_xvals;
     double *d_incumbent;    // keeps track of best solution
+    double d_UB;
     
     void computeTx(double *x, double *Tx);     // computes Tx (rba)
 
@@ -74,6 +75,7 @@ class Benders
               // adds the cut kappa theta - beta^T x>= gamma  and returns false if cut was added
               // add_cut() updates the master problem, but also the cglp objects via pslp
     void reverse_cut(double UB);
+    void update(double UB);
               
     size_t round_of_cuts(Master::Solution sol, double tol);
 

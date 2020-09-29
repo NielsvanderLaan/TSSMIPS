@@ -16,7 +16,7 @@ Master::Solution Master::solve(double tol)
 
   if (violation + resid > 1e-4)
     cout << "master violation = " << violation << ", resid = " << resid << '\n';
-
+  GRBwrite(d_cmodel, "master.lp");
 
   if (status == 3 || status == 4)      // model is infeasible
     return Solution{ vector<double>(0), -1, true };

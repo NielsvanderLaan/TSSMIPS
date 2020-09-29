@@ -60,8 +60,11 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
     GRBBinvColj(master, col, &BA_col);
 
 
+
+
     for (size_t nz = 0; nz != BA_col.len; ++nz)
-      tab_row_x[col] -= BinvTBA[BA_col.ind[nz]] * BA_col.val[nz];      
+      tab_row_x[col] -= BinvTBA[BA_col.ind[nz]] * BA_col.val[nz];
+
   }
 }
 

@@ -19,7 +19,8 @@ Benders::Benders(const Benders &other)
   d_lb(other.d_lb),
   d_ub(other.d_ub),
   d_visited(other.d_visited),
-  d_objectives(other.d_objectives)
+  d_objectives(other.d_objectives),
+  d_UB(other.d_UB)
 {
   d_xvals = new double[d_n1];
   d_incumbent = new double[d_n1];

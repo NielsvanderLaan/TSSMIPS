@@ -22,7 +22,7 @@ Cglp::Cglp(const Cglp &other):
   d_Wrow(d_n2),
   d_lambda1(d_nMults),
   d_lambda2(d_nMults)
-{  
+{
   GRBConstr *constrs = d_model.getConstrs();
   size_t nConstrs = d_n1 + d_n2 + 2;
   for (size_t con = 0; con != nConstrs; ++con)
@@ -49,6 +49,6 @@ Cglp::Cglp(const Cglp &other):
     d_lambda1[mult] = vars[begin + 2*mult];
     d_lambda2[mult] = vars[begin + 2*mult + 1];
   }
-  
+
   delete[] vars;
 }

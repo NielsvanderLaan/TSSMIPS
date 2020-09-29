@@ -2,6 +2,7 @@
 
 void Master::add_cut(BendersCut &cut)
 {
+
   double kappa = 1 + cut.d_tau;
   ++d_nSlacks;
 

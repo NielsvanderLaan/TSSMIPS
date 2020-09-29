@@ -10,7 +10,6 @@ Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, boo
 
   int nVarsMaster;                                      // number of variables in master problem (including slacks)
   GRBgetintattr(model, "NumVars", &nVarsMaster);
-  
       // computing tableau row
   double tab_row_x[nVarsMaster];
   compute_tab_row_x(tab_row_x, nVarsMaster, row, model, zk); // tableau row for (theta, x) (in that order)
