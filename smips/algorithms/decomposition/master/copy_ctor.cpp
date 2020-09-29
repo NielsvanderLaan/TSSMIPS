@@ -21,6 +21,7 @@ d_points(other.d_points)
   GRBupdatemodel(other.d_cmodel);
   d_cmodel = GRBcopymodel(other.d_cmodel);
 
+
   GRBVar *vars = d_interceptor.getVars();
   d_xvars = vector<GRBVar> (vars, vars + d_n1);
   d_theta = vars[d_n1];

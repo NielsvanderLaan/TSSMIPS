@@ -63,7 +63,8 @@ int main(int argc, char *argv[])
       cout << "eta_star = " << DEF.d_objVal << ". LB = " << DEF.d_objBound << '\n';
       for_each(DEF.d_xVals, DEF.d_xVals + problem.d_n1, [](double val){cout << val << ' ';});
       cout << '\n';
-      */
+       */
+
 
 
 
@@ -88,6 +89,7 @@ int main(int argc, char *argv[])
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
+        //ben.update(DEF.d_objVal);
         ben.lpSolve();
         ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 24*3600);
         auto t2 = chrono::high_resolution_clock::now();
