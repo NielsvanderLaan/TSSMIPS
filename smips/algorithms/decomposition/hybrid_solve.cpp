@@ -29,8 +29,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     }
 
     vector<double> x = sol.xVals;
-    for_each(x.begin(), x.end(), [](double val){cout << val << ' ';});
-    cout << '\n';
+
     LB = get_lb();
 
     if (LB > upper_bound)// || LB > UB - 1e-8)
