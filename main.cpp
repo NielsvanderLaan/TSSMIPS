@@ -39,7 +39,7 @@ int main(int argc, char *argv[])
 
       Problem problem(rand, env);
       //problem.sslp(15, 45, 5);
-      //problem.ssv95(11, 1,1,0);
+      problem.ssv95(11, 0,0,0);
       //problem.caroe(100);
       //problem.enforce_ccr(1e4);
 
@@ -56,6 +56,12 @@ int main(int argc, char *argv[])
         cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << ' ' << argv[6] << ' ' << argv[7] << '\n';
         problem.dcap(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]), stoi(argv[6]), stod(argv[7]));
       }
+      if (instance == "SSV")
+      {
+        cout << "SSV_" << argv[2] << '_' << argv[3] << ' ' << argv[4] << ' ' << argv[5] << '\n';
+        problem.ssv95(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]));
+      }
+
       /*
       DeqForm DEF(env, problem);
       DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
@@ -64,6 +70,7 @@ int main(int argc, char *argv[])
       for_each(DEF.d_xVals, DEF.d_xVals + problem.d_n1, [](double val){cout << val << ' ';});
       cout << '\n';
        */
+
 
 
 
@@ -83,8 +90,6 @@ int main(int argc, char *argv[])
 
 
 
-
-
       /*
       {
         auto t1 = chrono::high_resolution_clock::now();
@@ -95,7 +100,8 @@ int main(int argc, char *argv[])
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-      */
+       */
+
 
     }
 

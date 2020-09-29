@@ -9,6 +9,9 @@ Master::Solution Master::solve(double tol)
   int status;
   GRBgetintattr(d_cmodel, "Status", &status);
 
+  if (status == 3 || status == 4)      // model is infeasible
+    return Solution{ vector<double>(0), -1, true };
+
   double violation, resid;
   GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
   GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
@@ -33,8 +36,7 @@ Master::Solution Master::solve(double tol)
   }
   //GRBwrite(d_cmodel, "master.lp");
 
-  if (status == 3 || status == 4)      // model is infeasible
-    return Solution{ vector<double>(0), -1, true };
+
 
   vector<double> x(d_n1);
   GRBgetdblattrarray(d_cmodel, "X", 1, d_n1, x.data());   
