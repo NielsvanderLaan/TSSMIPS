@@ -33,15 +33,9 @@ int main(int argc, char *argv[])
       // create problem
       //Problem problem(10, 0, 0, 5, 5, 5, 100, rand, env, 0, 0, 0, 5);
       //problem.randomInstance();
-      //problem.enforce_ccr(50.0);
 
 
       Problem problem(rand, env);
-      //problem.sslp(15, 45, 5);
-      //problem.ssv95(11, 0,0,0);
-      //problem.caroe(100);
-      //problem.enforce_ccr(1e4);
-
 
       string instance(argv[1]);
       if (instance == "SIZES")
@@ -57,7 +51,7 @@ int main(int argc, char *argv[])
       }
       if (instance == "SSV")
       {
-        cout << "SSV_" << argv[2] << '_' << argv[3] << ' ' << argv[4] << ' ' << argv[5] << '\n';
+        cout << "SSV_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << '\n';
         problem.ssv95(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]));
       }
       if (instance == "CS")
@@ -73,10 +67,6 @@ int main(int argc, char *argv[])
       for_each(DEF.d_xVals, DEF.d_xVals + problem.d_n1, [](double val){cout << val << ' ';});
       cout << '\n';
       */
-
-
-
-
 
       vector<Type> types = string_to_type(argv, argc);
       for_each(types.begin(), types.end(), [](Type type){cout << name(type) << "s\n";});
@@ -103,9 +93,7 @@ int main(int argc, char *argv[])
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-      */
-
-
+       */
     }
 
     GRBfreeenv(c_env);

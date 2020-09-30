@@ -23,10 +23,6 @@ class Master
     bool d_zk_safe;
     int d_rcut_idx;   // reverse cut constraint index
 
-    GRBModel d_interceptor;
-    vector<GRBVar> d_xvars;
-    GRBVar d_theta;
-
     GRBmodel *d_cmodel;
 
       // slack variable identities s = kappa * theta + beta * x - gamma
@@ -68,8 +64,6 @@ class Master
 
     struct Point {vector<double> d_x; double d_theta;};
     vector<Point> d_points;
-
-    void strengthen_cut(BendersCut &cut);
 
     Solution solve(double tol); // solves the model
 };

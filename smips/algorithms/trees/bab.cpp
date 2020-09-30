@@ -32,12 +32,7 @@ vector<double> Tree::bab(vector<Type> types, double tol)
     add_branch(node_idx, split);
     ++tree_size;
   }
-  
-  //if (d_UB_global > d_LB_global + tol)
-  //  cout << "GAP > tolerance. GAP = " << d_UB_global - d_LB_global << '\n';
 
-  cout << "global LB: " << d_LB_global << '\n';
-  cout << "global UB: " << d_UB_global << '\n';
   cout << "number of nodes: " << d_nodes.size() << '\n';
   cout << "tree size: " << tree_size << '\n';
   return incumbent;

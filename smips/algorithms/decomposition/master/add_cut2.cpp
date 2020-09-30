@@ -28,9 +28,4 @@ void Master::add_cut(BendersCut &cut)
   d_gamma.push_back(cut.d_alpha);
 
   GRBupdatemodel(d_cmodel);
-
-  GRBLinExpr lhs = kappa * d_theta;
-  lhs.addTerms(cut.d_beta.data(), d_xvars.data(), d_xvars.size());
-  d_interceptor.addConstr(lhs >= cut.d_alpha);
-  d_interceptor.update();
 }
