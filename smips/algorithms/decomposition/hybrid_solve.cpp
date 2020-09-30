@@ -1,7 +1,7 @@
 #include "benders.h"
 
 Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t max_rounds,
-                                      double upper_bound, double tol, double time_limit)
+                                      double upper_bound, double tol, double time_limit, bool rcuts)
 {
   size_t gmi_cuts = 0;
   double gmi_time = 0.0;
@@ -29,14 +29,17 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     if (sol.infeasible)
     {
       cout << "mp infeasible" << endl;
-      return Bounds{GRB_INFINITY, GRB_INFINITY, false};
+      LB = GRB_INFINITY;
+      d_UB = GRB_INFINITY;
+      branch = false;
+      break;
     }
 
     vector<double> x = sol.xVals;
 
     LB = get_lb();
 
-    if (LB > upper_bound)// || LB > UB - 1e-8)
+    if (LB > upper_bound)
     {
       cout << "LB > upper_bound" << endl;
       break;
@@ -77,7 +80,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     if (int_feas && cx + Qx < d_UB)
     {
       copy(x.begin(), x.end(), d_incumbent);
-      update(cx + Qx);    // updates UB and calls reverse_cut
+      update(cx + Qx, rcuts);    // updates UB and calls reverse_cut
     }
     print("LB: " << LB << ". UB: " << d_UB << endl);
 

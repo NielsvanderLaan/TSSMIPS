@@ -68,14 +68,14 @@ class Benders
     void ald_solve(double tol = 1e-4, size_t maxRounds = 25);
     double ldSolve(bool affine = true, double tol = 1e-4);
     Bounds hybrid_solve(vector<Type> types, bool force_int, size_t max_rounds = 25,
-                        double upper_bound = GRB_INFINITY, double tol = 1e-4, double time_limit = 1e100);
+                        double upper_bound = GRB_INFINITY, double tol = 1e-4, double time_limit = 1e100, bool rcuts = true);
 
     //bool add_cut(double *beta, double gamma, double kappa, double *x , double theta, double tol); 
     bool add_cut(BendersCut &cut, Master::Solution sol, double tol);
               // adds the cut kappa theta - beta^T x>= gamma  and returns false if cut was added
               // add_cut() updates the master problem, but also the cglp objects via pslp
     void reverse_cut(double UB);
-    void update(double UB);
+    void update(double UB, bool rcuts = true);
               
     size_t round_of_cuts(Master::Solution sol, double tol);
 

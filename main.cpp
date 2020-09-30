@@ -30,14 +30,19 @@ int main(int argc, char *argv[])
     GRBsetintparam(c_env, "Threads", 1);
 
     {
-      // create problem
-      //Problem problem(10, 0, 0, 5, 5, 5, 100, rand, env, 0, 0, 0, 5);
-      //problem.randomInstance();
-
+      string instance(argv[1]);
+      vector<Type> types = string_to_type(argv, argc);
+      for_each(types.begin(), types.end(), [](Type type){cout << name(type) << "s\n";});
+      bool rcuts = false;
+      for (size_t idx = 1; idx != argc; ++idx)
+      {
+        if (string(argv[idx]) == "RCUTS")
+          rcuts = true;
+      }
+      cout << "rcuts: " << (rcuts ? "yes\n" : "no\n");
 
       Problem problem(rand, env);
 
-      string instance(argv[1]);
       if (instance == "SIZES")
       {
         cout << "SIZES" << argv[2] << endl;
@@ -50,15 +55,10 @@ int main(int argc, char *argv[])
         problem.dcap(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]), stoi(argv[6]), stod(argv[7]));
       }
       if (instance == "SSV")
-      {
-        cout << "SSV_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << '\n';
-        problem.ssv95(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]));
-      }
-      if (instance == "CS")
-      {
-        cout << "Caroe Schultz test instance. S = " << argv[2] << '\n';
-        problem.caroe(stoi(argv[2]));
-      }
+        solve_ssv(rand, env, c_env, types, true);
+      if (instance == "CAROE")
+        solve_caroe(rand, env, c_env);
+
       /*
       DeqForm DEF(env, problem);
       DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
@@ -68,11 +68,8 @@ int main(int argc, char *argv[])
       cout << '\n';
       */
 
-      vector<Type> types = string_to_type(argv, argc);
-      for_each(types.begin(), types.end(), [](Type type){cout << name(type) << "s\n";});
 
-
-
+      /*
       Tree tree(env, c_env, problem);
       auto t1 = chrono::high_resolution_clock::now();
       vector<double> x_bab = tree.bab(types);
@@ -80,20 +77,18 @@ int main(int argc, char *argv[])
       for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
       cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
+      */
 
 
-
-      /*
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
-        //ben.update(DEF.d_objVal);
         ben.lpSolve();
-        ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 24 * 3600);
+        ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 24 * 3600, rcuts);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-       */
+
     }
 
     GRBfreeenv(c_env);

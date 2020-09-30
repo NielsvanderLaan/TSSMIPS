@@ -1,7 +1,7 @@
 #include "benders.h"
 
-void Benders::update(double UB)
+void Benders::update(double UB, bool rcuts)
 {
   d_UB = UB;
-  reverse_cut(UB);
+  if (rcuts) reverse_cut(UB);
 }

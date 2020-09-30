@@ -13,10 +13,11 @@
 #include "../smips/algorithms/decomposition/benders.h"
 #include "../smips/algorithms/trees/tree.h"
 
-void run_ssv_ld_gaps(Data &rand, GRBEnv &env, GRBenv *c_env);
+void solve_ssv(Data &rand, GRBEnv &env, GRBenv *c_env, vector<Type> types, bool rcuts);
 void lbda_scheme(Problem &problem, GRBEnv &env, GRBenv *c_env, size_t nIter);
 void solve_dcap(vector<Type> types, Data &rand, GRBEnv &env, GRBenv *c_env);
 void solve_sizes(vector<Type> types, Data &rand, GRBEnv &env, GRBenv *c_env);
 void solve_ri(Data &rand, GRBEnv &env, GRBenv *c_env);
+void solve_caroe(Data &rand, GRBEnv &env, GRBenv *c_env);
 
 #endif //TSSMIPS_RUN_H
