@@ -30,9 +30,6 @@ int main(int argc, char *argv[])
     GRBsetintparam(c_env, "Threads", 1);
 
     {
-
-
-      //run_ssv_ld_gaps(rand, env, c_env);
       // create problem
       //Problem problem(10, 0, 0, 5, 5, 5, 100, rand, env, 0, 0, 0, 5);
       //problem.randomInstance();
@@ -41,7 +38,7 @@ int main(int argc, char *argv[])
 
       Problem problem(rand, env);
       //problem.sslp(15, 45, 5);
-      problem.ssv95(11, 0,0,0);
+      //problem.ssv95(11, 0,0,0);
       //problem.caroe(100);
       //problem.enforce_ccr(1e4);
 
@@ -63,6 +60,11 @@ int main(int argc, char *argv[])
         cout << "SSV_" << argv[2] << '_' << argv[3] << ' ' << argv[4] << ' ' << argv[5] << '\n';
         problem.ssv95(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]));
       }
+      if (instance == "CS")
+      {
+        cout << "Caroe Schultz test instance. S = " << argv[2] << '\n';
+        problem.caroe(stoi(argv[2]));
+      }
 
       /*
       DeqForm DEF(env, problem);
@@ -71,7 +73,7 @@ int main(int argc, char *argv[])
       cout << "eta_star = " << DEF.d_objVal << ". LB = " << DEF.d_objBound << '\n';
       for_each(DEF.d_xVals, DEF.d_xVals + problem.d_n1, [](double val){cout << val << ' ';});
       cout << '\n';
-       */
+      */
 
 
 
@@ -98,11 +100,11 @@ int main(int argc, char *argv[])
         Benders ben(env, c_env, problem);
         //ben.update(DEF.d_objVal);
         ben.lpSolve();
-        ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 24*3600);
+        ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 24 * 3600);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-       */
+      */
 
 
     }
