@@ -7,7 +7,8 @@ bool CGMip::solve_mp(bool focus, double M)
     d_mp.reset();
     d_mp.set(GRB_IntParam_ScaleFlag, 0);
     d_mp.set(GRB_IntParam_NumericFocus, 3);
-    d_mp.set(GRB_IntParam_Method, 0);
+    d_mp.set(GRB_IntParam_Method, 1);
+    d_mp.set(GRB_IntParam_Presolve, 0);
   }
 
   d_mp.optimize();
@@ -27,6 +28,7 @@ bool CGMip::solve_mp(bool focus, double M)
     d_mp.set(GRB_IntParam_ScaleFlag, -1);
     d_mp.set(GRB_IntParam_NumericFocus, 0);
     d_mp.set(GRB_IntParam_Method, -1);
+    d_mp.set(GRB_IntParam_Presolve, -1);
   }
 
   return mp_optimal();

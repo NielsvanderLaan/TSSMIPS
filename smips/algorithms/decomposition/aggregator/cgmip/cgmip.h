@@ -47,7 +47,7 @@ class CGMip
             // auxiliary functions for generate_cut()
     bool solve_mp(bool focus = false, double M = 1e8);
     BendersCut get_candidate();
-    Point solve_sub();
+    Point solve_sub(bool focus = false);
     void set_mp_obj(double *x, double &theta);  // takes (x, theta) and sets master objective coefficients
     void set_sub_obj(BendersCut &cut);                        // takes (alpha, beta, tau) and sets subproblem coefficients
     void add_mp_cut(Point const &point);
@@ -58,7 +58,6 @@ class CGMip
     void update_bound(size_t var, double val, bool lower);
     double mp_val();
     bool mp_optimal();
-    void sub_optimal();
     bool check_mp_violation(double tol);
 
     double mp_max_coeff();
