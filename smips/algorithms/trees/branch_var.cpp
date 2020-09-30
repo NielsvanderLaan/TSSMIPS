@@ -20,7 +20,7 @@ Tree::Split Tree::branch_var(size_t node_idx)
     return Split{var, x[var], x[var]};
   }
 
-  /*
+
   var = c_branch_var_diam(node);
   if (var != -1)
   {
@@ -31,6 +31,6 @@ Tree::Split Tree::branch_var(size_t node_idx)
 
     return Split{var, val, val};
   }
-   */
+
   return Split{-1, -1, -1};
 }

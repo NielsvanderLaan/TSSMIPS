@@ -65,7 +65,6 @@ int main(int argc, char *argv[])
         cout << "Caroe Schultz test instance. S = " << argv[2] << '\n';
         problem.caroe(stoi(argv[2]));
       }
-
       /*
       DeqForm DEF(env, problem);
       DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
