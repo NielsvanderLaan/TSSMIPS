@@ -33,11 +33,11 @@ int main(int argc, char *argv[])
       string instance(argv[1]);
       vector<Type> types = string_to_type(argv, argc);
       for_each(types.begin(), types.end(), [](Type type){cout << name(type) << "s\n";});
-      bool rcuts = false;
+      bool rcuts = true; // probably we will want to negate this (use rcuts unless...)
       for (size_t idx = 1; idx != argc; ++idx)
       {
-        if (string(argv[idx]) == "RCUTS")
-          rcuts = true;
+        if (string(argv[idx]) == "OFF")
+          rcuts = false;
       }
       cout << "rcuts: " << (rcuts ? "yes\n" : "no\n");
 

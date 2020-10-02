@@ -11,15 +11,18 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
   double eval_time = 0.0;
   size_t round = 0;       // rounds of gmi cuts added
 
-  double LB;
+  double LB = -GRB_INFINITY;
   bool branch = false;
+
+  size_t nStall = 10;
+  size_t stall_tol = 1e-4;      // relative (if LB does not improve by 1e-4*100% for nStall iterations, then skip hierarchy)
+  list<double> recent_lbs;
 
   auto t1 = chrono::high_resolution_clock::now();
   while (true)
   {
     start:
-    auto t2 = chrono::high_resolution_clock::now();
-    if (chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 > time_limit)
+    if (chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - t1).count() / 1000.0 > time_limit)
     {
       cout << "OOT\n";
       break;
@@ -36,7 +39,6 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     }
 
     vector<double> x = sol.xVals;
-
     LB = get_lb();
 
     if (LB > upper_bound)
@@ -44,8 +46,8 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
       cout << "LB > upper_bound" << endl;
       break;
     }
-    bool int_feas = all_of(x.begin(), x.begin() + d_p1, [](double val){ return is_integer(val); });
 
+    bool int_feas = all_of(x.begin(), x.begin() + d_p1, [](double val){ return is_integer(val); });
     if (not int_feas && round < max_rounds)
     {
       auto before = chrono::high_resolution_clock::now();
@@ -84,16 +86,23 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     }
     print("LB: " << LB << ". UB: " << d_UB << endl);
 
-    for (size_t idx = 0; idx != types.size(); ++idx)
+    recent_lbs.push_front(LB);
+    if (recent_lbs.size() > nStall + 1) recent_lbs.pop_back();
+    double old_LB = recent_lbs.back();
+    size_t start = LB - old_LB < stall_tol * abs(old_LB) ? types.size() - 1 : 0;
+    if (start != 0) cout << "BREAKING PRIORITY RULES\n";
+
+    for (size_t idx = start; idx != types.size(); ++idx)
     {
       auto before = chrono::high_resolution_clock::now();
       BendersCut cut = compute_cut(types[idx], sol, int_feas, vx, tol);
-      auto after = chrono::high_resolution_clock::now();
+      double time = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - before).count() / 1000.0;
+      print("computed " << name(types[idx]) << " (" << time << "s)" << '\n');
       if (not add_cut(cut, sol, tol))
       {
         print("added " << name(types[idx]) << '\n');
         ++nCuts[idx];
-        times[idx] += chrono::duration_cast<chrono::milliseconds>(after - before).count() / 1000.0;
+        times[idx] += time;
         goto start;
       }
     }

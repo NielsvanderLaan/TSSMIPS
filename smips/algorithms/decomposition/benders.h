@@ -4,6 +4,7 @@
 #include <algorithm>
 #include <chrono>
 #include <string>
+#include <list>
 #include <numeric>
 
 #include "type.h"
