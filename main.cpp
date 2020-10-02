@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
       */
 
 
-      /*
+
       Tree tree(env, c_env, problem);
       auto t1 = chrono::high_resolution_clock::now();
       vector<double> x_bab = tree.bab(types);
@@ -77,9 +77,9 @@ int main(int argc, char *argv[])
       for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
       cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-      */
 
 
+      /*
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
@@ -88,7 +88,7 @@ int main(int argc, char *argv[])
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-
+      */
     }
 
     GRBfreeenv(c_env);

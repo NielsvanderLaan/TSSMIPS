@@ -25,5 +25,8 @@ CGMip::CGMip(const CGMip &other)
   copy_n(sub_vars + n1 + 2, d_yVars.size(), d_yVars.begin());
   
   delete[] mp_vars;
-  delete[] sub_vars; 
+  delete[] sub_vars;
+
+  d_mp.update();
+  d_sub.update();
 }

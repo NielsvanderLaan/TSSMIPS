@@ -43,7 +43,7 @@ class CGMip
     CGMip(const CGMip &other);
     CGMip(CGMip &&other) = delete;
 
-    BendersCut generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol, bool int_feas, double &gap);  // uses benders decomposition to find best cut
+    BendersCut generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol, bool int_feas, double &gap, bool reset = false);  // uses benders decomposition to find best cut
             // auxiliary functions for generate_cut()
     bool solve_mp(bool focus = false, double M = 1e8);
     BendersCut get_candidate();
@@ -51,7 +51,7 @@ class CGMip
     void set_mp_obj(double *x, double &theta);  // takes (x, theta) and sets master objective coefficients
     void set_sub_obj(BendersCut &cut);                        // takes (alpha, beta, tau) and sets subproblem coefficients
     void add_mp_cut(Point const &point);
-    void remove_mp_cuts();
+    void clear_mp();
     
     void add_row(BendersCut &cut); // add the Benders' cut kappa theta >= beta^T x + gamma to d_sub
     void reverse_cut(double UB);

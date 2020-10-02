@@ -1,7 +1,8 @@
 #include "cgmip.h"
 
-BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol, bool int_feas, double &gap)
+BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol, bool int_feas, double &gap, bool reset)
 {
+  if (reset) clear_mp();
   d_tau.set(GRB_DoubleAttr_UB, affine ? 0 : GRB_INFINITY);      // force tau = 0 if only affine cuts are allowed
 
   set_mp_obj(x, theta);
@@ -16,14 +17,20 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
   {
     if (not solve_mp(first_strike))
     {
-      if (first_strike)
+      if (not first_strike)
       {
-        print("mp unbounded\n");
-        break;
+        first_strike = true;
+        continue;
       }
-      first_strike = true;
-      continue;
+      if (not reset)
+      {
+        print("mp unbounded: resetting\n");
+        return generate_cut(x, theta, true, vwx, affine, tol, int_feas, gap, true);
+      }
+      print("mp unbounded (after reset)");
+      break;
     }
+
     candidate = get_candidate();   // candidate cut
 
     set_sub_obj(candidate);        // attempt to find point which invalidates candidate cut
@@ -36,14 +43,20 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
       break;
     if (distance(old_point, point) < 1e-8 || check_mp_violation(max(diff - 1e-6, tol)))
     {
-      if (first_strike)
+      if (not first_strike)
       {
-        print("violation > tol\n");
-        break;
+        first_strike = true;
+        continue;
       }
-      first_strike = true;
-      continue;
+      if (not reset)
+      {
+        print("violation > tol: resetting\n");
+        return generate_cut(x, theta, true, vwx, affine, tol, int_feas, gap, true);
+      }
+      print("violation > tol (after reset)\n");
+      break;
     }
+
     first_strike = false;
     add_mp_cut(point);
   }
