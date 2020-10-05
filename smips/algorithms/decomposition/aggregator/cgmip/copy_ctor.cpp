@@ -17,7 +17,6 @@ CGMip::CGMip(const CGMip &other)
   d_alpha = mp_vars[0];
   copy_n(mp_vars + 1, n1, d_beta.begin());
   d_tau = mp_vars[n1 + 1];
-  d_S = mp_vars[n1 + 2];
 
   GRBVar *sub_vars = d_sub.getVars();
   copy_n(sub_vars, n1, d_xVars.begin());

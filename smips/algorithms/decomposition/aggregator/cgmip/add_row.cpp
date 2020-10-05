@@ -17,7 +17,7 @@ void CGMip::add_row(BendersCut &cut)
     Point &point = d_points[con];
     double alpha_betax = -inner_product(point.d_x.begin(), point.d_x.end(), cut.d_beta.begin(), -cut.d_alpha);  // alpha - beta^T x
     point.d_theta = max(point.d_theta, alpha_betax / kappa);
-    d_mp.chgCoeff(constrs[con + 1], d_tau, point.d_theta);
+    d_mp.chgCoeff(constrs[con], d_tau, point.d_theta);
   }
 
   delete[] constrs;

@@ -15,7 +15,7 @@ void CGMip::update_bound(size_t var, double val, bool lower)
     if ((lower && point.d_x[var] < val) || (not lower && point.d_x[var] > val))
     { 
       d_points.erase(d_points.begin() + con);
-      d_mp.remove(mp_cons[con + 1]);
+      d_mp.remove(mp_cons[con]);
     }  
   }
   

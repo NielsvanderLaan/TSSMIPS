@@ -23,7 +23,7 @@ void CGMip::reverse_cut(double UB)
     if (cx_theta > UB)
     {
       d_points.erase(d_points.begin() + con);
-      d_mp.remove(mp_cons[con + 1]);
+      d_mp.remove(mp_cons[con]);
     }
   }
   d_sub.update();

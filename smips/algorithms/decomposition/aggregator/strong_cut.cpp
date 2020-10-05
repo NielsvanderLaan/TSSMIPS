@@ -8,6 +8,7 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
   BendersCut cut;
 
   double gap;
+  bool first_time = true;
   while (cRho > rho_tol)
   {
     cRho = -rho;
@@ -16,7 +17,7 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
     for (size_t s = 0; s != d_cgmips.size(); ++s)
     {
       double prob = d_probs[s];
-      cut += d_cgmips[s].generate_cut(x, rho, vx[s], affine, tol, int_feas, gap) * prob;
+      cut += d_cgmips[s].generate_cut(x, rho, first_time, vx[s], affine, tol, int_feas, gap) * prob;
       cRho -= prob * d_cgmips[s].mp_val();
     }
     gap /= d_cgmips.size();
@@ -24,6 +25,7 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
       break;
 
     rho += cRho / (1 + cut.d_tau);
+    first_time = false;
   }
   if (gap > tol)
     cout << "strong_cut() gap: " << gap << '\n';

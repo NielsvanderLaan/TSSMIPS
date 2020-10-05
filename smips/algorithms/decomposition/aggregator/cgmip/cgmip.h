@@ -20,7 +20,6 @@ class CGMip
     GRBVar d_alpha;
     vector<GRBVar> d_beta;
     GRBVar d_tau;
-    GRBVar d_S;
         // sub problem
     GRBModel d_sub;         // d_sub is used to generate cut coefficients for d_mp
     vector<GRBVar> d_xVars;
@@ -44,7 +43,7 @@ class CGMip
     CGMip(const CGMip &other);
     CGMip(CGMip &&other) = delete;
 
-    BendersCut generate_cut(double *x, double theta, double vwx, bool affine, double tol, bool int_feas, double &gap, bool reset = false);  // uses benders decomposition to find best cut
+    BendersCut generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol, bool int_feas, double &gap, bool reset = false);  // uses benders decomposition to find best cut
             // auxiliary functions for generate_cut()
     bool solve_mp(bool focus = false, double M = 1e8);
     BendersCut get_candidate();

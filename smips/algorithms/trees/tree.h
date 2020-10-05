@@ -23,9 +23,9 @@ class Tree
     Tree(GRBEnv &emv, GRBenv *c_env, Problem &problem, Benders &root);
     ~Tree();
     
-    vector<double> bab(vector<Type> types, double tol = 1e-4);
+    vector<double> bab(vector<Type> types, double tol = 1e-4, double time_limit = 24*3600);
         // auxiliary functions
-    bool solve(vector<Type> types, size_t node_idx, vector<double> &incumbent, double local_tol);
+    bool solve(vector<Type> types, size_t node_idx, vector<double> &incumbent, double local_tol, double time_limit);
     
     struct Split
     {
