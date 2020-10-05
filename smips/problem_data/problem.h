@@ -52,7 +52,7 @@ class Problem
     void sizes(size_t S);
     void ssv95(size_t S, bool fs_continuous, bool ss_binary, bool standard_T = true);
     void sslp(size_t nServers, size_t nClients, size_t S);
-    void dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S, bool fs_cont = false, double fs_ub = 1.0);
+    void dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S, bool fs_cont = false);
     void classic_ri();
     void caroe(size_t S);
     void caroe_LD(size_t S);

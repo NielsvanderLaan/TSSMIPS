@@ -33,7 +33,7 @@ int main(int argc, char *argv[])
       string instance(argv[1]);
       vector<Type> types = string_to_type(argv, argc);
       for_each(types.begin(), types.end(), [](Type type){cout << name(type) << "s\n";});
-      bool rcuts = true; // probably we will want to negate this (use rcuts unless...)
+      bool rcuts = true;
       for (size_t idx = 1; idx != argc; ++idx)
       {
         if (string(argv[idx]) == "OFF")
@@ -52,7 +52,7 @@ int main(int argc, char *argv[])
       if (instance == "DCAP")
       {
         cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << ' ' << argv[6] << ' ' << argv[7] << '\n';
-        problem.dcap(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]), stoi(argv[6]), stod(argv[7]));
+        problem.dcap(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]), stoi(argv[6]));
       }
       if (instance == "SSV")
         solve_ssv(rand, env, c_env, types, true);
@@ -69,7 +69,7 @@ int main(int argc, char *argv[])
       */
 
 
-
+      /*
       Tree tree(env, c_env, problem);
       auto t1 = chrono::high_resolution_clock::now();
       vector<double> x_bab = tree.bab(types);
@@ -77,18 +77,17 @@ int main(int argc, char *argv[])
       for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
       cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
+      */
 
 
-      /*
       {
         auto t1 = chrono::high_resolution_clock::now();
         Benders ben(env, c_env, problem);
         ben.lpSolve();
-        ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 24 * 3600, rcuts);
+        ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 12 * 3600, rcuts);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-      */
     }
 
     GRBfreeenv(c_env);

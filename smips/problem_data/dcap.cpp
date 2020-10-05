@@ -1,6 +1,6 @@
 #include "problem.h"
 
-void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S, bool fs_cont, double fs_ub)
+void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S, bool fs_cont)
 {
   d_fix_rec = false;
   d_L = 0;
@@ -20,7 +20,7 @@ void Problem::dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S
   d_ss_leq = nCaps; d_ss_geq = 0;
 
   d_l1 = vector<double> (d_n1, 0.0);
-  d_u1 = vector<double> (d_n1, fs_ub);
+  d_u1 = vector<double> (d_n1, 1.0);
   d_l2 = vector<double> (d_n2, 0.0);
   d_u2 = vector<double> (d_n2, 1.0);
 

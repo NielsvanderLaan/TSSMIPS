@@ -4,7 +4,6 @@ vector<double> Tree::bab(vector<Type> types, double tol, double time_limit)
 { 
   vector<double> incumbent(d_problem.d_n1);
 
-  tol /= 10;
   size_t tree_size = 1;
   auto t1 = chrono::high_resolution_clock::now();
   while (d_UB_global > d_LB_global + tol && not d_nodes.empty())
