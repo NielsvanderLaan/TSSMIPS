@@ -59,7 +59,7 @@ int main(int argc, char *argv[])
       if (instance == "CAROE")
         solve_caroe(rand, env, c_env);
 
-      /*
+    /*
       DeqForm DEF(env, problem);
       DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
       DEF.solve(300.0);
@@ -67,6 +67,7 @@ int main(int argc, char *argv[])
       for_each(DEF.d_xVals, DEF.d_xVals + problem.d_n1, [](double val){cout << val << ' ';});
       cout << '\n';
       */
+
 
 
       /*
@@ -88,6 +89,7 @@ int main(int argc, char *argv[])
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
+
     }
 
     GRBfreeenv(c_env);

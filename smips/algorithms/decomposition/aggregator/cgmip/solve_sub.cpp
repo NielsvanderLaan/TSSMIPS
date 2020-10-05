@@ -20,6 +20,12 @@ CGMip::Point CGMip::solve_sub(bool focus)
   if (rhs_ub - rhs_lb > 1e-4 and not focus)
     return solve_sub(true);
 
+  double violation = d_sub.get(GRB_DoubleAttr_ConstrVio);
+  if (violation > 1e-6)
+    cout << "sub violation = " << violation << '\n';
+
+
+
   double *xVals = d_sub.get(GRB_DoubleAttr_X, d_xVars.data(), d_xVars.size());
   vector<double> x{ xVals, xVals + d_xVars.size() };
   delete[] xVals;
