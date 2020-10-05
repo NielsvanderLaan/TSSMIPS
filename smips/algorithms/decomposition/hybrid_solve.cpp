@@ -31,6 +31,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     Master::Solution sol = d_master.solve(tol);
     if (sol.infeasible)
     {
+      GRBwrite(d_master.d_cmodel, "master.lp");
       cout << "mp infeasible" << endl;
       LB = GRB_INFINITY;
       d_UB = GRB_INFINITY;
