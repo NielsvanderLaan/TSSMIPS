@@ -10,10 +10,6 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   d_yVars(problem.d_n2),
   d_rcut(false)
 {
-  //d_mp.set(GRB_IntParam_ScaleFlag, 0);    // we can play with this
-  //d_mp.set(GRB_IntParam_OutputFlag, 1);
-  //d_mp.set(GRB_IntParam_NumericFocus, 3);
-  //d_sub.set(GRB_IntParam_OutputFlag, 1);
   d_sub.set(GRB_DoubleParam_TimeLimit, 300.0);
 
   size_t n1 = problem.d_n1;
@@ -26,9 +22,11 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   // Initializing MP
   vector<double> lb(n1, -GRB_INFINITY);
 
-  d_alpha = d_mp.addVar(-GRB_INFINITY, GRB_INFINITY, -1.0, GRB_CONTINUOUS);
+  d_alpha = d_mp.addVar(-GRB_INFINITY, GRB_INFINITY, 0.0, GRB_CONTINUOUS);
   GRBVar *beta = d_mp.addVars(lb.data(), NULL, NULL, NULL, NULL, n1);
   d_tau = d_mp.addVar(0.0, GRB_INFINITY, 0.0, GRB_CONTINUOUS);
+  d_S = d_mp.addVar(-GRB_INFINITY, GRB_INFINITY, 1.0, GRB_CONTINUOUS);
+  d_mp.addConstr(-d_S - d_alpha == 0, "objective");
 
   // Initializing SP
     // adding xvars
