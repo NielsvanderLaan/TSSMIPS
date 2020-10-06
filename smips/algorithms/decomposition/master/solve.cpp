@@ -28,12 +28,12 @@ Master::Solution Master::solve(double tol)
       GRBsetintparam(env, "NumericFocus", 3);
       GRBsetintparam(env, "ScaleFlag", 0);
       GRBsetintparam(env, "Method", 1);
-      GRBsetintparam(env, "PreSolve", 1);
+      GRBsetintparam(env, "Presolve", 1);
       GRBoptimize(d_cmodel);
       GRBsetintparam(env, "NumericFocus", 0);
       GRBsetintparam(env, "ScaleFlag", -1);
       GRBsetintparam(env, "Method", -1);
-      GRBsetintparam(env, "PreSolve", -1);
+      GRBsetintparam(env, "Presolve", -1);
 
       GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
       GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);

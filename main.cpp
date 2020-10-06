@@ -30,6 +30,16 @@ int main(int argc, char *argv[])
     GRBsetintparam(c_env, "Threads", 1);
 
     {
+      GRBModel master(env, "master.lp");
+      master.set(GRB_IntParam_OutputFlag, 1);
+      master.set(GRB_IntParam_NumericFocus, 3);
+      master.set(GRB_IntParam_ScaleFlag, 0);
+      master.set(GRB_IntParam_Method, 0);
+
+      master.optimize();
+      exit(1);
+
+
       string instance(argv[1]);
       vector<Type> types = string_to_type(argv, argc);
       for_each(types.begin(), types.end(), [](Type type){cout << name(type) << "s\n";});
@@ -59,7 +69,7 @@ int main(int argc, char *argv[])
       if (instance == "CAROE")
         solve_caroe(rand, env, c_env);
 
-      /*
+    /*
       DeqForm DEF(env, problem);
       DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
       DEF.solve(7200.0);
@@ -80,16 +90,16 @@ int main(int argc, char *argv[])
       cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       */
 
-
+      /*
       {
         auto t1 = chrono::high_resolution_clock::now();
-        Benders ben(env, c_env, problem, false);
+        Benders ben(env, c_env, problem, true);
         ben.lpSolve();
         ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 12 * 3600, rcuts);
         auto t2 = chrono::high_resolution_clock::now();
         cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
       }
-
+      */
 
     }
 
