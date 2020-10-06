@@ -12,27 +12,33 @@ Master::Solution Master::solve(double tol)
   if (status == 3 || status == 4)      // model is infeasible
     return Solution{ vector<double>(0), -1, true };
 
-  double violation, resid;
-  GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
-  GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
 
-  if (violation + resid > 1e-4)
+  if (d_zk_safe)
   {
-    cout << "master violation (before) = " << violation << ", resid = " << resid << '\n';
-
-    GRBreset(d_cmodel, 0);
-    GRBenv *env = GRBgetenv(d_cmodel);
-    GRBsetintparam(env, "NumericFocus", 3);
-    GRBsetintparam(env, "ScaleFlag", 0);
-    GRBsetintparam(env, "Method", 0);
-    GRBoptimize(d_cmodel);
-    GRBsetintparam(env, "NumericFocus", 0);
-    GRBsetintparam(env, "ScaleFlag", -1);
-    GRBsetintparam(env, "Method", -1);
-
+    double violation, resid;
     GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
     GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
-    cout << "master violation (after) = " << violation << ", resid = " << resid << '\n';
+
+    if (violation + resid > 1e-4)
+    {
+      cout << "master violation (before) = " << violation << ", resid = " << resid << '\n';
+
+      GRBreset(d_cmodel, 0);
+      GRBenv *env = GRBgetenv(d_cmodel);
+      GRBsetintparam(env, "NumericFocus", 3);
+      GRBsetintparam(env, "ScaleFlag", 0);
+      GRBsetintparam(env, "Method", 1);
+      GRBsetintparam(env, "PreSolve", 1);
+      GRBoptimize(d_cmodel);
+      GRBsetintparam(env, "NumericFocus", 0);
+      GRBsetintparam(env, "ScaleFlag", -1);
+      GRBsetintparam(env, "Method", -1);
+      GRBsetintparam(env, "PreSolve", -1);
+
+      GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
+      GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
+      cout << "master violation (after) = " << violation << ", resid = " << resid << '\n';
+    }
   }
   //GRBwrite(d_cmodel, "master.lp");
 

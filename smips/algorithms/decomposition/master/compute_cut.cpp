@@ -18,6 +18,5 @@ void Master::compute_cut(vector<double> &tab_row, double a0, double &coef_theta,
       coef_x[xvar] = min(fj / f0, (1 - fj) / (1 - f0));  
     } else               // continuous variable
       coef_x[xvar] = max(aj / f0, -aj / (1 - f0));   
-  } 
-
+  }
 }

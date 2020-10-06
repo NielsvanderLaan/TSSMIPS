@@ -83,7 +83,7 @@ int main(int argc, char *argv[])
 
       {
         auto t1 = chrono::high_resolution_clock::now();
-        Benders ben(env, c_env, problem);
+        Benders ben(env, c_env, problem, false);
         ben.lpSolve();
         ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 12 * 3600, rcuts);
         auto t2 = chrono::high_resolution_clock::now();
