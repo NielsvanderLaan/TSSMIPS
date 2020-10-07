@@ -2,7 +2,6 @@
 
 BendersCut Fenchel::fenchel_cut(vector<double> &x, double theta, double tol, bool reset)
 {
-  cout << "Fenchel::fenchel_cut()" << endl;
   if (reset) clear_mp();
   set_mp_obj(x, theta);
 
@@ -11,7 +10,7 @@ BendersCut Fenchel::fenchel_cut(vector<double> &x, double theta, double tol, boo
 
   while (true)
   {
-    if (not solve_mp(tol))     // mp status is not optimal
+    if (not solve_mp(tol))     // numerical issues
     {
       if (reset)
         break;
@@ -20,7 +19,7 @@ BendersCut Fenchel::fenchel_cut(vector<double> &x, double theta, double tol, boo
 
     candidate = get_candidate();
     set_sub_obj(candidate);
-    point = solve_sub();
+    point = solve_sub(tol);
 
     if (candidate.d_alpha - point.d_ub < tol)
       break;
@@ -29,6 +28,5 @@ BendersCut Fenchel::fenchel_cut(vector<double> &x, double theta, double tol, boo
   }
 
   candidate.d_alpha = point.d_lb;
-  cout << "done" << endl;
   return candidate;
 }

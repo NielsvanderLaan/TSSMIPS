@@ -35,12 +35,22 @@ int main(int argc, char *argv[])
       vector<Type> types = string_to_type(argv, argc);
       for_each(types.begin(), types.end(), [](Type type){cout << name(type) << "s\n";});
       bool rcuts = true;
+      bool fenchel = true;
+      size_t max_rounds = 0;
       for (size_t idx = 1; idx != argc; ++idx)
       {
-        if (string(argv[idx]) == "OFF")
+        string arg(argv[idx]);
+        if (arg == "OFF")
           rcuts = false;
+        if (arg == "GOMORY")
+          fenchel = false;
+        string mr("MAXROUNDS=");
+        if (arg.find(mr) == 0)
+          max_rounds = stoi(arg.substr(mr.size(), arg.size() - mr.size()));
       }
       cout << "rcuts: " << (rcuts ? "yes\n" : "no\n");
+      cout << (fenchel ? "Fenchel" : "Gomory") << " cuts\n";
+      cout << "max rounds = " << max_rounds << '\n';
 
       Problem problem(rand, env);
 
@@ -72,14 +82,16 @@ int main(int argc, char *argv[])
       cout << '\n';
       */
 
-      /*
-      Tree tree(env, c_env, problem);
-      vector<double> x_bab = tree.bab(types, 0, 1e-4,12*3600);
-      */
 
+      Tree tree(env, c_env, problem);
+      vector<double> x_bab = tree.bab(types, rcuts, fenchel, max_rounds, 1e-4,12*3600);
+
+      /*
       Benders ben(env, c_env, problem, true);
       ben.lpSolve();
-      ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 12 * 3600, rcuts);
+      ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, 12 * 3600, rcuts, fenchel);
+       */
+
     }
 
     GRBfreeenv(c_env);

@@ -5,7 +5,8 @@ void Fenchel::update_bounds(int var, double val, bool lower)
   d_xvars[var].set(lower ? GRB_DoubleAttr_LB : GRB_DoubleAttr_UB, val);
 
   GRBConstr *mp_cons = d_mp.getConstrs();
-  for (size_t idx = 0; idx != d_points.size(); ++idx)
+
+  for (size_t idx = d_points.size() - 1; idx != -1; --idx)
   {
     Point &point = d_points[idx];
     if ((lower && point.d_xvals[var] < val) || (not lower && point.d_xvals[var] > val))
@@ -16,7 +17,6 @@ void Fenchel::update_bounds(int var, double val, bool lower)
   }
 
   delete[] mp_cons;
-
   d_mp.update();
   d_sub.update();
 }

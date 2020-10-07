@@ -1,7 +1,7 @@
 #include "tree.h"
 
-vector<double> Tree::bab(vector<Type> types, size_t max_rounds, double tol, double time_limit)
-{ 
+vector<double> Tree::bab(vector<Type> types, bool rcuts, bool fenchel, size_t max_rounds, double tol, double time_limit)
+{
   vector<double> incumbent(d_problem.d_n1);
 
   size_t tree_size = 1;
@@ -19,7 +19,7 @@ vector<double> Tree::bab(vector<Type> types, size_t max_rounds, double tol, doub
     size_t node_idx = distance(d_LB_nodes.begin(), min_element(d_LB_nodes.begin(), d_LB_nodes.end()));
     cout << "\nExploring node " << node_idx << endl;
 
-    bool branch = solve(types, node_idx, incumbent, tol, time_limit - elapsed, max_rounds);  // solve() also updates global bounds
+    bool branch = solve(types, node_idx, incumbent, tol, time_limit - elapsed, rcuts, fenchel, max_rounds);  // solve() also updates global bounds
     cout << "GLOBAL LB = " << d_LB_global << " GLOBAL UB = " << d_UB_global << endl;
     
     //local_tol = max(tol / 10, local_tol / 1.1);
