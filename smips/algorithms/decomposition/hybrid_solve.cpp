@@ -51,12 +51,11 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
 
     bool int_feas = all_of(x.begin(), x.begin() + d_p1, [](double val){ return is_integer(val); });
 
-    if (not int_feas)
+    if (not int_feas && fenchel_cuts < max_rounds)
     {
       auto before = chrono::high_resolution_clock::now();
       BendersCut cut = d_master.fenchel_cut(sol, tol);
-      auto after = chrono::high_resolution_clock::now();
-      double comp_time = chrono::duration_cast<chrono::milliseconds>(after - before).count() / 1000.0;
+      double comp_time = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - before).count() / 1000.0;
       print("computed Fenchel cut (" << comp_time << "s)\n");
       if (not add_cut(cut, sol, tol))
       {
@@ -67,30 +66,11 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
       }
     }
 
-
-    /*
-    if (not int_feas && round < max_rounds)
-    {
-      auto before = chrono::high_resolution_clock::now();
-      size_t nCuts = round_of_cuts(sol, 1e-4);
-      auto after = chrono::high_resolution_clock::now();
-      gmi_time += chrono::duration_cast<chrono::milliseconds>(after - before).count() / 1000.0;
-      gmi_cuts += nCuts;
-      if (nCuts > 0)      // at least one cut was added
-      {
-        print("added " << nCuts <<  " gmi cuts\n");
-        ++round;
-        continue;
-      }
-    }
-    */
-
-
     if (not int_feas and force_int)
     {
       copy(x.begin(), x.end(), d_xvals);
       branch = true;
-      cout << "not integer feasible, #rounds of cuts: " << round << '\n';
+      cout << "not integer feasible. #rounds of cuts: " << round << ". #fenchel cuts: " << fenchel_cuts << '\n';
       break;
     }
 
@@ -149,6 +129,25 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
 }
 
 
+
+
+
+/*
+if (not int_feas && round < max_rounds)
+{
+  auto before = chrono::high_resolution_clock::now();
+  size_t nCuts = round_of_cuts(sol, 1e-4);
+  auto after = chrono::high_resolution_clock::now();
+  gmi_time += chrono::duration_cast<chrono::milliseconds>(after - before).count() / 1000.0;
+  gmi_cuts += nCuts;
+  if (nCuts > 0)      // at least one cut was added
+  {
+    print("added " << nCuts <<  " gmi cuts\n");
+    ++round;
+    continue;
+  }
+}
+*/
 
 
 

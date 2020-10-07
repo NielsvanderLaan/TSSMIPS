@@ -1,8 +1,9 @@
 #include "fenchel.h"
 
-BendersCut Fenchel::fenchel_cut(vector<double> &x, double theta, double tol)
+BendersCut Fenchel::fenchel_cut(vector<double> &x, double theta, double tol, bool reset)
 {
   cout << "Fenchel::fenchel_cut()" << endl;
+  if (reset) clear_mp();
   set_mp_obj(x, theta);
 
   BendersCut candidate{ 0, vector<double>(d_beta.size()), 0 };
@@ -10,16 +11,16 @@ BendersCut Fenchel::fenchel_cut(vector<double> &x, double theta, double tol)
 
   while (true)
   {
-    if (not solve_mp())     // mp status is not optimal
-      break;
+    if (not solve_mp(tol))     // mp status is not optimal
+    {
+      if (reset)
+        break;
+      return fenchel_cut(x, theta, tol, true);
+    }
 
     candidate = get_candidate();
     set_sub_obj(candidate);
     point = solve_sub();
-
-    // TODO: guard against looping (identifying same point and candidate over and over)
-    // store previous candidate and compute difference + check mp tolerance.
-    // clear mp if numerical issues occur
 
     if (candidate.d_alpha - point.d_ub < tol)
       break;

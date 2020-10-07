@@ -63,11 +63,9 @@ class Benders
     
     struct Bounds { double d_LB; double d_UB; bool branch; };
     
-    double lpSolve(double tol = 1e-4);                                               // L_shaped 
-    double strong_benders(double tol = 1e-4);                                          // uses strengthened L-shaped cuts
+    double lpSolve(double tol = 1e-4);                                               // L_shaped
     void lbda(double *alpha, double gomoryTimeLimit = 1e6, double tol = 1e-4);       // LBDA(alpha)  
     void ald_solve(double tol = 1e-4, size_t maxRounds = 25);
-    double ldSolve(bool affine = true, double tol = 1e-4);
     Bounds hybrid_solve(vector<Type> types, bool force_int, size_t max_rounds = 25,
                         double upper_bound = GRB_INFINITY, double tol = 1e-4, double time_limit = 1e100, bool rcuts = true);
 

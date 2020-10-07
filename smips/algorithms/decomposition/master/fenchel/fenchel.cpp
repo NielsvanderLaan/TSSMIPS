@@ -16,7 +16,7 @@ Fenchel::Fenchel(Problem &problem, GRBEnv &env)
   GRBVar *beta = d_mp.addVars(lb.data(), ub.data(), NULL, NULL, NULL, problem.d_n1);
   d_beta = vector<GRBVar> (beta, beta + problem.d_n1);
   delete[] beta;
-  d_kappa = d_mp.addVar(-M, M, 0.0, GRB_CONTINUOUS, "kappa");
+  d_kappa = d_mp.addVar(0, M, 0.0, GRB_CONTINUOUS, "kappa");
 
   // Initializing sub
   vector<char> vtypes(problem.d_n1, GRB_CONTINUOUS);
