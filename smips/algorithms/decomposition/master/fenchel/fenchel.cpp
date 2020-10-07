@@ -8,7 +8,7 @@ Fenchel::Fenchel(Problem &problem, GRBEnv &env)
   d_rcut(false)
 {
   // Initializing mp
-  double M = 1.0;
+  double M = 1e3;
   vector<double> lb(problem.d_n1, -M);
   vector<double> ub(problem.d_n1, M);
 
