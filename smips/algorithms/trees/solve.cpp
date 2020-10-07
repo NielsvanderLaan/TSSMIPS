@@ -15,7 +15,7 @@ bool Tree::solve(vector<Type> types, size_t node_idx, vector<double> &incumbent,
     d_UB_global = bounds.d_UB;
     copy_n(node->d_incumbent, incumbent.size(), incumbent.begin());
     for (Benders *node: d_nodes)
-      node->update(bounds.d_UB);
+      node->update(bounds.d_UB, rcuts);
   }
 
   return bounds.branch;
