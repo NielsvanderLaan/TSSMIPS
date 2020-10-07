@@ -8,14 +8,14 @@ d_L(other.d_L),
 d_nSlacks(other.d_nSlacks),
 d_zk_safe(other.d_zk_safe),
 d_rcut_idx(other.d_rcut_idx),
+d_fenchel(other.d_fenchel),
 d_kappa(other.d_kappa),
 d_beta(other.d_beta),
 d_gamma(other.d_gamma),
 d_lb_con_inds(other.d_lb_con_inds),
 d_lb_slack_inds(other.d_lb_slack_inds),
 d_ub_con_inds(other.d_ub_con_inds),
-d_ub_slack_inds(other.d_ub_slack_inds),
-d_points(other.d_points)
+d_ub_slack_inds(other.d_ub_slack_inds)
 {
   GRBupdatemodel(other.d_cmodel);
   d_cmodel = GRBcopymodel(other.d_cmodel);

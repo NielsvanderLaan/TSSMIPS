@@ -4,7 +4,9 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
                                       double upper_bound, double tol, double time_limit, bool rcuts)
 {
   size_t gmi_cuts = 0;
+  size_t fenchel_cuts = 0;
   double gmi_time = 0.0;
+  double fenchel_time = 0.0;
   vector<size_t> nCuts(types.size(), 0);
   vector<double> times(types.size(), 0.0);
   size_t evaluations = 0;
@@ -31,7 +33,6 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     Master::Solution sol = d_master.solve(tol);
     if (sol.infeasible)
     {
-      GRBwrite(d_master.d_cmodel, "master.lp");
       cout << "mp infeasible" << endl;
       LB = GRB_INFINITY;
       d_UB = GRB_INFINITY;
@@ -49,6 +50,25 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     }
 
     bool int_feas = all_of(x.begin(), x.begin() + d_p1, [](double val){ return is_integer(val); });
+
+    if (not int_feas)
+    {
+      auto before = chrono::high_resolution_clock::now();
+      BendersCut cut = d_master.fenchel_cut(sol, tol);
+      auto after = chrono::high_resolution_clock::now();
+      double comp_time = chrono::duration_cast<chrono::milliseconds>(after - before).count() / 1000.0;
+      print("computed Fenchel cut (" << comp_time << "s)\n");
+      if (not add_cut(cut, sol, tol))
+      {
+        print("added Fenchel cut\n");
+        fenchel_time += comp_time;
+        ++fenchel_cuts;
+        continue;
+      }
+    }
+
+
+    /*
     if (not int_feas && round < max_rounds)
     {
       auto before = chrono::high_resolution_clock::now();
@@ -63,6 +83,8 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
         continue;
       }
     }
+    */
+
 
     if (not int_feas and force_int)
     {
@@ -118,7 +140,8 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
   cout << "LB: " << LB << ". UB: " << d_UB << '\n';
   cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
   cout << "evaluations: " << evaluations << " (" << avg(eval_time, evaluations) << "s)\n";
-  cout << "gmi cuts: " << gmi_cuts << " (" << round << " rounds, " << avg(gmi_time, round) << "s)\n";
+  cout << "GMI cuts: " << gmi_cuts << " (" << round << " rounds, " << avg(gmi_time, round) << "s)\n";
+  cout << "Fenchel cuts: " << fenchel_cuts << " (" << avg(fenchel_time, fenchel_cuts) << "s)\n";
   for (size_t idx = 0; idx != types.size(); ++idx)
     cout << name(types[idx]) << "s: " << nCuts[idx] << " (" << avg(times[idx], nCuts[idx]) << "s)\n";
 

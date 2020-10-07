@@ -9,6 +9,7 @@
 #include "../../../problem_data/problem.h"
 #include "../cut/benderscut.h"
 #include "../../integer/integer.h"
+#include "fenchel/fenchel.h"
 
 using namespace std;
 
@@ -24,6 +25,8 @@ class Master
     int d_rcut_idx;   // reverse cut constraint index
 
     GRBmodel *d_cmodel;
+    Fenchel d_fenchel;
+
 
       // slack variable identities s = kappa * theta + beta * x - gamma
     vector<double> d_kappa;
@@ -32,9 +35,6 @@ class Master
 
     vector<int> d_lb_con_inds, d_lb_slack_inds;
     vector<int> d_ub_con_inds, d_ub_slack_inds;
-
-    
-
     
     struct Solution
     {
@@ -54,16 +54,15 @@ class Master
     bool add_cut(BendersCut cut, Solution sol, double tol);  // adds the cut kappa theta >= beta^T x + gamma
     void add_cut(BendersCut &cut);
     void reverse_cut(double UB);
-    
+
+    BendersCut fenchel_cut(Solution sol, double tol);
+
     vector<BendersCut> round_of_cuts();
     BendersCut gmi_cut(size_t row, double a0);
       // auxiliary functions to derive gmi cut
     vector<double> extract_row(size_t row);
     void compute_cut(vector<double> &tab_row, double a0, double &coef_theta, double *coef_x);
     BendersCut transform_cut(double coef_theta, double *coef_x);
-
-    struct Point {vector<double> d_x; double d_theta;};
-    vector<Point> d_points;
 
     Solution solve(double tol); // solves the model
 };

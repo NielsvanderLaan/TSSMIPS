@@ -1,6 +1,7 @@
 #include <iostream>
 #include <chrono>
 #include <vector>
+#include <fstream>
 
 #include "gurobi_c++.h"
 #include "gurobi_c.h"
@@ -51,15 +52,18 @@ int main(int argc, char *argv[])
       }
       if (instance == "DCAP")
       {
-        cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << ' ' << argv[6] << ' ' << argv[7] << '\n';
+        cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << ' ' << argv[6] << '\n';
         problem.dcap(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]), stoi(argv[6]));
       }
       if (instance == "SSV")
-        solve_ssv(rand, env, c_env, types, true);
+      {
+        cout << "SSV_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << '\n';
+        problem.ssv95(stoi(argv[2]), stoi(argv[3]), stoi(argv[3]), stoi(argv[4]));
+      }
       if (instance == "CAROE")
         solve_caroe(rand, env, c_env);
 
-    /*
+      /*
       DeqForm DEF(env, problem);
       DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
       DEF.solve(7200.0);
@@ -68,27 +72,14 @@ int main(int argc, char *argv[])
       cout << '\n';
       */
 
-
-
       /*
       Tree tree(env, c_env, problem);
-      auto t1 = chrono::high_resolution_clock::now();
-      vector<double> x_bab = tree.bab(types);
-      auto t2 = chrono::high_resolution_clock::now();
-      for_each(x_bab.begin(), x_bab.end(), [](double val) { cout << val << ' '; });
-      cout << "\ncx + Q(x) = " << problem.evaluate(x_bab.data()) << '\n';
-      cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
+      vector<double> x_bab = tree.bab(types, 0, 1e-4,12*3600);
       */
 
-
-      {
-        auto t1 = chrono::high_resolution_clock::now();
-        Benders ben(env, c_env, problem, true);
-        ben.lpSolve();
-        ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 12 * 3600, rcuts);
-        auto t2 = chrono::high_resolution_clock::now();
-        cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-      }
+      Benders ben(env, c_env, problem, true);
+      ben.lpSolve();
+      ben.hybrid_solve(types, false, 10000, GRB_INFINITY, 1e-4, 12 * 3600, rcuts);
     }
 
     GRBfreeenv(c_env);

@@ -2,7 +2,7 @@
 
 void Master::add_cut(BendersCut &cut)
 {
-
+  d_fenchel.add_row(cut);
   double kappa = 1 + cut.d_tau;
   ++d_nSlacks;
 

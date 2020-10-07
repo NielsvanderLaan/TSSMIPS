@@ -2,6 +2,7 @@
 
 void Master::reverse_cut(double UB)
 {
+  d_fenchel.reverse_cut(UB);
   if (d_rcut_idx == -1)
   {
     vector<double> minus_c = d_problem.d_c;

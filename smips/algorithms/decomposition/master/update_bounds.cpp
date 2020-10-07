@@ -2,6 +2,7 @@
 
 void Master::update_bounds(int var, double val, bool lower)
 {
+  d_fenchel.update_bounds(var, val, lower);
   if (d_zk_safe)
   {
     vector<int> &con_inds = lower ? d_lb_con_inds : d_ub_con_inds;

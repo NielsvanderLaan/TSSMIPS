@@ -22,7 +22,8 @@ ZK::ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
 
   GRBnewmodel(env, &d_model, NULL, 0, NULL, NULL, NULL, NULL, NULL);  
   GRBsetintparam(GRBgetenv(d_model), "ScaleFlag", 0);
-    
+  GRBsetintparam(GRBgetenv(d_model), "Method", 1);
+
   // adding variables  (assumed continuous, lower and upper bounds imposed later in canonical form)
   vector<double> &q = problem.d_fix_rec ? problem.d_q : problem.d_q_omega[scenario];
   GRBaddvars(d_model, d_n2, 0, NULL, NULL, NULL, q.data(), NULL, NULL, NULL, NULL);
