@@ -6,6 +6,7 @@ vector<double> Tree::bab(vector<Type> types, bool rcuts, bool fenchel, size_t ma
 
   size_t tree_size = 1;
   auto t1 = chrono::high_resolution_clock::now();
+  bool root = true;
   while (d_UB_global > d_LB_global + tol && not d_nodes.empty())
   {
     double elapsed = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - t1).count() / 1000.0;
@@ -19,7 +20,8 @@ vector<double> Tree::bab(vector<Type> types, bool rcuts, bool fenchel, size_t ma
     size_t node_idx = distance(d_LB_nodes.begin(), min_element(d_LB_nodes.begin(), d_LB_nodes.end()));
     cout << "\nExploring node " << node_idx << endl;
 
-    bool branch = solve(types, node_idx, incumbent, tol, time_limit - elapsed, rcuts, fenchel, max_rounds);  // solve() also updates global bounds
+    bool branch = solve(types, node_idx, incumbent, tol, time_limit - elapsed, rcuts, fenchel, root ? max_rounds : 0);  // solve() also updates global bounds
+    root = false;
     cout << "GLOBAL LB = " << d_LB_global << " GLOBAL UB = " << d_UB_global << endl;
     
     //local_tol = max(tol / 10, local_tol / 1.1);
@@ -41,6 +43,7 @@ vector<double> Tree::bab(vector<Type> types, bool rcuts, bool fenchel, size_t ma
 
   cout << "number of nodes: " << d_nodes.size() << '\n';
   cout << "tree size: " << tree_size << '\n';
+  cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - t1).count() / 1000.0 << '\n';
   return incumbent;
 }
 
