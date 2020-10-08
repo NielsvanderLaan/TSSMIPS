@@ -82,7 +82,6 @@ int main(int argc, char *argv[])
       cout << '\n';
       */
 
-
       Tree tree(env, c_env, problem);
       vector<double> x_bab = tree.bab(types, rcuts, fenchel, max_rounds, 1e-4,12*3600);
 

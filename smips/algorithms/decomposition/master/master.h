@@ -65,6 +65,7 @@ class Master
     BendersCut transform_cut(double coef_theta, double *coef_x);
 
     Solution solve(double tol); // solves the model
+    void chg_mp_tol(bool focus);
 };
 
 #endif

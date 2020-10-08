@@ -7,13 +7,20 @@ Master::Solution Master::solve(double tol)
   GRBoptimize(d_cmodel);
 
   int status;
+
   GRBgetintattr(d_cmodel, "Status", &status);
-
-  if (status == 3 || status == 4)       // model is infeasible
+  if (status == 3 || status == 4)
     return Solution{ vector<double>(0), -1, true };
-
-
-
+  if (status == 5)
+  {
+    cout << "master problem status = 5\n";
+    return Solution{ vector<double>(0), -1, true };
+  }
+  if (status != 2)
+  {
+    cerr << "master problem status: " << status << '\n';
+    exit(status);
+  }
 
   if (d_zk_safe)
   {
@@ -25,39 +32,34 @@ Master::Solution Master::solve(double tol)
     {
       cout << "master violation (before) = " << violation << ", resid = " << resid << '\n';
 
-      GRBreset(d_cmodel, 0);
-      GRBenv *env = GRBgetenv(d_cmodel);
-      GRBsetintparam(env, "NumericFocus", 3);
-      GRBsetintparam(env, "ScaleFlag", 0);
-      GRBsetintparam(env, "Method", 1);
-      GRBsetintparam(env, "Presolve", 1);
+      chg_mp_tol(true);
       GRBoptimize(d_cmodel);
-      GRBsetintparam(env, "NumericFocus", 0);
-      GRBsetintparam(env, "ScaleFlag", -1);
-      GRBsetintparam(env, "Method", -1);
-      GRBsetintparam(env, "Presolve", -1);
+      chg_mp_tol(false);
 
       GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
       GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
       cout << "master violation (after) = " << violation << ", resid = " << resid << '\n';
+
+      GRBgetintattr(d_cmodel, "Status", &status);
+      if (status == 3 || status == 4)
+        return Solution{ vector<double>(0), -1, true };
+      if (status == 5)
+      {
+        cout << "master problem status = 5\n";
+        return Solution{ vector<double>(0), -1, true };
+      }
+      if (status != 2)
+      {
+        cerr << "master problem status: " << status << '\n';
+        exit(status);
+      }
     }
   }
-  //GRBwrite(d_cmodel, "master.lp");
-  GRBgetintattr(d_cmodel, "Status", &status);
-  if (status != 2)
-  {
-    cout << "master problem status: " << status << '\n';
-    GRBsetintparam(GRBgetenv(d_cmodel), "OutputFlag", 1);
-    GRBoptimize(d_cmodel);
-    GRBsetintparam(GRBgetenv(d_cmodel), "OutputFlag", 0);
-  }
-
-
 
   vector<double> x(d_n1);
-  GRBgetdblattrarray(d_cmodel, "X", 1, d_n1, x.data());   
-  
+  GRBgetdblattrarray(d_cmodel, "X", 1, d_n1, x.data());
   double theta;
   GRBgetdblattrelement(d_cmodel, "X", 0, &theta);
+
   return Solution{ x, theta + d_L, false };
 }

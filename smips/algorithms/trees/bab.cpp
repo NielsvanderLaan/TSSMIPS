@@ -19,7 +19,7 @@ vector<double> Tree::bab(vector<Type> types, bool rcuts, bool fenchel, size_t ma
     size_t node_idx = distance(d_LB_nodes.begin(), min_element(d_LB_nodes.begin(), d_LB_nodes.end()));
     cout << "\nExploring node " << node_idx << endl;
       // determine max_rounds based on tree_size
-    bool branch = solve(types, node_idx, incumbent, tol, time_limit - elapsed, rcuts, fenchel, d_UB_global < 1e10 ? 0 : max_rounds);  // solve() also updates global bounds
+    bool branch = solve(types, node_idx, incumbent, tol, time_limit - elapsed, rcuts, fenchel, tree_size <= 5 ? max_rounds : 0);  // solve() also updates global bounds
     cout << "GLOBAL LB = " << d_LB_global << " GLOBAL UB = " << d_UB_global << endl;
     
     //local_tol = max(tol / 10, local_tol / 1.1);
