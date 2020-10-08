@@ -9,7 +9,7 @@ Master::Solution Master::solve(double tol)
   int status;
   GRBgetintattr(d_cmodel, "Status", &status);
 
-  if (status == 3 || status == 4)      // model is infeasible
+  if (status == 3 || status == 4)       // model is infeasible
     return Solution{ vector<double>(0), -1, true };
 
 
@@ -43,7 +43,7 @@ Master::Solution Master::solve(double tol)
     }
   }
   //GRBwrite(d_cmodel, "master.lp");
-
+  GRBgetintattr(d_cmodel, "Status", &status);
   if (status != 2)
   {
     cout << "master problem status: " << status << '\n';
