@@ -83,12 +83,12 @@ int main(int argc, char *argv[])
       */
 
       Tree tree(env, c_env, problem);
-      vector<double> x_bab = tree.bab(types, rcuts, fenchel, max_rounds, 1e-4,12*3600);
+      vector<double> x_bab = tree.bab(types, rcuts, fenchel, max_rounds, 1e-4,10*3600);
 
       /*
       Benders ben(env, c_env, problem, true);
       ben.lpSolve();
-      ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, 12 * 3600, rcuts, fenchel);
+      ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, 10 * 3600, rcuts, fenchel);
        */
 
     }
