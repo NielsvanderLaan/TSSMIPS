@@ -12,8 +12,8 @@ Master::Solution Master::solve(double tol)
   if (status == 3 || status == 4)      // model is infeasible
     return Solution{ vector<double>(0), -1, true };
 
-  if (status != 2)
-    cout << "master problem status: " << status << '\n';
+
+
 
   if (d_zk_safe)
   {
@@ -43,6 +43,14 @@ Master::Solution Master::solve(double tol)
     }
   }
   //GRBwrite(d_cmodel, "master.lp");
+
+  if (status != 2)
+  {
+    cout << "master problem status: " << status << '\n';
+    GRBsetintparam(GRBgetenv(d_cmodel), "OutputFlag", 1);
+    GRBoptimize(d_cmodel);
+    GRBsetintparam(GRBgetenv(d_cmodel), "OutputFlag", 0);
+  }
 
 
 
