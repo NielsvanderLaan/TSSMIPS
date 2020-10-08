@@ -4,6 +4,7 @@ CGMip::Point CGMip::solve_sub(bool focus)
 {
   d_sub.set(GRB_DoubleParam_MIPGap, focus ? 0.0 : 1e-4);
 
+  d_sub.write("sub.lp");
   d_sub.optimize();
   double rhs_lb = d_sub.get(GRB_DoubleAttr_ObjBound);
   double rhs_ub;
@@ -19,7 +20,6 @@ CGMip::Point CGMip::solve_sub(bool focus)
 
   if (rhs_ub - rhs_lb > 1e-4 and not focus)
     return solve_sub(true);
-
 
   double *xVals = d_sub.get(GRB_DoubleAttr_X, d_xVars.data(), d_xVars.size());
   vector<double> x{ xVals, xVals + d_xVars.size() };
