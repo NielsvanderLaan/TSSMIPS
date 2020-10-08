@@ -4,7 +4,6 @@ CGMip::Point CGMip::solve_sub(bool focus)
 {
   d_sub.set(GRB_DoubleParam_MIPGap, focus ? 0.0 : 1e-4);
 
-  d_sub.write("sub.lp");
   d_sub.optimize();
   double rhs_lb = d_sub.get(GRB_DoubleAttr_ObjBound);
   double rhs_ub;
