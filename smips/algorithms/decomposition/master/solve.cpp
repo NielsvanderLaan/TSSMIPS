@@ -12,6 +12,8 @@ Master::Solution Master::solve(double tol)
   if (status == 3 || status == 4)      // model is infeasible
     return Solution{ vector<double>(0), -1, true };
 
+  if (status != 2)
+    cout << "master problem status: " << status << '\n';
 
   if (d_zk_safe)
   {
