@@ -7,8 +7,8 @@ Master::Solution Master::solve(double tol)
   GRBoptimize(d_cmodel);
 
   int status;
-
   GRBgetintattr(d_cmodel, "Status", &status);
+
   if (status == 3 || status == 4)
     return Solution{ vector<double>(0), -1, true };
   if (status == 5)
@@ -16,43 +16,26 @@ Master::Solution Master::solve(double tol)
     cout << "master problem status = 5\n";
     return Solution{ vector<double>(0), -1, true };
   }
-  if (status != 2)
-  {
-    cerr << "master problem status: " << status << '\n';
-    exit(status);
-  }
 
-  if (d_zk_safe)
+  double vio = violation();
+  if (vio > 1e-4 || status != 2)
   {
-    double violation, resid;
-    GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
-    GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
+    cout << "master violation (before) = " << vio << ". status: " << status << '\n';
 
-    if (violation + resid > 1e-4)
+    chg_mp_tol(true);
+    GRBoptimize(d_cmodel);
+    chg_mp_tol(false);
+
+    vio = violation();
+    GRBgetintattr(d_cmodel, "Status", &status);
+    cout << "master violation (after) = " << vio << ". status: " << status << '\n';
+
+    if (status == 3 || status == 4 || status == 5)
+      return Solution{ vector<double>(0), -1, true };
+    if (status != 2)
     {
-      cout << "master violation (before) = " << violation << ", resid = " << resid << '\n';
-
-      chg_mp_tol(true);
-      GRBoptimize(d_cmodel);
-      chg_mp_tol(false);
-
-      GRBgetdblattr(d_cmodel, "ConstrVio", &violation);
-      GRBgetdblattr(d_cmodel, "ConstrResidual", &resid);
-      cout << "master violation (after) = " << violation << ", resid = " << resid << '\n';
-
-      GRBgetintattr(d_cmodel, "Status", &status);
-      if (status == 3 || status == 4)
-        return Solution{ vector<double>(0), -1, true };
-      if (status == 5)
-      {
-        cout << "master problem status = 5\n";
-        return Solution{ vector<double>(0), -1, true };
-      }
-      if (status != 2)
-      {
-        cerr << "master problem status: " << status << '\n';
-        exit(status);
-      }
+      cout << "master problem status: " << status << '\n';
+      exit(status);
     }
   }
 

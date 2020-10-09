@@ -66,6 +66,7 @@ class Master
 
     Solution solve(double tol); // solves the model
     void chg_mp_tol(bool focus);
+    double violation();
 };
 
 #endif
