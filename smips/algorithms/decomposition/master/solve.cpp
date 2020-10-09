@@ -11,6 +11,7 @@ Master::Solution Master::solve(double tol)
 
   if (status == 3 || status == 4)
     return Solution{ vector<double>(0), -1, true };
+
   if (status == 5)
   {
     cout << "master problem status = 5\n";
@@ -29,6 +30,16 @@ Master::Solution Master::solve(double tol)
     vio = violation();
     GRBgetintattr(d_cmodel, "Status", &status);
     cout << "master violation (after) = " << vio << ". status: " << status << '\n';
+
+    if (status == 3)
+    {
+      GRBwrite(d_cmodel, "master.lp");
+      chg_mp_tol(true);
+      GRBsetintparam(GRBgetenv(d_cmodel), "OutputFlag", 1);
+      GRBoptimize(d_cmodel);
+      exit(3);
+    }
+
 
     if (status == 3 || status == 4 || status == 5)
       return Solution{ vector<double>(0), -1, true };
