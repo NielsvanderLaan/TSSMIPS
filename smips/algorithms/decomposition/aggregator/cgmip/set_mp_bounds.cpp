@@ -13,4 +13,6 @@ void CGMip::set_mp_bounds(double M)
 
   d_tau.set(GRB_DoubleAttr_LB, 0);
   d_tau.set(GRB_DoubleAttr_UB, M);
+
+  //d_mp.update();
 }

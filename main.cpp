@@ -29,7 +29,6 @@ int main(int argc, char *argv[])
     GRBloadenv(&c_env, nullptr);
     GRBsetintparam(c_env, "OutputFlag", 0);
     GRBsetintparam(c_env, "Threads", 1);
-
     {
       string instance(argv[1]);
       vector<Type> types = string_to_type(argv, argc);
