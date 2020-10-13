@@ -80,16 +80,15 @@ int main(int argc, char *argv[])
       for_each(DEF.d_xVals, DEF.d_xVals + problem.d_n1, [](double val){cout << val << ' ';});
       cout << '\n';
       */
-
-
+      /*
       Tree tree(env, c_env, problem);
       vector<double> x_bab = tree.bab(types, rcuts, fenchel, max_rounds, 1e-4,10*3600);
+       */
 
-      /*
       Benders ben(env, c_env, problem, true);
       ben.lpSolve();
       ben.hybrid_solve(types, false, 100000, GRB_INFINITY, 1e-4, 10 * 3600, rcuts, fenchel);
-      */
+
     }
 
     GRBfreeenv(c_env);
