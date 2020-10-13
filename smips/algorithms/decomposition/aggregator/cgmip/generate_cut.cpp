@@ -15,7 +15,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
   bool first_strike = false;
   while (true)
   {
-    if (not solve_mp(first_strike))
+    if (not solve_mp(first_strike, affine))
     {
       if (not first_strike)
       {
@@ -63,24 +63,6 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     add_mp_cut(point);
   }
 
-  if (mp_max_coeff() > 1e8)
-  {
-    cout << "mp_max_coeff = " << mp_max_coeff() << endl;
-    d_mp.set(GRB_IntParam_OutputFlag, 1);
-    if (not solve_mp())
-      solve_mp(true);
-    candidate = get_candidate();
-    cout << "alpha = " << candidate.d_alpha << "\nbeta: ";
-    for_each(candidate.d_beta.begin(), candidate.d_beta.end(), [](double val){cout << val << ' ';});
-    cout << "\ntau = " << candidate.d_tau << "\nScaling:";
-    candidate.scale();
-    cout << "alpha = " << candidate.d_alpha << "\nbeta: ";
-    for_each(candidate.d_beta.begin(), candidate.d_beta.end(), [](double val){cout << val << ' ';});
-    cout << "\ntau = " << candidate.d_tau << "\nScaling:";
-
-    exit(1);
-
-  }
 
   gap += candidate.d_alpha - point.d_rhs_lb;
   candidate.d_alpha = point.d_rhs_lb;

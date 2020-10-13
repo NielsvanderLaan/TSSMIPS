@@ -27,6 +27,7 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
     rho += cRho / (1 + cut.d_tau);
     first_time = false;
   }
+
   if (gap > tol)
     cout << "strong_cut() gap: " << gap << '\n';
   //cout << "tau: " << cut.d_tau << '\n';

@@ -1,6 +1,6 @@
 #include "cgmip.h"
 
-bool CGMip::solve_mp(bool focus, double M)
+bool CGMip::solve_mp(bool focus, bool affine, double M)
 {
   if (focus)
   {
@@ -17,9 +17,9 @@ bool CGMip::solve_mp(bool focus, double M)
   {
     if (mp_max_coeff() > M)
     {
-      set_mp_bounds(M);
+      set_mp_bounds(M, affine);
       d_mp.optimize();
-      set_mp_bounds(GRB_INFINITY);
+      set_mp_bounds(GRB_INFINITY, affine);
     }
   }
 

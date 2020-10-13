@@ -5,19 +5,12 @@
 Master::Solution Master::solve(double tol)
 {
   GRBoptimize(d_cmodel);
-  int numConstrs;
-  GRBgetintattr(d_cmodel, "NumConstrs", &numConstrs);
-  cout << "Master::solve(): numConstrs = " << numConstrs << '\n';
-
-
-
 
   int status;
   GRBgetintattr(d_cmodel, "Status", &status);
 
   if (status == 3 || status == 4)
     return Solution{ vector<double>(0), -1, true };
-
   if (status == 5)
   {
     cout << "master problem status = 5\n";

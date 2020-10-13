@@ -25,7 +25,6 @@ struct BendersCut
     d_tau(tau),
     d_feas_cut(feas_cut)
   {}
-
   
   BendersCut operator*(double scale)
   {

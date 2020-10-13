@@ -1,7 +1,7 @@
 #include "zk.h"
 
 #include <cmath>
-static bool abs_compare(int a, int b)
+static bool abs_compare(double a, double b)
 {
   return (std::abs(a) < std::abs(b));
 }
