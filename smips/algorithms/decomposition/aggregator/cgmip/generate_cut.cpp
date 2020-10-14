@@ -19,7 +19,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     {
       if (not first_strike)
       {
-        print("mp unbounded: resolving mp with focus\n");
+        //print("mp unbounded: resolving mp with focus\n");
         first_strike = true;
         continue;
       }
@@ -46,7 +46,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     {
       if (not first_strike)
       {
-        print("violation > tol: resolving mp with focus\n");
+        //print("violation > tol: resolving mp with focus\n");
         first_strike = true;
         continue;
       }

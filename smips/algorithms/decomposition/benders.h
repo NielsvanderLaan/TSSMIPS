@@ -66,7 +66,7 @@ class Benders
     double lpSolve(double tol = 1e-4);                                               // L_shaped
     void lbda(double *alpha, double gomoryTimeLimit = 1e6, double tol = 1e-4);       // LBDA(alpha)  
     void ald_solve(double tol = 1e-4, size_t maxRounds = 25);
-    Bounds hybrid_solve(vector<Type> types, bool force_int, size_t max_rounds = 25,
+    Bounds hybrid_solve(vector<Type> types, bool force_int, int max_rounds = 25,
                         double upper_bound = GRB_INFINITY, double tol = 1e-4, double time_limit = 1e100,
                         bool rcuts = true, bool fenchel = true);
 

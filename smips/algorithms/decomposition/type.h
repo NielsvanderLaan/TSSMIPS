@@ -23,7 +23,7 @@ static std::string name(Type type)
   }
 }
 
-static std::vector<Type> string_to_type(char *types[], int nTypes)
+static std::vector<Type> string_to_type(int nTypes, char *types[])
 {
   std::vector<Type> ret;
   for (size_t idx = 0; idx != nTypes; ++idx)
@@ -39,6 +39,7 @@ static std::vector<Type> string_to_type(char *types[], int nTypes)
     if (type_string == "RG")      ret.push_back(SC_RG);
     if (type_string == "LBDA")    ret.push_back(LBDA);
   }
+
   return ret;
 }
 

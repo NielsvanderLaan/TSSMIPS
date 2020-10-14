@@ -1,6 +1,6 @@
 #include "benders.h"
 
-Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t max_rounds,
+Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int max_rounds,
                                       double upper_bound, double tol, double time_limit,
                                       bool rcuts, bool fenchel)
 {
@@ -55,7 +55,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
 
     if (not int_feas)
     {
-      if (fenchel && fenchel_cuts < max_rounds)
+      if (fenchel && fenchel_cuts != max_rounds)
       {
         auto before = chrono::high_resolution_clock::now();
         BendersCut cut = d_master.fenchel_cut(sol, tol);
@@ -69,16 +69,17 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
           continue;
         }
       }
-      if (not fenchel and round < max_rounds)
+      if (not fenchel and round != max_rounds)
       {
         auto before = chrono::high_resolution_clock::now();
         size_t nCuts = round_of_cuts(sol, 1e-4);
-        auto after = chrono::high_resolution_clock::now();
-        gmi_time += chrono::duration_cast<chrono::milliseconds>(after - before).count() / 1000.0;
-        gmi_cuts += nCuts;
+        double time = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - before).count() / 1000.0;
+        print("computed round of GMI cuts (" << time << "s)\n");
         if (nCuts > 0)      // at least one cut was added
         {
           print("added " << nCuts <<  " gmi cuts\n");
+          gmi_time += time;
+          gmi_cuts += nCuts;
           ++round;
           continue;
         }
@@ -97,9 +98,10 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, size_t
     double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
     vector<double> vx = d_agg.compute_vwx(x.data());
     double Qx = accumulate(vx.begin(), vx.end(),0.0) / d_S;
-    auto after = chrono::high_resolution_clock::now();
+    double time = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - before).count() / 1000.0;
     ++evaluations;
-    eval_time += chrono::duration_cast<chrono::milliseconds>(after - before).count() / 1000.0;
+    print("evaluated cx + Q(x) (" << time << "s)\n");
+    eval_time += time;
 
     if (int_feas && cx + Qx < d_UB)
     {

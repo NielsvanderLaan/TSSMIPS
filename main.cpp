@@ -30,65 +30,34 @@ int main(int argc, char *argv[])
     GRBsetintparam(c_env, "OutputFlag", 0);
     GRBsetintparam(c_env, "Threads", 1);
     {
-      string instance(argv[1]);
-      vector<Type> types = string_to_type(argv, argc);
-      for_each(types.begin(), types.end(), [](Type type){cout << name(type) << "s\n";});
-      bool rcuts = true;
-      bool fenchel = true;
-      size_t max_rounds = 0;
-      for (size_t idx = 1; idx != argc; ++idx)
-      {
-        string arg(argv[idx]);
-        if (arg == "OFF")
-          rcuts = false;
-        if (arg == "GOMORY")
-          fenchel = false;
-        string mr("MAXROUNDS=");
-        if (arg.find(mr) == 0)
-          max_rounds = stoi(arg.substr(mr.size(), arg.size() - mr.size()));
-      }
-      cout << "rcuts: " << (rcuts ? "yes\n" : "no\n");
-      cout << (fenchel ? "Fenchel" : "Gomory") << " cuts\n";
-      cout << "max rounds = " << max_rounds << '\n';
-
       Problem problem(rand, env);
+      instance(problem, argc, argv);
+      vector<Type> types = string_to_type(argc, argv);
+      bool rcuts = use_rcuts(argc, argv);
+      bool fenchel = use_fenchel(argc, argv);
+      int max_rounds = get_max_rounds(argc, argv);
+      double time_limit = get_time_limit(argc, argv);
+      details(types, max_rounds, rcuts, fenchel, time_limit);
 
-      if (instance == "SIZES")
+      if (solve_DEF(argc, argv))
       {
-        cout << "SIZES" << argv[2] << endl;
-        problem.sizes(stoi(argv[2]));
-        problem.enforce_ccr(1e4);
+        DeqForm DEF(env, problem);
+        DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
+        DEF.solve(time_limit);
       }
-      if (instance == "DCAP")
+
+      if (solve_tree(argc, argv))
       {
-        cout << "DCAP_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << ' ' << argv[6] << '\n';
-        problem.dcap(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]), stoi(argv[6]));
+        Tree tree(env, c_env, problem);
+        vector<double> x_bab = tree.bab(types, rcuts, fenchel, max_rounds, 1e-4,time_limit);
       }
-      if (instance == "SSV")
+
+      if (solve_root(argc, argv))
       {
-        cout << "SSV_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << '\n';
-        problem.ssv95(stoi(argv[2]), stoi(argv[3]), stoi(argv[3]), stoi(argv[4]));
+        Benders ben(env, c_env, problem, true);
+        ben.lpSolve();
+        ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, time_limit, rcuts, fenchel);
       }
-      if (instance == "CAROE")
-        solve_caroe(rand, env, c_env);
-
-      /*
-      DeqForm DEF(env, problem);
-      DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
-      DEF.solve(7200.0);
-      cout << "eta_star = " << DEF.d_objVal << ". LB = " << DEF.d_objBound << '\n';
-      for_each(DEF.d_xVals, DEF.d_xVals + problem.d_n1, [](double val){cout << val << ' ';});
-      cout << '\n';
-      */
-
-      Tree tree(env, c_env, problem);
-      vector<double> x_bab = tree.bab(types, rcuts, fenchel, max_rounds, 1e-4,12*3600);
-
-      /*
-      Benders ben(env, c_env, problem, true);
-      ben.lpSolve();
-      ben.hybrid_solve(types, false, 100000, GRB_INFINITY, 1e-4, 12 * 3600, rcuts, fenchel);
-      */
     }
 
     GRBfreeenv(c_env);

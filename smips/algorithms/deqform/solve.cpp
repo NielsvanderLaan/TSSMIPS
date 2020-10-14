@@ -1,4 +1,5 @@
 #include "deqform.h"
+#include <chrono>
 
 void DeqForm::solve(double time_limit)
 {
@@ -20,4 +21,7 @@ void DeqForm::solve(double time_limit)
     d_xVals = d_model.get(GRB_DoubleAttr_X, d_xVars, d_n1);     
     d_runTime = d_model.get(GRB_DoubleAttr_Runtime);
   }
+
+  cout << "eta_star = " << d_objVal << ". LB = " << d_objBound << '\n';
+  cout << "computation time = " << d_runTime << '\n';
 }
