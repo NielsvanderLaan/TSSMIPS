@@ -18,7 +18,7 @@ void instance(Problem &problem, int argc, char *argv[])
   if (instance == "SSV")
   {
     cout << "SSV_" << argv[2] << '_' << argv[3] << '_' << argv[4] << '_' << argv[5] << '\n';
-    problem.ssv95(stoi(argv[2]), stoi(argv[3]), stoi(argv[3]), stoi(argv[4]));
+    problem.ssv95(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]));
   }
   if (instance == "CAROE")
   {
