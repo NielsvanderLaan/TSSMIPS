@@ -4,7 +4,9 @@ CGMip::Point CGMip::solve_sub(bool focus)
 {
   d_sub.set(GRB_DoubleParam_MIPGap, focus ? 0.0 : 1e-4);
 
+  cout << "call to optimize()" << endl;
   d_sub.optimize();
+  cout << "done" << endl;
   double rhs_lb = d_sub.get(GRB_DoubleAttr_ObjBound);
   double rhs_ub;
 
@@ -23,6 +25,8 @@ CGMip::Point CGMip::solve_sub(bool focus)
   double *xVals = d_sub.get(GRB_DoubleAttr_X, d_xVars.data(), d_xVars.size());
   vector<double> x{ xVals, xVals + d_xVars.size() };
   delete[] xVals;
+
+
   return Point{ x, d_theta.get(GRB_DoubleAttr_X), d_eta.get(GRB_DoubleAttr_X), rhs_lb, rhs_ub };
 }
 
