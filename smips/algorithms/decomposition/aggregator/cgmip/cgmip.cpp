@@ -11,6 +11,7 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   d_rcut(false)
 {
   d_sub.set(GRB_DoubleParam_TimeLimit, 300.0);
+  d_mp.set(GRB_DoubleParam_TimeLimit, 10.0);
 
   size_t n1 = problem.d_n1;
   size_t p1 = problem.d_p1;

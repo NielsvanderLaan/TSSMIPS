@@ -13,15 +13,13 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
   Point point{ vector<double>(d_xVars.size()), 0, GRB_INFINITY, -GRB_INFINITY, GRB_INFINITY };
 
   bool first_strike = false;
-  size_t count = 0;
   while (true)
   {
-    cout << "start of loop" << endl;
     if (not solve_mp(first_strike, affine))
     {
       if (not first_strike)
       {
-        print("mp unbounded: resolving mp with focus\n");
+        //print("mp unbounded: resolving mp with focus\n");
         first_strike = true;
         continue;
       }
@@ -38,9 +36,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
 
     set_sub_obj(candidate);        // attempt to find point which invalidates candidate cut
     Point old_point = point;
-    cout << "solve_sub() called" << endl;
     point = solve_sub();
-    cout << "solve_sub() finished" << endl;
 
     double diff = candidate.d_alpha - point.d_rhs_ub;
     if (diff < tol)     // optimal within tolerance
@@ -50,7 +46,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
     {
       if (not first_strike)
       {
-        print("violation > tol: resolving mp with focus\n");
+        //print("violation > tol: resolving mp with focus\n");
         first_strike = true;
         continue;
       }
@@ -63,12 +59,9 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
       break;
     }
 
-    ++count;
-    cout << "count: " << count << ", diff = " << diff << endl;
     first_strike = false;
     add_mp_cut(point);
   }
-
 
   gap += candidate.d_alpha - point.d_rhs_lb;
   candidate.d_alpha = point.d_rhs_lb;
