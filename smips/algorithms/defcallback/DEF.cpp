@@ -13,8 +13,8 @@ DEF::DEF(Problem &problem, GRBEnv &env)
   GRBVar *xvars = d_model.addVars(problem.d_l1.data(), problem.d_u1.data(), problem.d_c.data(), vTypes, NULL, problem.d_n1);
   d_xvars = vector<GRBVar>(xvars, xvars + problem.d_n1);
   delete[] xvars;
-  vector<int> ones(d_xvars.size(), 1);
-  d_model.set(GRB_IntAttr_BranchPriority, d_xvars.data(), ones.data(), ones.size());
+  //vector<int> ones(d_xvars.size(), 1);
+  //d_model.set(GRB_IntAttr_BranchPriority, d_xvars.data(), ones.data(), ones.size());
 
 
   GRBLinExpr Ax[problem.d_m1];

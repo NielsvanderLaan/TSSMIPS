@@ -2,7 +2,7 @@
 
 void BendersCallback::callback()
 {
-  if (d_ncuts > 10)
+  if (d_ncuts == 100)
     return;
 
   if (where == GRB_CB_MIPSOL)
