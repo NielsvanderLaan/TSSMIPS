@@ -2,8 +2,10 @@
 
 void BendersCallback::callback()
 {
+  /*
   if (d_ncuts == 100)
     return;
+    */
 
   if (where == GRB_CB_MIPSOL)
     d_ben.reverse_cut(getDoubleInfo(GRB_CB_MIPSOL_OBJBST));
@@ -25,8 +27,10 @@ void BendersCallback::callback()
   vector<double> vx = d_ben.d_agg.compute_vwx(x.data());
   double Qx = accumulate(vx.begin(), vx.end(),0.0) / d_problem.d_S;
 
+  /*
   if (theta > Qx - 0.1)
     return;
+  */
 
   cout << "theta = " << theta << " Q(x) = " << Qx << '\n';
 
