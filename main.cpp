@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 
       DEF smip(problem, env);
       BendersCallback cb(problem, env, c_env, smip);
-      smip.d_model.setCallback(&cb);
+      //smip.d_model.setCallback(&cb);
       smip.solve();
 
 
