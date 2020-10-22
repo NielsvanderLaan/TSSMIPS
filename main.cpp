@@ -10,7 +10,8 @@
 #include "smips/algorithms/deqform/deqform.h"
 #include "smips/algorithms/decomposition/benders.h"
 #include "smips/algorithms/trees/tree.h"
-
+#include "smips/algorithms/defcallback/DEF.h"
+#include "smips/algorithms/defcallback/benderscallback.h"
 #include "run/run.h"
 
 using namespace std;
@@ -39,10 +40,18 @@ int main(int argc, char *argv[])
       double time_limit = get_time_limit(argc, argv);
       details(types, max_rounds, rcuts, fenchel, time_limit);
 
+      /*
+      DEF smip(problem, env);
+      BendersCallback cb(problem, env, c_env, smip);
+      smip.d_model.setCallback(&cb);
+      smip.solve();
+      */
+
       if (solve_DEF(argc, argv))
       {
         DeqForm DEF(env, problem);
         DEF.d_model.set(GRB_IntParam_OutputFlag, 1);
+        DEF.d_model.set(GRB_DoubleParam_MIPGap, 0);
         DEF.solve(time_limit);
       }
 
@@ -55,7 +64,7 @@ int main(int argc, char *argv[])
       if (solve_root(argc, argv))
       {
         Benders ben(env, c_env, problem, true);
-        ben.lpSolve();
+        //ben.lpSolve();
         ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, time_limit, rcuts, fenchel);
       }
     }

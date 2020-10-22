@@ -5,7 +5,6 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
   bool stop = false;
   size_t round = 0;
 
-      
   while (not stop)
   {
         // solve the model by calling optimize(), which also updates d_objval and d_yvals

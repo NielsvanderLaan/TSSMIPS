@@ -9,15 +9,15 @@ vector<double> Aggregator::compute_vwx(double *x)
 
   for (size_t s = 0; s != d_probs.size(); ++s)
   {
-    vector<double> rhs(d_omega[s]);
+    vector<double> rhs(d_problem.d_omega[s]);
     for (size_t con = 0; con != rhs.size(); ++con)
-      rhs[con] -= inner_product(d_Tmat[con].begin(), d_Tmat[con].end(), x, 0.0);
+      rhs[con] -= inner_product(d_problem.d_Tmat[con].begin(), d_problem.d_Tmat[con].end(), x, 0.0);
     d_vw.set(GRB_DoubleAttr_RHS, cons, rhs.data(), rhs.size());
 
     if (not d_fix_rec)    // update W and q
     {
-      d_vw.set(GRB_DoubleAttr_Obj, vars, d_q_omega[s].data(), d_q_omega[s].size());
-      vector<vector<double>> &Wmat = d_W_omega[s];
+      d_vw.set(GRB_DoubleAttr_Obj, vars, d_problem.d_q_omega[s].data(), d_problem.d_q_omega[s].size());
+      vector<vector<double>> &Wmat = d_problem.d_W_omega[s];
 
       for (size_t row = 0; row != Wmat.size(); ++row)
       {

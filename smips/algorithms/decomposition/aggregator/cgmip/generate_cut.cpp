@@ -58,13 +58,13 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
       print("violation > tol (after reset)\n");
       break;
     }
-
     first_strike = false;
     add_mp_cut(point);
   }
 
   gap += candidate.d_alpha - point.d_rhs_lb;
   candidate.d_alpha = point.d_rhs_lb;
+
 
   return candidate;
 }

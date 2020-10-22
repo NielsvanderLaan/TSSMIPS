@@ -24,6 +24,7 @@ void instance(Problem &problem, int argc, char *argv[])
   {
     cout << "CAROE INSTANCE, S = " << argv[2] << '\n';
     problem.caroe( stoi(argv[2]));
+    problem.enforce_ccr(1e4);
   }
 }
 

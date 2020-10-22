@@ -15,12 +15,8 @@ class Aggregator
 
     // for computing v_w(x) and Q(x)
     GRBModel d_vw;        // used to evaluate the value function
-    vector<vector<double>> &d_omega;
-    vector<vector<double>> &d_Tmat;
-    vector<vector<double>> &d_q_omega;
-    vector<vector<vector<double>>> &d_W_omega;
+    Problem &d_problem;
     bool d_fix_rec;
-    
     Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem);
     
     void add_rows(BendersCut &cut);

@@ -13,7 +13,7 @@ static std::string name(Type type)
     case LP:      return "LP cut";
     case SB:      return "SB cut";
     case LR:      return "LR cut";
-    case LR_LAP:  return "Traditional LAP cut";
+    case LR_LAP:  return "traditional LAP cut";
     case SC_ZK:   return "GMI scaled cut";
     case SC_LAP:  return "LAP scaled cut";
     case SC_BAB:  return "BAB scaled cut";
