@@ -6,7 +6,7 @@
 #include "gurobi_c.h"
 #include "../../problem_data/problem.h"
 #include "../decomposition/benders.h"
-#include "def.h"
+#include "DEF.h"
 
 using namespace std;
 
