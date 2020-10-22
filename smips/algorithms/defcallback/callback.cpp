@@ -32,7 +32,7 @@ void BendersCallback::callback()
 
   BendersCut cut = d_ben.d_agg.strong_cut(sol, vx, false, 1e-4, int_feas);
   double cut_value = -inner_product(cut.d_beta.begin(), cut.d_beta.end(), x.begin(), -cut.d_alpha) / (1 + cut.d_tau);
-  cout << "theta' = " << cut_value << '\n';
+  cout << "theta' = " << cut_value << endl;
 
 
   d_ben.add_cut(cut, sol, 1e-4);
