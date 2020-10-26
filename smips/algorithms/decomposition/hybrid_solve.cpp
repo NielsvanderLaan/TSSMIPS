@@ -17,9 +17,9 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
   double LB = -GRB_INFINITY;
   bool branch = false;
 
-  size_t nStall = 10;
-  double stall_tol = 1e-4;      // relative (if LB does not improve by 1e-4*100% for nStall iterations, then skip hierarchy)
-  list<double> recent_lbs;
+  //size_t nStall = 10;
+  //double stall_tol = 1e-4;      // relative (if LB does not improve by 1e-4*100% for nStall iterations, then skip hierarchy)
+  //list<double> recent_lbs;
 
   auto t1 = chrono::high_resolution_clock::now();
   while (true)
@@ -109,11 +109,12 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
     }
     print("LB: " << LB << ". UB: " << d_UB << endl);
 
-    recent_lbs.push_front(LB);
-    if (recent_lbs.size() > nStall + 1) recent_lbs.pop_back();
-    double old_LB = recent_lbs.back();
-    size_t start = recent_lbs.size() > nStall && LB - old_LB < stall_tol * abs(old_LB)  ? types.size() - 1 : 0;
-    if (start != 0) cout << "BREAKING PRIORITY RULES\n";
+    //recent_lbs.push_front(LB);
+    //if (recent_lbs.size() > nStall + 1) recent_lbs.pop_back();
+    //double old_LB = recent_lbs.back();
+    //size_t start = recent_lbs.size() > nStall && LB - old_LB < stall_tol * abs(old_LB)  ? types.size() - 1 : 0;
+    //if (start != 0) cout << "BREAKING PRIORITY RULES\n";
+    size_t start = 0;
 
     for (size_t idx = start; idx != types.size(); ++idx)
     {
