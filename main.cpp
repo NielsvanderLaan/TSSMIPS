@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
       Benders ben(env, c_env, problem, true);
       ben.lpSolve();
-      ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, 3600, rcuts, fenchel);
+      ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, 10800, rcuts, fenchel);
       ben.d_def.solve();
 
 
