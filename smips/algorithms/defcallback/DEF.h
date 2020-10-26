@@ -5,7 +5,7 @@
 #include <vector>
 #include "gurobi_c++.h"
 #include "../../problem_data/problem.h"
-#include "../cut/benderscut.h"
+#include "../decomposition/cut/benderscut.h"
 
 class DEF
 {
