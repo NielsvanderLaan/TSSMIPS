@@ -40,12 +40,18 @@ int main(int argc, char *argv[])
       double time_limit = get_time_limit(argc, argv);
       details(types, max_rounds, rcuts, fenchel, time_limit);
 
-    /*
+      /*
       DEF smip(problem, env);
       BendersCallback cb(problem, env, c_env, smip);
       smip.d_model.setCallback(&cb);
       smip.solve();
-    */
+      */
+
+      Benders ben(env, c_env, problem, true);
+      ben.lpSolve();
+      ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, 3600, rcuts, fenchel);
+      ben.d_def.solve();
+
 
       if (solve_DEF(argc, argv))
       {

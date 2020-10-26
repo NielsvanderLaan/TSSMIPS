@@ -17,10 +17,11 @@ class BendersCallback: public GRBCallback
     GRBVar d_theta;
     Benders d_ben;
     Problem &d_problem;
-    int d_ncuts;
 
     BendersCallback(Problem &problem, GRBEnv &env, GRBenv* c_env, DEF &def);
     BendersCallback(const BendersCallback &other) = delete;
+
+    void add(BendersCut &cut, Master::Solution &sol, double tol = 1e-4);
 
   protected:
     void callback();

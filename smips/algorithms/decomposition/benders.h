@@ -19,6 +19,7 @@
 #include "aggregator/aggregator.h"
 #include "cut/benderscut.h"
 #include <memory>
+#include "../defcallback/DEF.h"
 
 using namespace std;
 
@@ -35,6 +36,7 @@ class Benders
     Ald d_ald;          // For deriving ALD cuts  
     Pslp d_pslp;        // For deriving (strong) ZK cuts  
     Aggregator d_agg;
+    DEF d_def;
     
     vector<double> d_lb, d_ub;
     vector<vector<vector<double>>> d_visited;  // for each scenario, we store the basis matrices that we have visited (encoded by vBasis, cBasis)
@@ -64,14 +66,14 @@ class Benders
     struct Bounds { double d_LB; double d_UB; bool branch; };
     
     double lpSolve(double tol = 1e-4);                                               // L_shaped
-    void lbda(double *alpha, double gomoryTimeLimit = 1e6, double tol = 1e-4);       // LBDA(alpha)  
+    void lbda(double *alpha, double gomoryTimeLimit = 1e6, double tol = 1e-4);       // LBDA(alpha)
     void ald_solve(double tol = 1e-4, size_t maxRounds = 25);
     Bounds hybrid_solve(vector<Type> types, bool force_int, int max_rounds = 25,
                         double upper_bound = GRB_INFINITY, double tol = 1e-4, double time_limit = 1e100,
                         bool rcuts = true, bool fenchel = true);
 
     //bool add_cut(double *beta, double gamma, double kappa, double *x , double theta, double tol); 
-    bool add_cut(BendersCut &cut, Master::Solution sol, double tol);
+    bool add_cut(BendersCut &cut, Master::Solution sol, double tol, bool force = false);
               // adds the cut kappa theta - beta^T x>= gamma  and returns false if cut was added
               // add_cut() updates the master problem, but also the cglp objects via pslp
     void reverse_cut(double UB);

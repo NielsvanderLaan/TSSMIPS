@@ -10,7 +10,11 @@ DEF::DEF(Problem &problem, GRBEnv &env)
   char vTypes[problem.d_n1];
   fill_n(vTypes, problem.d_p1, GRB_INTEGER);
   fill_n(vTypes + problem.d_p1, problem.d_n1 - problem.d_p1, GRB_CONTINUOUS);
-  GRBVar *xvars = d_model.addVars(problem.d_l1.data(), problem.d_u1.data(), problem.d_c.data(), vTypes, NULL, problem.d_n1);
+
+  vector<string> names(problem.d_n1);
+  for (size_t var = 0; var != problem.d_n1; ++var)
+    names[var] = "x_" + var;
+  GRBVar *xvars = d_model.addVars(problem.d_l1.data(), problem.d_u1.data(), problem.d_c.data(), vTypes, names.data(), problem.d_n1);
   d_xvars = vector<GRBVar>(xvars, xvars + problem.d_n1);
   delete[] xvars;
   //vector<int> ones(d_xvars.size(), 1);
@@ -26,7 +30,7 @@ DEF::DEF(Problem &problem, GRBEnv &env)
 
   delete[] d_model.addConstrs(Ax, senses.data(), problem.d_b.data(), NULL, senses.size());
 
-  d_theta = d_model.addVar(problem.d_L, GRB_INFINITY, 1.0, GRB_CONTINUOUS);
+  d_theta = d_model.addVar(problem.d_L, GRB_INFINITY, 1.0, GRB_CONTINUOUS, "theta");
 
   char ytypes[problem.d_n2];
   fill_n(ytypes, problem.d_p2, GRB_INTEGER);
