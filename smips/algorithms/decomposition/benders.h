@@ -19,7 +19,6 @@
 #include "aggregator/aggregator.h"
 #include "cut/benderscut.h"
 #include <memory>
-#include "../defcallback/DEF.h"
 
 using namespace std;
 
@@ -36,7 +35,6 @@ class Benders
     Ald d_ald;          // For deriving ALD cuts  
     Pslp d_pslp;        // For deriving (strong) ZK cuts  
     Aggregator d_agg;
-    DEF d_def;
     
     vector<double> d_lb, d_ub;
     vector<vector<vector<double>>> d_visited;  // for each scenario, we store the basis matrices that we have visited (encoded by vBasis, cBasis)
@@ -73,7 +71,7 @@ class Benders
                         bool rcuts = true, bool fenchel = true);
 
     //bool add_cut(double *beta, double gamma, double kappa, double *x , double theta, double tol); 
-    bool add_cut(BendersCut &cut, Master::Solution sol, double tol, bool force = false);
+    bool add_cut(BendersCut &cut, Master::Solution sol, double tol);
               // adds the cut kappa theta - beta^T x>= gamma  and returns false if cut was added
               // add_cut() updates the master problem, but also the cglp objects via pslp
     void reverse_cut(double UB);

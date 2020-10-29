@@ -16,7 +16,6 @@ Benders::Benders(const Benders &other)
   d_ald(other.d_ald),
   d_pslp(other.d_pslp),
   d_agg(other.d_agg),
-  d_def(other.d_def),
   d_lb(other.d_lb),
   d_ub(other.d_ub),
   d_visited(other.d_visited),
