@@ -80,6 +80,7 @@ class Benders
     size_t round_of_cuts(Master::Solution sol, double tol);
 
     BendersCut compute_cut(Type type, Master::Solution &sol, bool int_feas, vector<double> &vx, double tol, double *alpha = nullptr);
+    BendersCut sub_sb_cut(size_t s, double *x, Sub &sub, Lagrangian &lr);
 
 };
 

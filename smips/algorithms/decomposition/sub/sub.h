@@ -16,7 +16,8 @@ class Sub
     vector<GRBConstr> d_constrs;
     vector<GRBVar> d_vars;
     vector<double> &d_q;
-    
+
+
     Sub(GRBEnv &env, Problem &problem);
     Sub(const Sub &other);
     ~Sub();
@@ -41,5 +42,6 @@ class Sub
     Multipliers solve();
     GomInfo solve2();
 };
+
 
 #endif

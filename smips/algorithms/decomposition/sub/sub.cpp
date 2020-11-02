@@ -1,5 +1,6 @@
 #include "sub.h"
 
+
 Sub::Sub(GRBEnv &env, Problem &problem)
 :
 d_model(env),

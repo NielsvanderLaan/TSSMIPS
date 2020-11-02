@@ -49,6 +49,10 @@ struct BendersCut
     d_alpha /= kappa;
     for_each(d_beta.begin(), d_beta.end(), [kappa](double &val){val /= kappa;});
   }
+
 };
+
+
+#pragma omp declare reduction(sum : BendersCut : omp_out += omp_in) initializer(omp_priv(omp_orig))
 
 #endif

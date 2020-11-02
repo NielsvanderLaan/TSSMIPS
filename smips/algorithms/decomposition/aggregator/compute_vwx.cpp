@@ -4,7 +4,7 @@ vector<double> Aggregator::compute_vwx(double *x)
 {
   vector<double> vx(d_probs.size());
 
-  GRBConstr *cons = d_vw.getConstrs();
+  GRBConstr *cons = d_vw.getConstrs();  // move this in the loop for parallelization (use firstprivate(d_vw))
   GRBVar *vars = d_vw.getVars();
 
   for (size_t s = 0; s != d_probs.size(); ++s)

@@ -1,12 +1,12 @@
 #include "lagrangian.h"
 
+
 Lagrangian::Lagrangian(GRBEnv &env, Problem &problem)
 :
 d_model(env),
 d_problem(problem),
 d_rcut(false)
 {
-
   size_t n1 = problem.d_n1;
   size_t p1 = problem.d_p1;
   size_t n2 = problem.d_n2;

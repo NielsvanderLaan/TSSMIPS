@@ -19,6 +19,8 @@ class Lagrangian
     vector<GRBVar> d_y_vars;
     GRBVar d_theta;
     bool d_rcut;
+
+
     Lagrangian(GRBEnv &env, Problem &problem);
     Lagrangian(const Lagrangian &other);
 
