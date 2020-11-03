@@ -3,12 +3,10 @@
 
 Lagrangian::Lagrangian(GRBEnv &env, Problem &problem)
 :
-d_model(nullptr),
+d_model(env),
 d_problem(problem),
 d_rcut(false)
 {
-  d_model = new GRBModel(env);
-
   size_t n1 = problem.d_n1;
   size_t p1 = problem.d_p1;
   size_t n2 = problem.d_n2;
@@ -26,7 +24,7 @@ d_rcut(false)
   char zTypes[n1];
   fill_n(zTypes, p1, GRB_INTEGER);    
   fill_n(zTypes + p1, n1 - p1, GRB_CONTINUOUS);
-  GRBVar *zvars = d_model->addVars(problem.d_l1.data(), problem.d_u1.data(), NULL, zTypes, NULL, n1);   // cost coeffs set by update()
+  GRBVar *zvars = d_model.addVars(problem.d_l1.data(), problem.d_u1.data(), NULL, zTypes, NULL, n1);   // cost coeffs set by update()
   d_z_vars = vector<GRBVar>(zvars, zvars + n1);
   delete[] zvars;
 
@@ -38,7 +36,7 @@ d_rcut(false)
   fill(senses1,                   senses1 + problem.d_fs_leq,          GRB_LESS_EQUAL);
   fill(senses1 + problem.d_fs_leq,          senses1 + problem.d_fs_leq + problem.d_fs_geq, GRB_GREATER_EQUAL);
   fill(senses1 + problem.d_fs_leq + problem.d_fs_geq, senses1 + lhs.size(),              GRB_EQUAL);
-  delete[] d_model->addConstrs(lhs.data(), senses1, problem.d_b.data(), NULL, lhs.size());
+  delete[] d_model.addConstrs(lhs.data(), senses1, problem.d_b.data(), NULL, lhs.size());
 
 
 
@@ -50,7 +48,7 @@ d_rcut(false)
       // cost vector
   double *q = problem.d_q.data();        // transform cost vector and omega to c-style array 
       // add variables
-  GRBVar *yvars = d_model->addVars(problem.d_l2.data(), problem.d_u2.data(), q, yTypes, NULL, n2);
+  GRBVar *yvars = d_model.addVars(problem.d_l2.data(), problem.d_u2.data(), q, yTypes, NULL, n2);
   d_y_vars = vector<GRBVar>(yvars, yvars + n2);
   delete[] yvars;
 
@@ -74,11 +72,11 @@ d_rcut(false)
     TxWy[conIdx].addTerms(Wmat[conIdx].data(), d_y_vars.data(), n2);
   }
       // add constraints
-  GRBConstr *cons = d_model->addConstrs(TxWy, senses, rhs, NULL, m2);
+  GRBConstr *cons = d_model.addConstrs(TxWy, senses, rhs, NULL, m2);
   d_constrs = vector<GRBConstr> (cons, cons + m2);
   delete[] cons;
 
-  d_theta = d_model->addVar(problem.d_L, GRB_INFINITY, 0.0, GRB_CONTINUOUS);
+  d_theta = d_model.addVar(problem.d_L, GRB_INFINITY, 0.0, GRB_CONTINUOUS);
 
-  d_model->update();
+  d_model.update();
 }

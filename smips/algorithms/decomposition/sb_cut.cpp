@@ -9,7 +9,7 @@ BendersCut Benders::sb_cut(double *x)
   vector<Sub> subs(d_S, d_sub);
   vector<Lagrangian> lrs(d_S, d_lr);
 
-#pragma omp parallel for reduction(sum : cut) num_threads(4)
+//#pragma omp parallel for reduction(sum : cut) num_threads(4)
   for (size_t s = 0; s < d_S; ++s)
   {
     //vector<double> pi = d_sub.compute_slope(s, x);

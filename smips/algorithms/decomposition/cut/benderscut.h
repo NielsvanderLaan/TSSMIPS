@@ -53,6 +53,6 @@ struct BendersCut
 };
 
 
-#pragma omp declare reduction(sum : BendersCut : omp_out += omp_in) initializer(omp_priv(omp_orig))
+//#pragma omp declare reduction(sum : BendersCut : omp_out += omp_in) initializer(omp_priv(omp_orig))
 
 #endif
