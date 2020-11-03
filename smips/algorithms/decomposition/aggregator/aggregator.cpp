@@ -13,11 +13,11 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem)
 
   for (size_t s = 0; s != problem.d_S; ++s)
   {
-    //GRBEnv subenv;
-    //subenv.set(GRB_IntParam_OutputFlag, 0);
-    //subenv.set(GRB_IntParam_Threads, 1);
+    GRBEnv subenv;
+    subenv.set(GRB_IntParam_OutputFlag, 0);
+    subenv.set(GRB_IntParam_Threads, 1);
 
-    CGMip cgmip{env, problem, s };
+    CGMip cgmip{subenv, problem, s };
     d_cgmips.push_back(cgmip);
 
     ZkTree tree{ c_env, env, problem, s };
