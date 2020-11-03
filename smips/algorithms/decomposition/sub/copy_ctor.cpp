@@ -16,5 +16,4 @@ d_q(other.d_q)
   for (size_t con = 0; con != d_m2; ++con)
     d_constrs.push_back(constr_ptr[con]);
   delete[] constr_ptr;
-
 }

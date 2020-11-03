@@ -11,7 +11,7 @@ double Benders::lpSolve(double tol)
     Master::Solution sol = d_master.solve(tol);
     vector<double> x = sol.xVals;      
   
-    BendersCut cut = lpCut(x.data());  
+    BendersCut cut = lpCut(x.data());
       // add the cut (conditional on it being violated by the current solution)
     stop = add_cut(cut, sol, tol);  // if no cut was added, then while loop is exited
 

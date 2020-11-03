@@ -31,6 +31,13 @@ int main(int argc, char *argv[])
     GRBsetintparam(c_env, "OutputFlag", 0);
     GRBsetintparam(c_env, "Threads", 1);
     {
+      /*
+      GRBModel model(env, "lr.lp");
+      model.set(GRB_IntParam_DualReductions, 0);
+      model.optimize();
+      exit(1);
+      */
+
       Problem problem(rand, env);
       instance(problem, argc, argv);
       vector<Type> types = string_to_type(argc, argv);

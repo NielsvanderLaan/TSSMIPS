@@ -56,7 +56,6 @@ class Benders
 
     BendersCut lpCut(double *x); 
     BendersCut sb_cut(double *x);
-    BendersCut lr_cut(double *x, vector<double> &vx);
     void ald_cut(double *x, double *beta, double &tau, double &gamma, size_t maxRounds); // RBA
     BendersCut lbdaCut(double *x, double *alpha);
     double compute_gomory(size_t s, int *vBasis, int *cBasis, double *ws, double *alpha);
@@ -80,7 +79,6 @@ class Benders
     size_t round_of_cuts(Master::Solution sol, double tol);
 
     BendersCut compute_cut(Type type, Master::Solution &sol, bool int_feas, vector<double> &vx, double tol, double *alpha = nullptr);
-    BendersCut sub_sb_cut(size_t s, double *x, Sub &sub, Lagrangian &lr);
 
 };
 

@@ -2,7 +2,7 @@
 
 double Lagrangian::solve()
 {
-  d_model.optimize();
+  d_model->optimize();
 
-  return d_model.get(GRB_DoubleAttr_ObjBound);
+  return d_model->get(GRB_DoubleAttr_ObjBound);
 }
