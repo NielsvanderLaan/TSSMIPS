@@ -1,7 +1,7 @@
 #include "zk.h"
 #include <cmath>
 
-Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, bool zk)
+Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, bool zk, bool check)
 {
   GRBmodel *model = master.d_cmodel;
   vector<double> &kappa = master.d_kappa;
@@ -19,6 +19,22 @@ Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, boo
   
   double coef_x[nVarsMaster - 1]; double coef_y[d_nVars]; double coef_theta = -1; double coef_rhs = 1;// cut coefficients
   double a0 = zk ? yval : yval + inner_product(x, x + d_n1, tab_row_x + 1, 0.0);
+
+  if (check)
+  {
+    double mastervars[nVarsMaster];
+    GRBgetdblattrarray(master.d_cmodel, "X", 0, nVarsMaster, mastervars);
+    double yvals[d_nVars];
+    GRBgetdblattrarray(d_model, "X", 0, d_nVars, yvals);
+    double actual = inner_product(tab_row_x, tab_row_x + nVarsMaster, mastervars, 0.0) + inner_product(tab_row_y, tab_row_y + d_nVars, yvals, 0.0);
+
+    if (abs(actual - a0) > 1e-6)
+    {
+      cout << "a0 = " << a0 << ". actual = " << actual << endl;
+      exit(1);
+    }
+
+  }
 
   bool proper = gmi_cut(tab_row_x, tab_row_y, a0, coef_x, coef_y, coef_theta, nVarsMaster);
   if (not proper)

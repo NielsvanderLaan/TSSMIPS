@@ -30,7 +30,7 @@ ZK::ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
     
   size_t nLeq = problem.d_ss_leq;
   size_t nGeq = problem.d_ss_geq;
-        // undating signs of inequalities (default = 0)
+        // updating signs of inequalities (default = 0)
   fill_n(d_signs.begin(), nLeq, -1);        // <= constraints
   fill_n(d_signs.begin() + nLeq, nGeq, 1);  // >= contraints 
 

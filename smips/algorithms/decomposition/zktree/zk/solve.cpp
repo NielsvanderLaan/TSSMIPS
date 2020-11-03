@@ -1,6 +1,6 @@
 #include "zk.h"
 
-bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool gomory, bool zk, double tol)
+bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool gomory, bool zk, double tol, bool check)
 {
   bool stop = false;
   size_t round = 0;
@@ -11,7 +11,6 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
     if (not optimize())  // if model is infeasible
       return false;      // return false
 
-
     ++round;
     stop = true;        // resets to false if we add a cut (which we attempt to do if solution violates integer constraints)
     if (round >= maxRounds)
@@ -19,17 +18,6 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
  
     int bhead[d_nConstrs];
     GRBgetBasisHead(d_model, bhead);        // extract basis info   
-
-    
-    /*
-    for (size_t var = 0; var != d_n2; ++var)
-       cout << d_yvals[var] << ' ';
-    cout << endl;
-    double obj;
-    GRBgetdblattr(d_model, "ObjVal", &obj);
-    cout << "objective = " << obj << '\n';
-    */
-
 
     size_t nCuts = 0;
     for (size_t row = 0; row != d_nConstrs; ++row)    // loop over rows of simplex tableau 
@@ -43,7 +31,7 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
       if (is_integer(yval))                  // if variable value is integer,
         continue;                            // then do not derive a cut
 
-      Cut cut = gomory ? generate_gmi_cut(master, row, yval, x, zk) : d_cglp.generate_cut(x, theta, d_yvals.data(), basic_var, floor(yval));
+      Cut cut = gomory ? generate_gmi_cut(master, row, yval, x, zk, check) : d_cglp.generate_cut(x, theta, d_yvals.data(), basic_var, floor(yval));
 
 
       if (add_cut(cut, x, theta, tol, d_nConstrs + nCuts))    // ret = true iff cut was added (iff cut is proper)
@@ -57,6 +45,14 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
     d_nVars += nCuts;     // slacks
   }
   //cout << "d_objVal = " << d_objVal << " true_obj = " << true_obj << '\n';
+
+  if (not all_of(d_tau.begin(), d_tau.end(), [](double val){return val >= 0;}))
+  {
+    for_each(d_tau.begin(), d_tau.end(), [](double val){cout << val << ' ';});
+    cout << '\n';
+    exit(1);
+  }
+
   return true; // model is feasible
 }
 
