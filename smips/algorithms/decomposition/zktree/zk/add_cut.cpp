@@ -9,8 +9,8 @@ static bool abs_compare(double a, double b)
 
 bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
 {
-  double Tmax = *max_element(cut.Trow.begin(), cut.Trow.end(), abs_compare);
-  double Wmax = *max_element(cut.Wrow.begin(), cut.Wrow.end(), abs_compare);
+  double Tmax = abs(*max_element(cut.Trow.begin(), cut.Trow.end(), abs_compare));
+  double Wmax = abs(*max_element(cut.Wrow.begin(), cut.Wrow.end(), abs_compare));
   double abs_max = max(max(Tmax, Wmax), max(abs(cut.r), abs(cut.rhs)));
   if (abs_max < 1e-8)
     return false;
@@ -29,7 +29,7 @@ bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
   for (size_t var = 0; var != d_n2; ++var)
     lhs += cut.Wrow[var] * d_yvals[var];
 
-    // computing rhs 
+    // computing rhs
   double rhs = cut.rhs - cut.r * theta;
   for (size_t var = 0; var != d_n1; ++var)
     rhs -= cut.Trow[var] * x[var];
@@ -56,6 +56,7 @@ bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
   
     //  updating the cglp
   add_cglp_row(cut.Trow.data(), cut.r, cut.Wrow.data(), cut.rhs);
+
   return true;
 }   
 

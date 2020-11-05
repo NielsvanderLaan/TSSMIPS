@@ -9,7 +9,17 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
   GRBsvec e_i {1, e_i_ind, e_i_val};  // unit vector
   int Brow_ind[d_nConstrs];  double Brow_val[d_nConstrs];
   GRBsvec Brow {d_nConstrs, Brow_ind, Brow_val};   // result vector
-  GRBBSolve(d_model, &e_i, &Brow);   // extracting ith row of B^-1
+  int error = GRBBSolve(d_model, &e_i, &Brow);   // extracting ith row of B^-1
+  if (error)
+  {
+    cout << "error code: " << error << '\n';
+    int status;
+    GRBgetintattr(d_model, "Status", &status);
+    cout << "status code: " << status << '\n';
+    GRBwrite(d_model, "zk_tmp.lp");
+    exit(159);
+
+  }
 
     // computing Brow^-1 * T
   for (size_t idx = 0; idx != d_n1; ++idx) // no need to loop over slacks: corresponding rows of T are zero vectors
@@ -40,7 +50,7 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
     if (basic_var > d_n1)               // corresponds to slack variable, so 
       continue;                         // corresponding column of T is zero vector: skip 
           
-    if  (basic_var == 0)            // then multiply by tau (column 0 of (tau, Tmat))
+    if (basic_var == 0)            // then multiply by tau (column 0 of (tau, Tmat))
     {
       for (size_t nz = 0; nz != Brow.len; ++nz)     // loop over nonzeros of Brow
         BinvTBA[idx] += Brow.val[nz] * d_tau[Brow.ind[nz]];
@@ -60,11 +70,8 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
     GRBBinvColj(master, col, &BA_col);
 
 
-
-
     for (size_t nz = 0; nz != BA_col.len; ++nz)
       tab_row_x[col] -= BinvTBA[BA_col.ind[nz]] * BA_col.val[nz];
-
   }
 }
 

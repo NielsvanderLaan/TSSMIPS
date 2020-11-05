@@ -13,6 +13,4 @@ void ZK::update(double *x, double theta)      // updates rhs
   } 
   
   GRBsetdblattrarray(d_model, "RHS", 0, d_nConstrs, rhs);
-
-
 }

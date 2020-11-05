@@ -5,6 +5,8 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
   bool stop = false;
   size_t round = 0;
 
+
+
   while (not stop)
   {
         // solve the model by calling optimize(), which also updates d_objval and d_yvals
@@ -20,6 +22,7 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
     GRBgetBasisHead(d_model, bhead);        // extract basis info   
 
     size_t nCuts = 0;
+
     for (size_t row = 0; row != d_nConstrs; ++row)    // loop over rows of simplex tableau 
     {
       int basic_var = bhead[row];            // index of corresponding basic variable
@@ -31,6 +34,9 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
       if (is_integer(yval))                  // if variable value is integer,
         continue;                            // then do not derive a cut
 
+      int before;
+      GRBgetintattr(d_model, "Status", &before);
+
       Cut cut = gomory ? generate_gmi_cut(master, row, yval, x, zk, check) : d_cglp.generate_cut(x, theta, d_yvals.data(), basic_var, floor(yval));
 
 
@@ -40,18 +46,12 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
         stop = false;
       }
 
+
     }
     d_nConstrs += nCuts;
     d_nVars += nCuts;     // slacks
   }
   //cout << "d_objVal = " << d_objVal << " true_obj = " << true_obj << '\n';
-
-  if (not all_of(d_tau.begin(), d_tau.end(), [](double val){return val >= 0;}))
-  {
-    for_each(d_tau.begin(), d_tau.end(), [](double val){cout << val << ' ';});
-    cout << '\n';
-    exit(1);
-  }
 
   return true; // model is feasible
 }

@@ -6,7 +6,7 @@ BendersCut ZK::subgradient()
   GRBgetdblattrarray(d_model, "Pi", 0, d_nConstrs, lambda);
   
   double alpha = 0; 
-  vector<double> beta(d_n1);
+  vector<double> beta(d_n1, 0.0);
   double tau = 0;
   
   for (size_t con = 0; con != d_nConstrs; ++con)
