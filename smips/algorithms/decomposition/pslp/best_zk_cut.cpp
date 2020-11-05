@@ -28,15 +28,9 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, bool lap_cuts
 
     for (size_t s = 0; s != d_S; ++s)
     {
-      //double M = 0;
-      //d_zk[s].update(x, M);
-      //d_zk[s].solve(x, M, master, maxRounds, true, true, 1e-6);
-
-
       d_zk[s].update(x, rho);
-      cout << "start\n";
-      d_zk[s].solve(x, rho, master, maxRounds, true, true, 1e-6);
-      cout << "end\n";
+      d_zk[s].solve(x, rho, master, maxRounds, true, true, 1e-6, true);
+
 
       d_zk[s].optimize();
       cut += d_zk[s].subgradient() * d_probs[s];

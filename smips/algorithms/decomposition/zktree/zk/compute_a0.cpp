@@ -1,8 +1,7 @@
 #include "zk.h"
 
-double ZK::compute_a0(int row, vector<double> x, double theta)
+double ZK::compute_a0(int row, vector<double> x, double theta, bool check)
 {
-      // extracting i-th row of B^-1 (basis matrix of subproblem)
   int e_i_ind[1] = {row};  double e_i_val[1] = {1.0};
   GRBsvec e_i {1, e_i_ind, e_i_val};  // unit vector
   int Brow_ind[d_nConstrs];  double Brow_val[d_nConstrs];
@@ -19,6 +18,19 @@ double ZK::compute_a0(int row, vector<double> x, double theta)
       rhs[con] -= Trow[var] * x[var];
   }
 
+  if (not check)
+  {
+    double values[d_nConstrs];
+    GRBgetdblattrarray(d_model, "RHS", 0, d_nConstrs, values);
+    for (size_t con = 0; con != d_nConstrs; ++con)
+    {
+      if (abs(values[con] - rhs[con]) > 1e-6)
+        cout << "rhs's: " << values[con] << ' ' << rhs[con] << endl;
+    }
+  }
+
+
+
   double ret = 0;
 
   for (size_t nz = 0; nz != Brow.len; ++nz)
@@ -26,3 +38,4 @@ double ZK::compute_a0(int row, vector<double> x, double theta)
 
   return ret;
 }
+
