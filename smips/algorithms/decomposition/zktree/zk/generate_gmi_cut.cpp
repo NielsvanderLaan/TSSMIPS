@@ -1,7 +1,7 @@
 #include "zk.h"
 #include <cmath>
 
-Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, bool zk)
+Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, double theta, double rho)
 {
   GRBmodel *model = master.d_cmodel;
   vector<double> &kappa = master.d_kappa;
@@ -13,22 +13,13 @@ Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, boo
 
       // computing tableau row
   double tab_row_x[nVarsMaster];
-  compute_tab_row_x(tab_row_x, nVarsMaster, row, model, zk); // tableau row for (theta, x) (in that order)
+  compute_tab_row_x(tab_row_x, nVarsMaster, row, model); // tableau row for (theta, x) (in that order)
 
   double tab_row_y[d_nVars];
   compute_tab_row_y(tab_row_y, row); // tableau row for y variables 
   
   double coef_x[nVarsMaster - 1]; double coef_y[d_nVars]; double coef_theta = -1; double coef_rhs = 1;// cut coefficients
-  double a0 = zk ? yval : yval + inner_product(x, x + d_n1, tab_row_x + 1, 0.0);
-
-  double mastervars[nVarsMaster];
-  GRBgetdblattrarray(master.d_cmodel, "X", 0, nVarsMaster, mastervars);
-  double yvals[d_nVars];
-  GRBgetdblattrarray(d_model, "X", 0, d_nVars, yvals);
-  a0 = yval;
-
-  double actual = compute_a0(row, vector<double>(mastervars + 1, mastervars + d_n1 + 1), mastervars[0] + d_L);
-  a0 = actual;
+  double a0 = compute_a0(row, yval, theta, rho);
 
   bool proper = gmi_cut(tab_row_x, tab_row_y, a0, coef_x, coef_y, coef_theta, nVarsMaster);
   if (not proper)

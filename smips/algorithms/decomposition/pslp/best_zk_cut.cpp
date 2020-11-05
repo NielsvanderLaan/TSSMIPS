@@ -3,7 +3,8 @@
 BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, bool lap_cuts, bool affine, size_t maxRounds, double tol)
 {
   double *x = sol.xVals.data();
-  double rho = sol.thetaVal;
+  double theta = sol.thetaVal;
+  double rho = theta;
   double cRho = 1;
   
   for (size_t s = 0; s != d_S; ++s)        // generate cutting planes
@@ -11,11 +12,11 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, bool lap_cuts
     if (lap_cuts)
     {
       d_zk[s].update(x, affine ? GRB_INFINITY : rho);
-      d_zk[s].solve(x, affine ? GRB_INFINITY : rho, master, maxRounds, false, false);
+      d_zk[s].solve(x, theta, affine ? GRB_INFINITY : rho, master, maxRounds, false);
     } else
     {
       d_zk[s].update(x, rho);
-      d_zk[s].solve(x, rho, master, maxRounds, true, true);
+      d_zk[s].solve(x, theta, rho, master, maxRounds);
     }
   }
 
@@ -29,8 +30,7 @@ BendersCut Pslp::best_zk_cut(Master::Solution sol, Master &master, bool lap_cuts
     for (size_t s = 0; s != d_S; ++s)
     {
       d_zk[s].update(x, rho);
-      d_zk[s].solve(x, rho, master, maxRounds, true, true, 1e-6);
-
+      d_zk[s].solve(x, theta, rho, master, maxRounds);
 
       d_zk[s].optimize();
       cut += d_zk[s].subgradient() * d_probs[s];
