@@ -1,6 +1,6 @@
 #include "zk.h"
 
-double ZK::compute_a0(int row, vector<double> x, double theta, bool check)
+double ZK::compute_a0(int row, vector<double> x, double theta)
 {
   int e_i_ind[1] = {row};  double e_i_val[1] = {1.0};
   GRBsvec e_i {1, e_i_ind, e_i_val};  // unit vector
@@ -17,19 +17,6 @@ double ZK::compute_a0(int row, vector<double> x, double theta, bool check)
     for (size_t var = 0; var != Trow.size(); ++var)
       rhs[con] -= Trow[var] * x[var];
   }
-
-  if (not check)
-  {
-    double values[d_nConstrs];
-    GRBgetdblattrarray(d_model, "RHS", 0, d_nConstrs, values);
-    for (size_t con = 0; con != d_nConstrs; ++con)
-    {
-      if (abs(values[con] - rhs[con]) > 1e-6)
-        cout << "rhs's: " << values[con] << ' ' << rhs[con] << endl;
-    }
-  }
-
-
 
   double ret = 0;
 

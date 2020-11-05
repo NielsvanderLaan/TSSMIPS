@@ -51,7 +51,7 @@ class ZK
     
   
     void update(double *x, double theta);    // computes and updates rhs
-    bool solve(double *x, double theta, Master &master, size_t maxRounds, bool gomory = true, bool zk = true, double tol = 1e-6, bool check = false);    // returns false if model is infeasible (may happen due to branching)
+    bool solve(double *x, double theta, Master &master, size_t maxRounds, bool gomory = true, bool zk = true, double tol = 1e-6);    // returns false if model is infeasible (may happen due to branching)
     BendersCut subgradient();  // v_w(x) >= alpha + beta^T x + tau * theta  
     bool optimize();    // returns false if model is infeasible (may happen due to branching)
     
@@ -62,7 +62,7 @@ class ZK
     void add_cglp_row(double *coef_x, double coef_theta, double *coef_y, double rhs);   // calls cglp::add_row() to add cutting plane or optimality cut to cglp
     void reverse_cut(double UB);
   
-    Cut generate_gmi_cut(Master &master, size_t row, double yval, double *x, bool zk, bool check, double rho);    // generates a gmi cut
+    Cut generate_gmi_cut(Master &master, size_t row, double yval, double *x, bool zk);    // generates a gmi cut
     void compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel *master, bool zk);    // support functions for generate_gmi_cut()
     void compute_tab_row_y(double *tab_row_y, int row);                                       // idem
     bool gmi_cut(double *tab_row_x, double *tab_row_y, double a0, double *coef_x, double *coef_y, double &coef_theta, int nVarsMaster);  // idem
@@ -72,7 +72,7 @@ class ZK
     double probe(size_t var_idx, double val, bool lower); // temporarily adjusts lb/ub of y[var_idx] to val, and returns increase in objective value. On return, leaves object unchanged.
 
 
-    double compute_a0(int row, vector<double> x, double theta, bool check);
+    double compute_a0(int row, vector<double> x, double theta);
 
 };
 

@@ -1,7 +1,7 @@
 #include "zk.h"
 #include <cmath>
 
-Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, bool zk, bool check, double rho)
+Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, bool zk)
 {
   GRBmodel *model = master.d_cmodel;
   vector<double> &kappa = master.d_kappa;
@@ -27,11 +27,8 @@ Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, boo
   GRBgetdblattrarray(d_model, "X", 0, d_nVars, yvals);
   a0 = yval;
 
-  double actual = compute_a0(row, vector<double>(mastervars + 1, mastervars + d_n1 + 1), mastervars[0] + d_L, check);
-  if (not check && abs(a0 - actual) > 1e-6)
-    cout << "a0: " << a0 << ". actual: " << actual << '\n';
+  double actual = compute_a0(row, vector<double>(mastervars + 1, mastervars + d_n1 + 1), mastervars[0] + d_L);
   a0 = actual;
-
 
   bool proper = gmi_cut(tab_row_x, tab_row_y, a0, coef_x, coef_y, coef_theta, nVarsMaster);
   if (not proper)
@@ -41,9 +38,5 @@ Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, boo
   vector<double> Trow(coef_x, coef_x + d_n1);
   vector<double> Wrow(coef_y, coef_y + d_n2);
 
-
-
-
-
-  return Cut { Trow, coef_theta, Wrow, coef_rhs };      
+  return Cut { Trow, coef_theta, Wrow, coef_rhs };
 }

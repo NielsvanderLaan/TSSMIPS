@@ -1,6 +1,6 @@
 #include "zk.h"
 
-bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool gomory, bool zk, double tol, bool check)
+bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool gomory, bool zk, double tol)
 {
   bool stop = false;
   size_t round = 0;
@@ -36,7 +36,7 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
         continue;                            // then do not derive a cut
 
 
-      Cut cut = gomory ? generate_gmi_cut(master, row, yval, x, zk, check, theta) : d_cglp.generate_cut(x, theta, d_yvals.data(), basic_var, floor(yval));
+      Cut cut = gomory ? generate_gmi_cut(master, row, yval, x, zk) : d_cglp.generate_cut(x, theta, d_yvals.data(), basic_var, floor(yval));
 
 
       if (add_cut(cut, x, theta, tol, d_nConstrs + nCuts))    // ret = true iff cut was added (iff cut is proper)
