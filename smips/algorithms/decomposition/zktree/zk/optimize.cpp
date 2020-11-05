@@ -4,7 +4,6 @@ bool ZK::optimize()
 {
   GRBoptimize(d_model);
 
-
   int status;
   GRBgetintattr(d_model, "Status", &status);
   if (status == 3)      // model is infeasible

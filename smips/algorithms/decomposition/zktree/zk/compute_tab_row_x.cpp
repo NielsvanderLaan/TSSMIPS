@@ -3,23 +3,14 @@
 void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel *master, bool zk)
 {
   fill_n(tab_row_x, nVarsMaster, 0);
-            
+
+
             // extracting i-th row of B^-1 (basis matrix of subproblem)
   int e_i_ind[1] = {row};  double e_i_val[1] = {1.0};
   GRBsvec e_i {1, e_i_ind, e_i_val};  // unit vector
   int Brow_ind[d_nConstrs];  double Brow_val[d_nConstrs];
   GRBsvec Brow {d_nConstrs, Brow_ind, Brow_val};   // result vector
-  int error = GRBBSolve(d_model, &e_i, &Brow);   // extracting ith row of B^-1
-  if (error)
-  {
-    cout << "error code: " << error << '\n';
-    int status;
-    GRBgetintattr(d_model, "Status", &status);
-    cout << "status code: " << status << '\n';
-    GRBwrite(d_model, "zk_tmp.lp");
-    exit(159);
-
-  }
+  GRBBSolve(d_model, &e_i, &Brow);   // extracting ith row of B^-1
 
     // computing Brow^-1 * T
   for (size_t idx = 0; idx != d_n1; ++idx) // no need to loop over slacks: corresponding rows of T are zero vectors
@@ -73,6 +64,7 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
     for (size_t nz = 0; nz != BA_col.len; ++nz)
       tab_row_x[col] -= BinvTBA[BA_col.ind[nz]] * BA_col.val[nz];
   }
+
 }
 
 

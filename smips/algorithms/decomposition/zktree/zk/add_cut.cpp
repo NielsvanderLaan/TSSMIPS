@@ -21,7 +21,6 @@ bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
   for_each(cut.Trow.begin(), cut.Trow.end(), [scale](double &val){val *= scale;});
   for_each(cut.Wrow.begin(), cut.Wrow.end(), [scale](double &val){val *= scale;});
 
-
     // computing lhs
   double lhs = 0;
   for (size_t var = 0; var != d_n2; ++var)

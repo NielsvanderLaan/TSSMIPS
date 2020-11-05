@@ -16,4 +16,5 @@ void ZK::compute_tab_row_y(double *tab_row_y, int row)
     if (var < d_nVars)
       tab_row_y[var] = BW_row.val[nz];  
   }
+
 }

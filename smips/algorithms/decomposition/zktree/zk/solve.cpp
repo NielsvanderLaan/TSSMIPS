@@ -1,6 +1,6 @@
 #include "zk.h"
 
-bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool gomory, bool zk, double tol, bool check)
+bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool gomory, bool zk, double tol)
 {
   bool stop = false;
   size_t round = 0;
@@ -10,6 +10,7 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
   while (not stop)
   {
         // solve the model by calling optimize(), which also updates d_objval and d_yvals
+
     if (not optimize())  // if model is infeasible
       return false;      // return false
 
@@ -35,7 +36,7 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
         continue;                            // then do not derive a cut
 
 
-      Cut cut = gomory ? generate_gmi_cut(master, row, yval, x, zk, check) : d_cglp.generate_cut(x, theta, d_yvals.data(), basic_var, floor(yval));
+      Cut cut = gomory ? generate_gmi_cut(master, row, yval, x, zk) : d_cglp.generate_cut(x, theta, d_yvals.data(), basic_var, floor(yval));
 
 
       if (add_cut(cut, x, theta, tol, d_nConstrs + nCuts))    // ret = true iff cut was added (iff cut is proper)
@@ -48,7 +49,10 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
     }
     d_nConstrs += nCuts;
     d_nVars += nCuts;     // slacks
+
   }
+
+
   //cout << "d_objVal = " << d_objVal << " true_obj = " << true_obj << '\n';
 
   return true; // model is feasible
