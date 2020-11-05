@@ -34,8 +34,6 @@ bool ZK::solve(double *x, double theta, Master &master, size_t maxRounds, bool g
       if (is_integer(yval))                  // if variable value is integer,
         continue;                            // then do not derive a cut
 
-      int before;
-      GRBgetintattr(d_model, "Status", &before);
 
       Cut cut = gomory ? generate_gmi_cut(master, row, yval, x, zk, check) : d_cglp.generate_cut(x, theta, d_yvals.data(), basic_var, floor(yval));
 

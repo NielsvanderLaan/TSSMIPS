@@ -6,7 +6,6 @@ static bool abs_compare(double a, double b)
   return (std::abs(a) < std::abs(b));
 }
 
-
 bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
 {
   double Tmax = abs(*max_element(cut.Trow.begin(), cut.Trow.end(), abs_compare));
@@ -14,7 +13,6 @@ bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
   double abs_max = max(max(Tmax, Wmax), max(abs(cut.r), abs(cut.rhs)));
   if (abs_max < 1e-8)
     return false;
-
 
   double scale = 1 / abs_max;
 
