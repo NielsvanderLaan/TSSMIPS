@@ -25,14 +25,14 @@ class Sub
     
     struct GomInfo
     {
-      vector<double> &lambda;
-      vector<int> &vbasis;
-      vector<int> &cbasis;
+      vector<double> lambda;
+      vector<int> vbasis;
+      vector<int> cbasis;
     };
     
     struct Multipliers
     {
-      vector<double> &lambda;
+      vector<double> lambda;
       double obj;
     };
     
