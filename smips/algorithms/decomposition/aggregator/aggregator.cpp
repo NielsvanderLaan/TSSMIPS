@@ -19,11 +19,11 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem)
 
   for (size_t s = 0; s != problem.d_S; ++s)
   {
-    /*
+
     GRBEnv subenv;
     subenv.set(GRB_IntParam_OutputFlag, 0);
     subenv.set(GRB_IntParam_Threads, 1);
-     */
+
 
     CGMip cgmip{env, problem, s };
     d_cgmips.push_back(cgmip);
@@ -34,7 +34,7 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem)
     ZkTree tree{ c_env, env, problem, s };
     d_trees.push_back(tree);
 
-    Sub sub {env, problem, s};
+    Sub sub {subenv, problem, s};
     d_sub.push_back(sub);
 
     Lagrangian lr(env, problem, s);
