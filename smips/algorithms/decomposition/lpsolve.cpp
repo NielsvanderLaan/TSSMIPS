@@ -7,16 +7,13 @@ double Benders::lpSolve(double tol)
   
   while (not stop)
   {
-      // solve master problem, and collect x and theta
     Master::Solution sol = d_master.solve(tol);
-    vector<double> x = sol.xVals;      
   
-    BendersCut cut = lpCut(x.data());
-      // add the cut (conditional on it being violated by the current solution)
-    stop = add_cut(cut, sol, tol);  // if no cut was added, then while loop is exited
+    BendersCut cut = d_agg.lp_cut( sol.xVals);
+    stop = add_cut(cut, sol, tol);
 
     if (stop)
-      copy(x.begin(), x.end(), d_xvals);
+      copy( sol.xVals.begin(),  sol.xVals.end(), d_xvals);
     else
       ++iter;
   }

@@ -6,6 +6,8 @@ void Aggregator::add_rows(BendersCut &cut)
   {
     d_cgmips[s].add_row(cut);
     d_trees[s].add_benders_cut(cut);
+    d_zk[s].add_cglp_row(cut);
+    d_lr[s].add_cut(cut);
   }
 
 }

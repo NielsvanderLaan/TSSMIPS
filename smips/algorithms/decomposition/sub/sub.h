@@ -12,29 +12,27 @@ class Sub
   public:
     GRBModel d_model;
     Problem &d_problem;
+    int d_s;
     size_t d_m2, d_n2;
     vector<GRBConstr> d_constrs;
     vector<GRBVar> d_vars;
-    vector<double> &d_q;
 
-
-    Sub(GRBEnv &env, Problem &problem);
+    Sub(GRBEnv &env, Problem &problem, size_t s);
     Sub(const Sub &other);
-    ~Sub();
 
-    void update(double *rhs, size_t s);
-    vector<double> compute_slope(size_t, double *x);
+    void update(vector<double> &x);
+    vector<double> compute_slope(vector<double> &x);
     
     struct GomInfo
     {
-      double *lambda;
-      int *vBasis;
-      int *cBasis;
+      vector<double> &lambda;
+      vector<int> &vbasis;
+      vector<int> &cbasis;
     };
     
     struct Multipliers
     {
-      double *lambda;
+      vector<double> &lambda;
       double obj;
     };
     

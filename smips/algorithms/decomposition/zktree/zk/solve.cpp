@@ -36,7 +36,7 @@ bool ZK::solve(double *x, double theta, double rho, Master &master, size_t maxRo
       Cut cut = gomory ? generate_gmi_cut(master, row, yval, x, theta, rho) : d_cglp.generate_cut(x, rho, d_yvals.data(), basic_var, floor(yval));
 
 
-      if (add_cut(cut, x, theta, tol, d_nConstrs + nCuts))    // ret = true iff cut was added (iff cut is proper)
+      if (add_cut(cut, x, rho, tol, d_nConstrs + nCuts))    // ret = true iff cut was added (iff cut is proper)
       {
         ++nCuts;
         stop = false;
@@ -46,10 +46,7 @@ bool ZK::solve(double *x, double theta, double rho, Master &master, size_t maxRo
     }
     d_nConstrs += nCuts;
     d_nVars += nCuts;     // slacks
-
   }
-
-
   //cout << "d_objVal = " << d_objVal << " true_obj = " << true_obj << '\n';
 
   return true; // model is feasible

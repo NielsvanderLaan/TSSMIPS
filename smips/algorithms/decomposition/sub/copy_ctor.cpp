@@ -3,9 +3,9 @@
 Sub::Sub(const Sub &other):
 d_model(other.d_model),
 d_problem(other.d_problem),
+d_s(other.d_s),
 d_m2(other.d_m2),
-d_n2(other.d_n2),
-d_q(other.d_q)
+d_n2(other.d_n2)
 {
   GRBVar *var_ptr = d_model.getVars();
   for (size_t var = 0; var != d_n2; ++var)

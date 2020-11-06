@@ -1,7 +1,7 @@
 #include "lagrangian.h"
 
 
-Lagrangian::Lagrangian(GRBEnv &env, Problem &problem)
+Lagrangian::Lagrangian(GRBEnv &env, Problem &problem, size_t s)
 :
 d_model(env),
 d_problem(problem),
@@ -21,10 +21,9 @@ d_rcut(false)
   d_m2 = m2;
   
   // adding first-stage variables (z)
-  char zTypes[n1];
-  fill_n(zTypes, p1, GRB_INTEGER);    
-  fill_n(zTypes + p1, n1 - p1, GRB_CONTINUOUS);
-  GRBVar *zvars = d_model.addVars(problem.d_l1.data(), problem.d_u1.data(), NULL, zTypes, NULL, n1);   // cost coeffs set by update()
+  vector<char> zTypes(n1, GRB_CONTINUOUS);
+  fill_n(zTypes.begin(), p1, GRB_INTEGER);
+  GRBVar *zvars = d_model.addVars(problem.d_l1.data(), problem.d_u1.data(), NULL, zTypes.data(), NULL, zTypes.size());
   d_z_vars = vector<GRBVar>(zvars, zvars + n1);
   delete[] zvars;
 
@@ -42,28 +41,24 @@ d_rcut(false)
 
   // adding second-stage variables (y)
        // variable types    
-  char yTypes[n2];
-  fill_n(yTypes, p2, GRB_INTEGER);    
-  fill_n(yTypes + p2, n2 - p2, GRB_CONTINUOUS);
-      // cost vector
-  double *q = problem.d_q.data();        // transform cost vector and omega to c-style array 
+  vector<char> yTypes(n2, GRB_CONTINUOUS);
+  fill_n(yTypes.begin(), p2, GRB_INTEGER);
+  vector<double> &q = problem.d_fix_rec ? problem.d_q : problem.d_q_omega[s];
       // add variables
-  GRBVar *yvars = d_model.addVars(problem.d_l2.data(), problem.d_u2.data(), q, yTypes, NULL, n2);
+  GRBVar *yvars = d_model.addVars(problem.d_l2.data(), problem.d_u2.data(), q.data(), yTypes.data(), NULL, q.size());
   d_y_vars = vector<GRBVar>(yvars, yvars + n2);
   delete[] yvars;
 
       // constraint senses
-  char senses[m2];
-  fill(senses,                   senses + ss_leq,          GRB_LESS_EQUAL);
-  fill(senses + ss_leq,          senses + ss_leq + ss_geq, GRB_GREATER_EQUAL);
-  fill(senses + ss_leq + ss_geq, senses + m2,              GRB_EQUAL);
+  vector<char> senses(m2, GRB_EQUAL);
+  fill_n(senses.begin(),          ss_leq, GRB_LESS_EQUAL);
+  fill_n(senses.begin() + ss_leq, ss_geq, GRB_GREATER_EQUAL);
 
       // constraint rhs
-  double rhs[m2];
-  fill(rhs, rhs + m2, 0.0);    
+  vector<double> &rhs = d_problem.d_omega[s];
 
       // constraint lhs
-  vector<vector<double>> &Wmat = problem.d_Wmat;
+  vector<vector<double>> &Wmat = problem.d_fix_rec ? problem.d_Wmat : problem.d_W_omega[s];
   vector<vector<double>> &Tmat = problem.d_Tmat;
   GRBLinExpr TxWy[m2];
   for (size_t conIdx = 0; conIdx != m2; ++conIdx)
@@ -72,7 +67,7 @@ d_rcut(false)
     TxWy[conIdx].addTerms(Wmat[conIdx].data(), d_y_vars.data(), n2);
   }
       // add constraints
-  GRBConstr *cons = d_model.addConstrs(TxWy, senses, rhs, NULL, m2);
+  GRBConstr *cons = d_model.addConstrs(TxWy, senses.data(), rhs.data(), NULL, rhs.size());
   d_constrs = vector<GRBConstr> (cons, cons + m2);
   delete[] cons;
 

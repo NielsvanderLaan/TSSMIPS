@@ -21,7 +21,7 @@ class Gomory
     Gomory(const Gomory &other);
     ~Gomory();
 
-    void update(double *rhs, int *vBasis, int *cBasis);
+    void update(vector<double> &rhs, vector<int> &vbasis, vector<int> &cbasis);
     double solve();
     void setTimeLimit(double timeLimit);
 };

@@ -2,7 +2,7 @@
 
 double ZK::compute_a0(int row, double yval, double theta, double rho)
 {
-  if (rho <= theta)
+  if (rho <= theta || rho > 1e20)
     return yval;
 
   int Brow_ind[d_nConstrs];  double Brow_val[d_nConstrs];
@@ -21,6 +21,7 @@ double ZK::compute_a0(int row, double yval, double theta, double rho)
    *  a0 = {B^-1(omega - Tx - tau theta)}_i.
    *  To see this, see eq (2.2) in ZK and use the expression for d^k_i in Alg. 2, step 11, and use that
    *  A^-1 b = (x, theta)
+   *  Note that if rho = infty, then B^-1 tau = 0, since yval is finite. In this case, we omit the correction.
    */
 }
 

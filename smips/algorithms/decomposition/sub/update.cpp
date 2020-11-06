@@ -1,24 +1,12 @@
 #include "sub.h"
 
-void Sub::update(double *rhs, size_t s)
+void Sub::update(vector<double> &x)
 {
-  d_model.set(GRB_DoubleAttr_RHS, d_constrs.data(), rhs, d_constrs.size());
+  vector<double> rhs = d_problem.d_omega[d_s];
+  for (size_t row = 0; row != rhs.size(); ++row) // compute w - Tx element-by-element
+    rhs[row] -= inner_product(d_problem.d_Tmat[row].begin(), d_problem.d_Tmat[row].end(), x.begin(), 0.0);
 
-  if (not d_problem.d_fix_rec)
-  {
-    d_model.set(GRB_DoubleAttr_Obj, d_vars.data(), d_problem.d_q_omega[s].data(), d_vars.size());
-
-
-
-    for (size_t con = 0; con != d_constrs.size(); ++con)
-    {
-      vector<GRBConstr> con_vec(d_n2, d_constrs[con]);
-      d_model.chgCoeffs(con_vec.data(), d_vars.data(), d_problem.d_W_omega[s][con].data(), d_vars.size());
-    }
-
-
-  }
+  d_model.set(GRB_DoubleAttr_RHS, d_constrs.data(), rhs.data(), rhs.size());
 
   d_model.update();
-
 }

@@ -11,14 +11,9 @@
 #include "../../../debug.h"
 #include "../../problem_data/problem.h"
 #include "master/master.h"
-#include "sub/sub.h"
-#include "lagrangian/lagrangian.h"
 #include "gomory/gomory.h"
-#include "ald/ald.h"
-#include "pslp/pslp.h"
 #include "aggregator/aggregator.h"
 #include "cut/benderscut.h"
-#include <memory>
 
 using namespace std;
 
@@ -29,11 +24,7 @@ class Benders
     GRBEnv &d_env;
     size_t d_n1, d_p1, d_n2, d_m2, d_S;
     Master d_master;    // master problem
-    Sub d_sub;          // sub-problem
-    Lagrangian d_lr;    // lagrangian relaxation
-    Gomory d_gomory;    // Gomory relaxation  
-    Ald d_ald;          // For deriving ALD cuts  
-    Pslp d_pslp;        // For deriving (strong) ZK cuts  
+    Gomory d_gomory;    // Gomory relaxation
     Aggregator d_agg;
     
     vector<double> d_lb, d_ub;
@@ -43,8 +34,7 @@ class Benders
     double *d_xvals;
     double *d_incumbent;    // keeps track of best solution
     double d_UB;
-    
-    void computeTx(double *x, double *Tx);     // computes Tx (rba)
+
 
     Benders(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe = true);    // initializes d_master and d_sub with both arguments  
     Benders(const Benders &other);
@@ -54,17 +44,14 @@ class Benders
     double get_lb();
     void update_bounds(size_t var, double val, bool lower);
 
-    BendersCut lpCut(double *x); 
-    BendersCut sb_cut(double *x);
-    void ald_cut(double *x, double *beta, double &tau, double &gamma, size_t maxRounds); // RBA
-    BendersCut lbdaCut(double *x, double *alpha);
-    double compute_gomory(size_t s, int *vBasis, int *cBasis, double *ws, double *alpha);
+    BendersCut lbdaCut(vector<double> &x, vector<double> &alpha);
+    double compute_gomory(size_t s, vector<int> &vbasis, vector<int> &cbasis, vector<double> &ws, vector<double> &alpha);
     
     struct Bounds { double d_LB; double d_UB; bool branch; };
     
     double lpSolve(double tol = 1e-4);                                               // L_shaped
-    void lbda(double *alpha, double gomoryTimeLimit = 1e6, double tol = 1e-4);       // LBDA(alpha)
-    void ald_solve(double tol = 1e-4, size_t maxRounds = 25);
+    void lbda(vector<double> &alpha, double gomoryTimeLimit = 1e6, double tol = 1e-4);       // LBDA(alpha)
+
     Bounds hybrid_solve(vector<Type> types, bool force_int, int max_rounds = 25,
                         double upper_bound = GRB_INFINITY, double tol = 1e-4, double time_limit = 1e100,
                         bool rcuts = true, bool fenchel = true);
@@ -78,8 +65,7 @@ class Benders
               
     size_t round_of_cuts(Master::Solution sol, double tol);
 
-    BendersCut compute_cut(Type type, Master::Solution &sol, bool int_feas, vector<double> &vx, double tol, double *alpha = nullptr);
-
+    BendersCut compute_cut(Type type, Master::Solution &sol, bool int_feas, vector<double> &vx, double tol, vector<double> alpha = vector<double>(0));
 };
 
 static double avg(double time, size_t n) {return n == 0 ? 0.0 : time / n;}

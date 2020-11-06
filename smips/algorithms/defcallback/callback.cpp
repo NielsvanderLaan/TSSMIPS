@@ -29,6 +29,7 @@ void BendersCallback::callback()
 
   cout << "Adding lazy cuts. theta = " << theta << " Q(x) = " << Qx << '\n';
 
+  /*
   BendersCut cut;
 
   cut = d_ben.sb_cut(x.data());
@@ -39,4 +40,5 @@ void BendersCallback::callback()
 
   cut = d_ben.d_agg.strong_cut(sol, vx, false, tol, int_feas);
   add(cut, sol, tol);
+   */
 }

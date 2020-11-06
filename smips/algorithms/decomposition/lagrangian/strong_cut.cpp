@@ -1,7 +1,7 @@
 #include "lagrangian.h"
 
-BendersCut Lagrangian::strong_cut(size_t s, vector<double> &pi)
+BendersCut Lagrangian::strong_cut(vector<double> &pi)
 {
-  update(s, pi);
+  update(pi);
   return BendersCut {solve(), pi, 0.0};
 }

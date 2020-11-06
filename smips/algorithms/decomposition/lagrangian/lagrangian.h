@@ -20,16 +20,15 @@ class Lagrangian
     GRBVar d_theta;
     bool d_rcut;
 
-
-    Lagrangian(GRBEnv &env, Problem &problem);
+    Lagrangian(GRBEnv &env, Problem &problem, size_t s);
     Lagrangian(const Lagrangian &other);
 
-    void update(size_t s,  vector<double> &pi);
-    void update_pi( vector<double> &pi);
+    void update(vector<double> &pi);
     void add_cut(BendersCut &cut);
     void reverse_cut(double UB);
+    void update_bound(size_t var, double val, bool lower);
     double solve();
-    BendersCut strong_cut(size_t s, vector<double> &pi);
+    BendersCut strong_cut(vector<double> &pi);
     vector<double> z_vals();
 };
 
