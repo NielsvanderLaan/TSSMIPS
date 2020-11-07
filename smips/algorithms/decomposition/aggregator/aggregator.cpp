@@ -20,20 +20,20 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem)
   for (size_t s = 0; s != problem.d_S; ++s)
   {
     /*
-    GRBEnv subenv;
-    subenv.set(GRB_IntParam_OutputFlag, 0);
-    subenv.set(GRB_IntParam_Threads, 1);
-    */
+    GRBEnv cppenv;
+    cppenv.set(GRB_IntParam_OutputFlag, 0);
+    cppenv.set(GRB_IntParam_Threads, 1);
 
     GRBenv *subenv;
     GRBloadenv(&subenv, nullptr);
     GRBsetintparam(subenv, "OutputFlag", 0);
     GRBsetintparam(subenv, "Threads", 1);
+    */
 
     CGMip cgmip{env, problem, s };
     d_cgmips.push_back(cgmip);
 
-    ZK zk{subenv, env, problem, s};
+    ZK zk{c_env, env, problem, s};
     d_zk.push_back(zk);
 
     ZkTree tree{ c_env, env, problem, s };

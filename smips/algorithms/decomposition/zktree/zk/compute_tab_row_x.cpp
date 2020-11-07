@@ -27,10 +27,10 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
 
             // extracting master basis information
   int nConsMaster;                                      // number of constraints in master problem (including cuts)
-#pragma omp critical
+//#pragma omp critical
   GRBgetintattr(master, "NumConstrs", &nConsMaster);
   int master_bhead[nConsMaster];
-#pragma omp critical
+//#pragma omp critical
   GRBgetBasisHead(master, master_bhead);
   
             // computing (BW^-1)_i * T_{BA}
