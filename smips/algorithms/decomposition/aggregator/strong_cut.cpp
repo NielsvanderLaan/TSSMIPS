@@ -15,7 +15,7 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
     cut = BendersCut{ 0, vector<double>(d_n1, 0.0), 0};
     gap = 0;
 
-//#pragma omp parallel for reduction(sum : cut) reduction(+:cRho, gap) num_threads(4)
+#pragma omp parallel for reduction(sum : cut) reduction(+:cRho, gap) //num_threads(4)
     for (size_t s = 0; s < d_cgmips.size(); ++s)
     {
       double prob = d_probs[s];

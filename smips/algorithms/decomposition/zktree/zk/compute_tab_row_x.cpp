@@ -8,7 +8,7 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
   GRBsvec Brow {d_nConstrs, Brow_ind, Brow_val};   // result vector
   int e_i_ind[1] = {row};
   double e_i_val[1] = {1.0};
-  GRBsvec e_i {1, e_i_ind, e_i_val};  // unit vector
+  GRBsvec e_i {1, e_i_ind, e_i_val};  // unit vectorma
 
   GRBBSolve(d_model, &e_i, &Brow);   // extracting ith row of B^-1
 
@@ -27,8 +27,10 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
 
             // extracting master basis information
   int nConsMaster;                                      // number of constraints in master problem (including cuts)
+#pragma omp critical
   GRBgetintattr(master, "NumConstrs", &nConsMaster);
   int master_bhead[nConsMaster];
+#pragma omp critical
   GRBgetBasisHead(master, master_bhead);
   
             // computing (BW^-1)_i * T_{BA}
@@ -57,6 +59,7 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
     int BA_col_ind[nConsMaster];                            // extract column of master simplex tableau
     double BA_col_val[nConsMaster]; 
     GRBsvec BA_col{nConsMaster, BA_col_ind, BA_col_val};
+#pragma omp critical
     GRBBinvColj(master, col, &BA_col);
 
     for (size_t nz = 0; nz != BA_col.len; ++nz)

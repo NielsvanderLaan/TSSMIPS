@@ -9,6 +9,7 @@ Cut ZK::generate_gmi_cut(Master &master, size_t row, double yval, double *x, dou
   vector<double> &gamma = master.d_gamma;
 
   int nVarsMaster;                                      // number of variables in master problem (including slacks)
+#pragma omp critical
   GRBgetintattr(model, "NumVars", &nVarsMaster);
 
       // computing tableau row
