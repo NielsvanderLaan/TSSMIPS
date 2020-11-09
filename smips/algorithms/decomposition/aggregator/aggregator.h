@@ -6,6 +6,7 @@
 #include "../master/master.h"
 #include "../sub/sub.h"
 #include "../lagrangian/lagrangian.h"
+#include <omp.h>
 
 class Aggregator
 {

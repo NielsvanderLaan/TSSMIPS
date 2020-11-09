@@ -16,6 +16,7 @@
 
 using namespace std;
 
+
 int main(int argc, char *argv[])
 {
   try
@@ -38,8 +39,8 @@ int main(int argc, char *argv[])
       bool fenchel = use_fenchel(argc, argv);
       int max_rounds = get_max_rounds(argc, argv);
       double time_limit = get_time_limit(argc, argv);
-      details(types, max_rounds, rcuts, fenchel, time_limit);
-
+      int thread_count = nthreads(argc, argv);
+      details(types, max_rounds, rcuts, fenchel, time_limit, thread_count);
 
       if (solve_DEF(argc, argv))
       {

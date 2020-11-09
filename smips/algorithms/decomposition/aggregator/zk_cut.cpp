@@ -14,7 +14,7 @@ BendersCut Aggregator::zk_cut(Master::Solution sol, Master &master, bool lap_cut
     cRho = -rho;
     cut = BendersCut{ 0, vector<double>(d_n1, 0.0), 0 };
 
-#pragma omp parallel for reduction(sum : cut) reduction(+:cRho) num_threads(4)
+#pragma omp parallel for reduction(sum : cut) reduction(+:cRho)
     for (size_t s = 0; s < d_zk.size(); ++s)
     {
       d_zk[s].update(x,affine ? GRB_INFINITY : rho);

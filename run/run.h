@@ -5,6 +5,7 @@
 #include <chrono>
 #include <vector>
 
+#include <omp.h>
 #include "gurobi_c++.h"
 #include "gurobi_c.h"
 
@@ -21,9 +22,10 @@ bool solve_DEF(int argc, char *argv[]);
 bool solve_root(int argc, char *argv[]);
 bool solve_tree(int argc, char *argv[]);
 int get_max_rounds(int argc, char *argv[]);
+int nthreads(int argc, char* argv[]);
 double get_time_limit(int argc, char *argv[]);
 
 
-void details(vector<Type> types, int max_rounds, bool rcuts, bool fenchel, double time_limit);
+void details(vector<Type> types, int max_rounds, bool rcuts, bool fenchel, double time_limit, int thread_count);
 
 #endif //TSSMIPS_RUN_H

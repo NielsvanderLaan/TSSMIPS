@@ -28,6 +28,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
         print("mp unbounded: resetting\n");
         return generate_cut(x, theta, true, vwx, affine, tol, int_feas, gap, true);
       }
+
       print("mp unbounded (after reset)\n");
       break;
     }
@@ -55,6 +56,7 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
         print("violation > tol: resetting\n");
         return generate_cut(x, theta, true, vwx, affine, tol, int_feas, gap, true);
       }
+
       print("violation > tol (after reset)\n");
       break;
     }
@@ -65,6 +67,8 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
   gap += candidate.d_alpha - point.d_rhs_lb;
   candidate.d_alpha = point.d_rhs_lb;
 
+  d_mp.update();  // solve_mp() may have called set_mp_bounds(GRB_INFINITY),
+                  // but this change may still be unstaged at this point
 
   return candidate;
 }
