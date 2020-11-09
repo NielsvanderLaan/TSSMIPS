@@ -4,13 +4,13 @@ Master::Master(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
 :
   d_problem(problem),
   d_n1(problem.d_n1),
+  d_zk_safe(zk_safe),
+  d_rcut_idx(-1),
+  d_fenchel(problem, env),
   d_lb_con_inds(d_n1, -1),
   d_lb_slack_inds(d_n1, -1),
   d_ub_con_inds(d_n1, -1),
-  d_ub_slack_inds(d_n1, -1),
-  d_zk_safe(zk_safe),
-  d_rcut_idx(-1),
-  d_fenchel(problem, env)
+  d_ub_slack_inds(d_n1, -1)
 {
   size_t n1 = d_n1;
   size_t m1 = problem.d_m1;

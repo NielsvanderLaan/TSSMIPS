@@ -6,13 +6,7 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
 
   int Brow_ind[d_nConstrs];  double Brow_val[d_nConstrs];
   GRBsvec Brow {d_nConstrs, Brow_ind, Brow_val};   // result vector
-  int e_i_ind[1] = {row};
-  double e_i_val[1] = {1.0};
-  GRBsvec e_i {1, e_i_ind, e_i_val};  // unit vectorma
-
-  GRBBSolve(d_model, &e_i, &Brow);   // extracting ith row of B^-1
-
-  //B_inv(Brow, row);                             // extracting ith row of B^-1
+  B_inv(Brow, row);                             // extracting ith row of B^-1
 
     // computing Brow^-1 * T
   for (size_t idx = 0; idx != d_n1; ++idx) // no need to loop over slacks: corresponding rows of T are zero vectors
@@ -27,10 +21,10 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
 
             // extracting master basis information
   int nConsMaster;                                      // number of constraints in master problem (including cuts)
-//#pragma omp critical
+#pragma omp critical
   GRBgetintattr(master, "NumConstrs", &nConsMaster);
   int master_bhead[nConsMaster];
-//#pragma omp critical
+#pragma omp critical
   GRBgetBasisHead(master, master_bhead);
   
             // computing (BW^-1)_i * T_{BA}
@@ -60,7 +54,7 @@ void ZK::compute_tab_row_x(double *tab_row_x, int nVarsMaster, int row, GRBmodel
     double BA_col_val[nConsMaster]; 
     GRBsvec BA_col{nConsMaster, BA_col_ind, BA_col_val};
 #pragma omp critical
-    GRBBinvColj(master, col, &BA_col);
+      GRBBinvColj(master, col, &BA_col);
 
     for (size_t nz = 0; nz != BA_col.len; ++nz)
       tab_row_x[col] -= BinvTBA[BA_col.ind[nz]] * BA_col.val[nz];

@@ -12,7 +12,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
   vector<double> times(types.size(), 0.0);
   size_t evaluations = 0;
   double eval_time = 0.0;
-  size_t round = 0;       // rounds of gmi cuts added
+  int round = 0;       // rounds of gmi cuts added
 
   double LB = -GRB_INFINITY;
   bool branch = false;
@@ -94,10 +94,10 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
     }
 
     auto before = chrono::high_resolution_clock::now();
-    double cx = inner_product(d_problem.d_c.data(), d_problem.d_c.data() + d_n1, x.begin(), 0.0);
+    double cx = inner_product(d_problem.d_c.begin(), d_problem.d_c.end(), x.begin(), 0.0);
     vector<double> vx = d_agg.compute_vwx(x.data());
     double Qx = accumulate(vx.begin(), vx.end(),0.0) / d_S;
-    double time = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - before).count() / 1000.0;
+    double time = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - before).count() / 1e6;
     ++evaluations;
     print("evaluated cx + Q(x) (" << time << "s)\n");
     eval_time += time;
@@ -114,7 +114,6 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
       break;
     }
 
-
     print("LB: " << LB << ". UB: " << d_UB << endl);
 
     size_t start = 0;
@@ -124,7 +123,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
       auto before = chrono::high_resolution_clock::now();
       BendersCut cut = compute_cut(types[idx], sol, int_feas, vx, tol);
 
-      double time = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - before).count() / 1000.0;
+      double time = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - before).count() / 1e6;
       print("computed " << name(types[idx]) << " (" << time << "s)" << '\n');
 
       if (not add_cut(cut, sol, tol))

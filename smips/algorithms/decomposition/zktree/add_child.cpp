@@ -18,7 +18,8 @@ void ZkTree::add_child(size_t node_idx)
     names[mult] = base + to_string(mult);
   GRBVar *mults = d_cglp.addVars(lb_mults, ub_mults, NULL, NULL, names, nMults);
   d_lambda.push_back(vector<GRBVar>(mults, mults + nMults));
-  delete[] lb_mults, ub_mults;
+  delete[] lb_mults;
+  delete[] ub_mults;
 
   vector<GRBConstr> constrs;
 

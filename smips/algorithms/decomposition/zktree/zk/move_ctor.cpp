@@ -14,12 +14,12 @@ ZK::ZK(ZK &&other)
   d_Tmat(other.d_Tmat),
   d_tau(other.d_tau),
   d_omega(other.d_omega),
-  d_model(other.d_model),
   d_signs(other.d_signs),
   d_lb_inds(other.d_lb_inds),
   d_ub_inds(other.d_ub_inds),
   d_L(other.d_L),
-  d_yvals(other.d_yvals)
+  d_yvals(other.d_yvals),
+  d_model(other.d_model)
 {
   other.d_model = nullptr;
 }

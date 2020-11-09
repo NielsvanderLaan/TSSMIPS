@@ -49,8 +49,7 @@ class Master
     Master(const Master &other);
     ~Master(); // deletes vars and frees d_cmodel
     
-      // adds cut theta >= beta^T x + gamma, if this cut is violated (ret =  true), else cut is not added (ret = false). 
-    bool add_ald_cut(double *beta, double gamma, double tau, double *x, double theta, double tol);
+      // adds cut theta >= beta^T x + gamma, if this cut is violated (ret =  true), else cut is not added (ret = false).
     bool add_cut(BendersCut cut, Solution sol, double tol);  // adds the cut kappa theta >= beta^T x + gamma
     void add_cut(BendersCut &cut);
     void reverse_cut(double UB);

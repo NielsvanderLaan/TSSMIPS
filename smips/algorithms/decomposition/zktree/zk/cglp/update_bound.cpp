@@ -4,7 +4,7 @@ void Cglp::update_bound(size_t var, double val, bool lower, bool fs)
 {
   vector<int> &mults = fs ? (lower ? d_l1_mults : d_u1_mults) : (lower ? d_l2_mults : d_u2_mults);
 
-  size_t var_idx = mults[var];
+  int var_idx = mults[var];
   size_t rhs_con = d_n1 + d_n2 + 1; // index of final constraint (c.t. rhs)
   if (var_idx == -1)            // constraint was of the form x >= 0 or x < 1e10, bound not included.
   {

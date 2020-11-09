@@ -13,5 +13,5 @@ void CGMip::set_mp_bounds(double M, bool affine)
 
   d_tau.set(GRB_DoubleAttr_UB, affine ? 0.0 : M);
 
-  //d_mp.update();
+  d_mp.update();
 }

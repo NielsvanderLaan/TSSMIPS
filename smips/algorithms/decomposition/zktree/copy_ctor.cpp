@@ -28,7 +28,7 @@ ZkTree::ZkTree(const ZkTree &other)
 
   size_t nTerms = d_nodes.size();
   d_lambda.reserve(nTerms);
-  for (size_t term = 0; term != nTerms; ++term)
+  for (size_t term = 0; term < nTerms; ++term)
   {
     vector<GRBVar> mults;
     size_t nMults = other.d_lambda[term].size();

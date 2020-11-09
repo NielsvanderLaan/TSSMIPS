@@ -3,8 +3,8 @@
 ZkTree::ZkTree(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
 :
   d_problem(problem),
-  d_cglp(cpp_env),
   d_L(problem.d_L),
+  d_cglp(cpp_env),
   d_beta(problem.d_n1),
   d_constrs(1),
   d_lambda(1),
@@ -12,7 +12,6 @@ ZkTree::ZkTree(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
   d_ub_mult_inds{vector<int>(problem.d_n1, -1)},
   d_rcut_inds{-1}
 {
-
   ZK *root = new ZK{env, cpp_env, problem, scenario};
   d_nodes.push_back(root);
 

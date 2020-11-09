@@ -45,6 +45,10 @@ class ZkTree
     void reverse_cut(double UB);
 
     BendersCut generate_cut(double *x, double theta, Master &master, size_t maxRounds, bool gomory = true); // calls branch_cut() and computes cut by solving cglp
+
+    BendersCut candidate();
+
+
     double cglp_val();
 
      

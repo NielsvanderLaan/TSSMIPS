@@ -7,7 +7,7 @@ void Master::update_bounds(int var, double val, bool lower)
   {
     vector<int> &con_inds = lower ? d_lb_con_inds : d_ub_con_inds;
     vector<int> &slack_inds = lower ? d_lb_slack_inds : d_ub_slack_inds;
-    size_t con_idx = con_inds[var];
+    int con_idx = con_inds[var];
     if (con_idx == -1)
     {
       slack_inds[var] = d_nSlacks;

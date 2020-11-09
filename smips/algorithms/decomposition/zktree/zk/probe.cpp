@@ -2,8 +2,8 @@
 
 double ZK::probe(size_t var_idx, double val, bool lower)
 {
-  size_t con_idx = lower ? d_lb_inds[var_idx] : d_ub_inds[var_idx];  // constraint idx of upper/lower bound  
-  double obj = -123456;
+  int con_idx = lower ? d_lb_inds[var_idx] : d_ub_inds[var_idx];  // constraint idx of upper/lower bound
+  double obj;
   
   if (con_idx == -1)
   {  

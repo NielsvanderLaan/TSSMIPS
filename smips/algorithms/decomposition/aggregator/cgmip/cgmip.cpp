@@ -4,8 +4,8 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
 :
   d_problem(problem),
   d_mp(env),
-  d_sub(env),
   d_beta(problem.d_n1),
+  d_sub(env),
   d_xVars(problem.d_n1),
   d_yVars(problem.d_n2),
   d_rcut(false)

@@ -8,7 +8,7 @@ void CGMip::update_bound(size_t var, double val, bool lower)
     d_xVars[var].set(GRB_DoubleAttr_UB, val);
 
   GRBConstr *mp_cons = d_mp.getConstrs();
-  for (size_t con = d_points.size() - 1; con != -1; --con)
+  for (int con = d_points.size() - 1; con != -1; --con)
   {
     Point &point = d_points[con];
     

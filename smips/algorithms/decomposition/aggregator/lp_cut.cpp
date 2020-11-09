@@ -6,7 +6,7 @@ BendersCut Aggregator::lp_cut(vector<double> &x)
   fill_n(dual, d_problem.d_m2, 0.0);
   double QLP = 0;
 
-//#pragma omp parallel for reduction(+ : dual[:], QLP) num_threads(8)
+#pragma omp parallel for reduction(+ : dual[:], QLP) num_threads(4)
   for (size_t s = 0; s < d_problem.d_S; ++s)
   {
     d_sub[s].update(x);

@@ -19,17 +19,6 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem)
 
   for (size_t s = 0; s != problem.d_S; ++s)
   {
-    /*
-    GRBEnv cppenv;
-    cppenv.set(GRB_IntParam_OutputFlag, 0);
-    cppenv.set(GRB_IntParam_Threads, 1);
-
-    GRBenv *subenv;
-    GRBloadenv(&subenv, nullptr);
-    GRBsetintparam(subenv, "OutputFlag", 0);
-    GRBsetintparam(subenv, "Threads", 1);
-    */
-
     CGMip cgmip{env, problem, s };
     d_cgmips.push_back(cgmip);
 
