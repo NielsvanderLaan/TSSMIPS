@@ -118,8 +118,6 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
     {
       auto before = chrono::high_resolution_clock::now();
       BendersCut cut = compute_cut(types[idx], sol, int_feas, vx, tol);
-      cout << "tau = " << cut.d_tau << '\n';
-
       double time = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - before).count() / 1e6;
       print("computed " << name(types[idx]) << " (" << time << "s)" << '\n');
 
