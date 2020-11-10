@@ -1,7 +1,5 @@
 #include <iostream>
-#include <chrono>
 #include <vector>
-#include <fstream>
 
 #include "gurobi_c++.h"
 #include "gurobi_c.h"
@@ -10,13 +8,9 @@
 #include "smips/algorithms/deqform/deqform.h"
 #include "smips/algorithms/decomposition/benders.h"
 #include "smips/algorithms/trees/tree.h"
-#include "smips/algorithms/defcallback/DEF.h"
-#include "smips/algorithms/defcallback/benderscallback.h"
 #include "run/run.h"
 
 using namespace std;
-
-int test;
 
 int main(int argc, char *argv[])
 {
