@@ -17,10 +17,6 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
   double LB = -GRB_INFINITY;
   bool branch = false;
 
-  //size_t nStall = 10;
-  //double stall_tol = 1e-4;      // relative (if LB does not improve by 1e-4*100% for nStall iterations, then skip hierarchy)
-  //list<double> recent_lbs;
-
   auto t1 = chrono::high_resolution_clock::now();
   while (true)
   {

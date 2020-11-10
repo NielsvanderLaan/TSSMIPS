@@ -60,7 +60,8 @@ int main(int argc, char *argv[])
       {
         Benders ben(env, c_env, problem, true);
         ben.lpSolve();
-        //ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, time_limit, rcuts, fenchel);
+        ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, time_limit, rcuts, fenchel);
+        /*
         for (Type type : types)
         {
           auto t1 = chrono::high_resolution_clock::now();
@@ -69,6 +70,7 @@ int main(int argc, char *argv[])
           time_limit -= chrono::duration_cast<chrono::seconds>(t2- t1).count();
           cout << endl;
         }
+         */
       }
     }
 
