@@ -12,6 +12,9 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
   vector<double> times(types.size(), 0.0);
   size_t evaluations = 0;
   double eval_time = 0.0;
+  vector<bool> used(types.size(), false);   // used records if a cut is used for the first time
+  used[0] = true;                                 // i.e., if the previous type of cut is exhausted
+
   int round = 0;       // rounds of gmi cuts added
 
   double LB = -GRB_INFINITY;
@@ -116,6 +119,14 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
 
     for (size_t idx = start; idx != types.size(); ++idx)
     {
+      if (not used[idx])
+      {
+        used[idx] = true;
+        cout << "exhausted " << name(types[idx - 1]) << "s\n";
+        double time = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - t1).count() / 1000.0;
+        report(time, LB, eval_time, evaluations, gmi_cuts, round, gmi_time, fenchel_cuts, fenchel_time, types, times, nCuts);
+      }
+
       auto before = chrono::high_resolution_clock::now();
       BendersCut cut = compute_cut(types[idx], sol, int_feas, vx, tol);
       double time = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - before).count() / 1e6;
@@ -137,13 +148,8 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
   }
 
   auto t2 = chrono::high_resolution_clock::now();
-  cout << "LB: " << LB << ". UB: " << d_UB << '\n';
-  cout << "computation time: " << chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0 << '\n';
-  cout << "evaluations: " << evaluations << " (" << avg(eval_time, evaluations) << "s)\n";
-  cout << "GMI cuts: " << gmi_cuts << " (" << round << " rounds, " << avg(gmi_time, round) << "s)\n";
-  cout << "Fenchel cuts: " << fenchel_cuts << " (" << avg(fenchel_time, fenchel_cuts) << "s)\n";
-  for (size_t idx = 0; idx != types.size(); ++idx)
-    cout << name(types[idx]) << "s: " << nCuts[idx] << " (" << avg(times[idx], nCuts[idx]) << "s)\n";
+  double time = chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0;
+  report(time, LB, eval_time, evaluations, gmi_cuts, round, gmi_time, fenchel_cuts, fenchel_time, types, times, nCuts);
 
   return Bounds { LB, d_UB, branch };
 }

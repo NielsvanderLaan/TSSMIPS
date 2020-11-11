@@ -66,6 +66,10 @@ class Benders
     size_t round_of_cuts(Master::Solution sol, double tol);
 
     BendersCut compute_cut(Type type, Master::Solution &sol, bool int_feas, vector<double> &vx, double tol, vector<double> alpha = vector<double>(0));
+
+    void report(double time, double LB, double eval_time, size_t evaluations, size_t gmi_cuts, size_t round,
+                double gmi_time, size_t fenchel_cuts, double fenchel_time, vector<Type> &types, vector<double> &times, vector<size_t> nCuts);
+
 };
 
 static double avg(double time, size_t n) {return n == 0 ? 0.0 : time / n;}
