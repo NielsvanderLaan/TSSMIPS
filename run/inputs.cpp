@@ -67,7 +67,7 @@ int nthreads(int argc, char *argv[])
 
 double get_time_limit(int argc, char *argv[])
 {
-  return 12 * 3600;
+  return 3 * 3600;
 }
 
 void details(vector<Type> types, int max_rounds, bool rcuts, bool fenchel, double time_limit, int thread_count)
