@@ -67,8 +67,5 @@ BendersCut CGMip::generate_cut(double *x, double theta, bool init, double vwx, b
   gap += candidate.d_alpha - point.d_rhs_lb;
   candidate.d_alpha = point.d_rhs_lb;
 
-  d_mp.update();  // solve_mp() may have called set_mp_bounds(GRB_INFINITY),
-                  // but this change may still be unstaged at this point
-
   return candidate;
 }
