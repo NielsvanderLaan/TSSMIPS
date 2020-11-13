@@ -7,7 +7,7 @@ BendersCut ZkTree::generate_cut(double *x, double theta, Master &master, size_t 
   for (size_t idx = 0; idx != d_nodes.size(); ++idx)
   {
     ZK* node = d_nodes[idx];
-    if (not node->optimize()) // what if problem is infeasible?
+    if (not node->optimize()) // problem is infeasible?
     {
       cerr << "bac cut: subproblem is infeasible (CCR assumption not satisfied)\n";
       exit(1);
