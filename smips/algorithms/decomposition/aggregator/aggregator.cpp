@@ -11,7 +11,7 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem, vector<Type
   init_vw(problem);
 
   size_t S = problem.d_S;
-  if (true || find(types.begin(), types.end(), SC_RG) != types.end() || find(types.begin(), types.end(), LR) != types.end())
+  if (find(types.begin(), types.end(), SC_RG) != types.end() || find(types.begin(), types.end(), LR) != types.end())
   {
     d_cgmips.reserve(S);
     for (size_t s = 0; s != problem.d_S; ++s)
@@ -21,7 +21,7 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem, vector<Type
     }
   }
 
-  if (true || find(types.begin(), types.end(), SC_BAB) != types.end() || find(types.begin(), types.end(), SC_BAC) != types.end())
+  if (find(types.begin(), types.end(), SC_BAB) != types.end() || find(types.begin(), types.end(), SC_BAC) != types.end())
   {
     d_trees.reserve(S);
     for (size_t s = 0; s != problem.d_S; ++s)
@@ -31,7 +31,7 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem, vector<Type
     }
   }
 
-  if (true || find(types.begin(), types.end(), LR_LAP) != types.end() ||
+  if (find(types.begin(), types.end(), LR_LAP) != types.end() ||
       find(types.begin(), types.end(), SC_ZK) != types.end()  ||
       find(types.begin(), types.end(), SC_LAP) != types.end() )
   {
@@ -43,7 +43,7 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem, vector<Type
     }
   }
 
-  if (true || find(types.begin(), types.end(), SB) != types.end())
+  if (find(types.begin(), types.end(), SB) != types.end())
   {
     d_lr.reserve(S);
     for (size_t s = 0; s != problem.d_S; ++s)
