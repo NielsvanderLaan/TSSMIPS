@@ -1,6 +1,6 @@
 #include "aggregator.h"
 
-BendersCut Aggregator::zk_cut(Master::Solution sol, Master &master, bool lap_cuts, bool affine, size_t maxRounds, double tol)
+BendersCut Aggregator::zk_cut(Master::Solution sol, Master &master, bool lap_cuts, bool affine, size_t maxRounds, double tol, double rho_tol)
 {
   double *x = sol.xVals.data();
   double theta = sol.thetaVal;
@@ -9,7 +9,7 @@ BendersCut Aggregator::zk_cut(Master::Solution sol, Master &master, bool lap_cut
 
   BendersCut cut;
 
-  while (cRho > tol)
+  while (cRho > rho_tol)
   {
     cRho = -rho;
     cut = BendersCut{ 0, vector<double>(d_n1, 0.0), 0 };

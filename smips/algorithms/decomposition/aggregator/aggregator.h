@@ -28,8 +28,8 @@ class Aggregator
     void add_rows(BendersCut &cut);
     vector<double> compute_vwx(double *x);
     BendersCut strong_cut(Master::Solution sol, vector<double> &vx, bool affine, double tol, bool int_feas = true, double rho_tol = 1e-4);
-    BendersCut bac_cut(Master::Solution sol, Master &mp, double tol, size_t maxRounds = 25, double rho_tol = 1e-4);
-    BendersCut zk_cut(Master::Solution sol, Master &master, bool lap_cuts, bool affine, size_t maxRounds = 25, double tol = 1e-6);
+    BendersCut bac_cut(Master::Solution sol, Master &mp, bool cuts, size_t maxRounds = 25, double tol = 1e-6, double rho_tol = 1e-4);
+    BendersCut zk_cut(Master::Solution sol, Master &master, bool lap_cuts, bool affine, size_t maxRounds = 25, double tol = 1e-6, double rho_tol = 1e-4);
     BendersCut lp_cut(vector<double> &x);
     BendersCut sb_cut(vector<double> &x);
 

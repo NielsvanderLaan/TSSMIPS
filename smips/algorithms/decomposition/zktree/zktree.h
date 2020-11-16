@@ -20,20 +20,22 @@ class ZkTree
     vector<vector<GRBVar>> d_lambda;
     vector<vector<int>> d_lb_mult_inds, d_ub_mult_inds;
     vector<int> d_rcut_inds;
+    double d_cglp_val;
+    BendersCut d_candidate;
     
     ZkTree(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario);
     ZkTree(const ZkTree &other);     // copy ctor
     ~ZkTree();      // update dtor to delete d_subs objects
     
-    void branch_cut(double *x, double theta, Master &master, size_t maxRounds, bool gomory = true);  
+    void branch_cut(double *x, double theta, double rho, Master &master, bool cuts, size_t maxRounds, double tol);
     
         // auxiliary functions
               // solve node and updates global bounds accordingly
-    void update_global_bounds(size_t node_idx, vector<double> &lb_nodes, double &UB, double *x, double theta, Master &master, size_t maxRounds, bool gomory); 
+    void update_global_bounds(size_t node_idx, vector<double> &lb_nodes, double &UB, double *x, double theta, double rho, Master &master, bool cuts, size_t maxRounds, double tol);
               
               // calls node->solve() or node->optimize() and updates cglp, returns true if node is feasible 
-    bool solve(size_t node_idx, double *x, double theta, Master &master, size_t maxRounds, bool gomory);     
-    void branch(size_t node_idx, vector<double> &lb_nodes, double &UB, double *x, double theta, Master &master, size_t maxRounds, bool gomory);     
+    bool solve(size_t node_idx, double *x, double theta, double rho, Master &master, bool cuts, size_t maxRounds, double tol);
+    void branch(size_t node_idx, vector<double> &lb_nodes, double &UB, double *x, double theta, double rho, Master &master, bool cuts, size_t maxRounds, double tol);
     void add_child(size_t node_idx);            // copies d_nodes[node_idx] and appends it to d_nodes and updates cglp
     void update_bound(size_t node_idx, size_t var_idx, bool lower);  // imposes branching restrictions
     bool is_feasible(ZK *node);                               // checks if lp solution of node satisfies integer requirements 
@@ -44,9 +46,13 @@ class ZkTree
     void update_fs_bounds(size_t var, double val, bool lower); // updates cglp to incorporate changes to fs bounds (resulting from branching)
     void reverse_cut(double UB);
 
-    BendersCut generate_cut(double *x, double theta, Master &master, size_t maxRounds, bool gomory = true); // calls branch_cut() and computes cut by solving cglp
+    BendersCut generate_cut(double *x, double theta, double rho, Master &master, bool cuts, size_t maxRounds, double tol); // calls branch_cut() and computes cut by solving cglp
 
-    BendersCut candidate();
+    void solve_cglp(double M = 1e8);
+    void optimize();
+    double max_coeff(BendersCut &cut);
+    void cglp_bounds(double M, bool set);
+
 
 
     double cglp_val();

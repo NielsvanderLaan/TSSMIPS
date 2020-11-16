@@ -10,7 +10,8 @@ BendersCut Benders::compute_cut(Type type, Master::Solution &sol, bool int_feas,
     case LR_LAP:    return d_agg.zk_cut(sol, d_master, true, true);
     case SC_ZK:     return d_agg.zk_cut(sol, d_master, false, false);
     case SC_LAP:    return d_agg.zk_cut(sol, d_master, true, false);
-    case SC_BAB:    return d_agg.bac_cut(sol, d_master, tol);
+    case SC_BAB:    return d_agg.bac_cut(sol, d_master, false);
+    case SC_BAC:    return d_agg.bac_cut(sol, d_master, true, 25, 1e-6);
     case SC_RG:     return d_agg.strong_cut(sol, vx, false, tol, int_feas);
     case LBDA:
       if (alpha.size() != d_m2)

@@ -1,8 +1,8 @@
 #include "zktree.h"
 
-BendersCut ZkTree::generate_cut(double *x, double theta, Master &master, size_t maxRounds, bool gomory)
+BendersCut ZkTree::generate_cut(double *x, double theta, double rho, Master &master, bool cuts, size_t maxRounds, double tol)
 {
-  branch_cut(x, theta, master, maxRounds, gomory);
+  branch_cut(x, theta, rho, master, cuts, maxRounds, tol);
 
   for (size_t idx = 0; idx != d_nodes.size(); ++idx)
   {
@@ -17,9 +17,9 @@ BendersCut ZkTree::generate_cut(double *x, double theta, Master &master, size_t 
   }
 
   d_cglp.set(GRB_DoubleAttr_Obj, d_beta.data(), x, d_beta.size());
-  d_tau.set(GRB_DoubleAttr_Obj, theta - d_L);
+  d_tau.set(GRB_DoubleAttr_Obj, rho - d_L);
 
-  d_cglp.optimize();
+  solve_cglp();
 
-  return candidate();
+  return d_candidate;
 }

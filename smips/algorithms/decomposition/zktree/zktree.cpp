@@ -16,6 +16,7 @@ ZkTree::ZkTree(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
   d_nodes.push_back(root);
 
   // initializing cglp
+  d_cglp.set(GRB_IntParam_Method, 0);
   d_cglp.set(GRB_DoubleAttr_ObjCon, -d_L);
   d_alpha = d_cglp.addVar(-GRB_INFINITY, GRB_INFINITY, -1.0, GRB_CONTINUOUS, "alpha");
 

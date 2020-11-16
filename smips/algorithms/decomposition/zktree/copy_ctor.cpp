@@ -7,7 +7,9 @@ ZkTree::ZkTree(const ZkTree &other)
   d_L(other.d_L),
   d_lb_mult_inds(other.d_lb_mult_inds),
   d_ub_mult_inds(other.d_ub_mult_inds),
-  d_rcut_inds(other.d_rcut_inds)
+  d_rcut_inds(other.d_rcut_inds),
+  d_cglp_val(other.d_cglp_val),
+  d_candidate(other.d_candidate)
 {
   d_nodes.reserve(other.d_nodes.size());
   for (ZK *node : other.d_nodes)
