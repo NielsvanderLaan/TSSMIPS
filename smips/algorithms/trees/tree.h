@@ -19,7 +19,7 @@ class Tree
     double d_LB_global;  
     vector<double> d_LB_nodes;
     
-    Tree(GRBEnv &env, GRBenv *c_env, Problem &problem);
+    Tree(GRBEnv &env, GRBenv *c_env, Problem &problem, vector<Type> &types);
     Tree(GRBEnv &emv, GRBenv *c_env, Problem &problem, Benders &root);
     ~Tree();
     

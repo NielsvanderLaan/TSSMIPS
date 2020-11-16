@@ -36,7 +36,7 @@ class Benders
     double d_UB;
 
 
-    Benders(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe = true);    // initializes d_master and d_sub with both arguments  
+    Benders(GRBEnv &env, GRBenv *c_env, Problem &problem, vector<Type> &types, bool zk_safe = true);    // initializes d_master and d_sub with both arguments
     Benders(const Benders &other);
                                                
     ~Benders();

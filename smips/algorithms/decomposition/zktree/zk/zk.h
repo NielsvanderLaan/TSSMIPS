@@ -74,8 +74,9 @@ class ZK
     
     double probe(size_t var_idx, double val, bool lower); // temporarily adjusts lb/ub of y[var_idx] to val, and returns increase in objective value. On return, leaves object unchanged.
 
-
     double compute_a0(int row, double yval, double theta, double rho);
+
+    void clear();
 
 };
 

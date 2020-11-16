@@ -6,6 +6,7 @@
 #include "../master/master.h"
 #include "../sub/sub.h"
 #include "../lagrangian/lagrangian.h"
+#include "../type.h"
 #include <omp.h>
 
 class Aggregator
@@ -23,7 +24,7 @@ class Aggregator
     GRBModel d_vw;        // used to evaluate the value function
     Problem &d_problem;
     bool d_fix_rec;
-    Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem);
+    Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem, vector<Type> &types);
     
     void add_rows(BendersCut &cut);
     vector<double> compute_vwx(double *x);

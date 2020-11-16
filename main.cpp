@@ -47,15 +47,15 @@ int main(int argc, char *argv[])
 
       if (solve_tree(argc, argv))
       {
-        Tree tree(env, c_env, problem);
+        Tree tree(env, c_env, problem, types);
         vector<double> x_bab = tree.bab(types, rcuts, fenchel, max_rounds, 1e-4,time_limit);
       }
 
       if (solve_root(argc, argv))
       {
-        Benders ben(env, c_env, problem, true);
+        Benders ben(env, c_env, problem, types, true);
         ben.lpSolve();
-        ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, time_limit, rcuts, fenchel);
+        //ben.hybrid_solve(types, false, max_rounds, GRB_INFINITY, 1e-4, time_limit, rcuts, fenchel);
       }
     }
 

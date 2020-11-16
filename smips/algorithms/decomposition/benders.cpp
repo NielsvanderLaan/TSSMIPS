@@ -1,6 +1,6 @@
 #include "benders.h"
 
-Benders::Benders(GRBEnv &env, GRBenv *c_env, Problem &problem, bool zk_safe)
+Benders::Benders(GRBEnv &env, GRBenv *c_env, Problem &problem, vector<Type> &types, bool zk_safe)
 :
 d_problem(problem),
 d_env(env),
@@ -11,7 +11,7 @@ d_m2(problem.d_m2),
 d_S(problem.d_S),
 d_master(env, c_env, problem, zk_safe),
 d_gomory(env, problem),
-d_agg(env, c_env, problem),
+d_agg(env, c_env, problem, types),
 d_lb(problem.d_l1),
 d_ub(problem.d_u1),
 d_visited(problem.d_S),
