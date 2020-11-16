@@ -39,6 +39,8 @@ class ZK
     vector<double> d_omega;
     vector<int> d_signs;              // type of inequality -1 means <= , 0 means ==, and 1 means >=
     vector<int> d_lb_inds, d_ub_inds; // constraint indices of upper and lower bounds (-1 if no bounds are imposed (lb = 0, or ub = GRB_INFINITY))
+    vector<int> d_cp_inds, d_cp_slack_inds;            // constraint indices of cutting planes
+
     
     double d_L;
     double d_objVal;
@@ -77,7 +79,6 @@ class ZK
     double compute_a0(int row, double yval, double theta, double rho);
 
     void clear();
-
 };
 
 

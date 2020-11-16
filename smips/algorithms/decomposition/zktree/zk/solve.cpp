@@ -36,6 +36,8 @@ bool ZK::solve(double *x, double theta, double rho, Master &master, size_t maxRo
 
       if (add_cut(cut, x, rho, tol, d_nConstrs + nCuts))    // ret = true iff cut was added (iff cut is proper)
       {
+        d_cp_inds.push_back(d_nConstrs + nCuts);
+        d_cp_slack_inds.push_back(d_nVars + nCuts);
         ++nCuts;
         stop = false;
       }
