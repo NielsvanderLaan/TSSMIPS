@@ -19,5 +19,4 @@ void Aggregator::add_rows(BendersCut &cut)
   for (size_t s = 0; s < d_lr.size(); ++s)
     d_lr[s].add_cut(cut);
 
-
 }

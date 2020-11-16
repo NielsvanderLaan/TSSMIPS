@@ -54,7 +54,6 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem, vector<Type
   }
 
   d_sub.reserve(S);
-
   for (size_t s = 0; s != problem.d_S; ++s)
   {
     Sub sub {env, problem, s};
