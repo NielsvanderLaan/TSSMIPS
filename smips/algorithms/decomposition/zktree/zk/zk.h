@@ -28,7 +28,7 @@ class ZK
     int d_nVars, d_nConstrs;
     
     Cglp d_cglp;
-    
+
     // constraints are of the form Wy ~ omega - T * x - tau * theta
     // includes constraints, upper and lower bounds, and cutting planes
     // x and y do not include slacks (constraints do not feature slacks).
@@ -45,7 +45,7 @@ class ZK
     vector<double> d_yvals;
     GRBmodel *d_model;
     
-    ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario);
+    ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario, bool lap);
     ZK(const ZK &other);
     ZK(ZK &&other);
     ~ZK();

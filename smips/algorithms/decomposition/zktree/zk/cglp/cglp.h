@@ -14,6 +14,7 @@ class Cglp
   public:
     Problem &d_problem;
     GRBModel d_model;
+    bool d_used;
     
     size_t d_n1, d_p1, d_m1, d_n2, d_p2, d_m2, d_nMults;
     double d_L;
@@ -29,7 +30,7 @@ class Cglp
     vector<GRBVar> d_lambda1, d_lambda2;  // one lambda for each term of the disjunction, initial length: m1 + m2 + 1
     GRBVar d_r, d_h;
     
-    Cglp(Problem &problem, GRBEnv &env, size_t scenario);
+    Cglp(Problem &problem, GRBEnv &env, size_t scenario, bool lap);
     Cglp(const Cglp &other);
     Cglp(Cglp &&other) = delete;
     

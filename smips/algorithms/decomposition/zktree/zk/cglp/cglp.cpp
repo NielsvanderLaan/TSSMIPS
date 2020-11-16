@@ -1,22 +1,29 @@
 #include "cglp.h"
 
-Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario)
+Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario, bool lap)
 :
   d_problem(problem),
   d_model(env),
+  d_used(lap),
   d_n1(problem.d_n1),
   d_p1(problem.d_p1),
   d_m1(problem.d_m1),
-  d_n2(problem.d_n2), 
-  d_p2(problem.d_p2), 
+  d_n2(problem.d_n2),
+  d_p2(problem.d_p2),
   d_m2(problem.d_m2),
+  d_nMults(0),
   d_L(problem.d_L),
-  d_l1_mults(d_n1, -1),
-  d_u1_mults(d_n1, -1),
-  d_l2_mults(d_n2, -1),
-  d_u2_mults(d_n2, -1),
   d_rcut_idx(-1)
-{  
+{
+  if (not d_used)
+    return;
+
+  d_l1_mults = vector<int>(d_n1, -1);
+  d_u1_mults = vector<int>(d_n1, -1);
+  d_l2_mults = vector<int>(d_n2, -1);
+  d_u2_mults = vector<int>(d_n2, -1);
+
+
   //d_model.set(GRB_IntParam_OutputFlag, 1);
   d_model.set(GRB_IntParam_ScaleFlag, 0);
       // adding cut coefficients as decision variables (normalization imposed here)

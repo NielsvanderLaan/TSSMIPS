@@ -12,7 +12,7 @@ ZkTree::ZkTree(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
   d_ub_mult_inds{vector<int>(problem.d_n1, -1)},
   d_rcut_inds{-1}
 {
-  ZK *root = new ZK{env, cpp_env, problem, scenario};
+  ZK *root = new ZK{env, cpp_env, problem, scenario, false};
   d_nodes.push_back(root);
 
   // initializing cglp

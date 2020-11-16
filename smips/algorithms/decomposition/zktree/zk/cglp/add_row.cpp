@@ -2,6 +2,9 @@
 
 void Cglp::add_row(double *coef_x, double coef_theta, double *coef_y, double rhs, bool geq)
 {
+  if (not d_used)
+    return;
+
   ++d_nMults;
   
   GRBVar lambda1 = d_model.addVar(geq ? 0 : -GRB_INFINITY, geq ? INFINITY : 0, 0, GRB_CONTINUOUS);

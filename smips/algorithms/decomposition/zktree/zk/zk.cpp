@@ -1,6 +1,6 @@
 #include "zk.h"
 
-ZK::ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
+ZK::ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario, bool lap)
 :
   d_n1(problem.d_n1), 
   d_p1(problem.d_p1), 
@@ -8,7 +8,7 @@ ZK::ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario)
   d_p2(problem.d_p2), 
   d_m2(problem.d_m2), 
   d_nConstrs(d_m2),
-  d_cglp(problem, cpp_env, scenario),
+  d_cglp(problem, cpp_env, scenario, lap),
   d_Tmat(problem.d_Tmat),
   d_tau(d_m2),
   d_omega(problem.d_omega[scenario]),

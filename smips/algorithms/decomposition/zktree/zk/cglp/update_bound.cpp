@@ -2,6 +2,9 @@
 
 void Cglp::update_bound(size_t var, double val, bool lower, bool fs)
 {
+  if (not d_used)
+    return;
+
   vector<int> &mults = fs ? (lower ? d_l1_mults : d_u1_mults) : (lower ? d_l2_mults : d_u2_mults);
 
   int var_idx = mults[var];

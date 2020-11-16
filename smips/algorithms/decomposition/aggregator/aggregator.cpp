@@ -31,14 +31,15 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem, vector<Type
     }
   }
 
-  if (find(types.begin(), types.end(), LR_LAP) != types.end() ||
-      find(types.begin(), types.end(), SC_ZK) != types.end()  ||
-      find(types.begin(), types.end(), SC_LAP) != types.end() )
+  bool lap = find(types.begin(), types.end(), LR_LAP) != types.end() ||
+             find(types.begin(), types.end(), SC_LAP) != types.end();
+
+  if (lap || find(types.begin(), types.end(), SC_ZK) != types.end())
   {
     d_zk.reserve(S);
     for (size_t s = 0; s != problem.d_S; ++s)
     {
-      ZK zk{c_env, env, problem, s};
+      ZK zk{c_env, env, problem, s, lap};
       d_zk.push_back(zk);
     }
   }

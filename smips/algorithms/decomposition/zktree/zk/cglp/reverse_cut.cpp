@@ -2,6 +2,9 @@
 
 void Cglp::reverse_cut(double UB)
 {
+  if (not d_used)
+    return;
+
   if (d_rcut_idx == -1)
   {
     d_rcut_idx = d_nMults;
