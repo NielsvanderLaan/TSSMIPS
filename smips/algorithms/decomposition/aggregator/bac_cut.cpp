@@ -24,5 +24,12 @@ BendersCut Aggregator::bac_cut(Master::Solution sol, Master &mp, bool cuts, size
     rho += cRho / (1 + cut.d_tau);
   }
 
+  if (cuts)
+  {
+#pragma omp parallel for
+    for (size_t s = 0; s < d_trees.size(); ++s)
+      d_trees[s].clear();
+  }
+
   return cut;
 }

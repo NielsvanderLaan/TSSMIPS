@@ -60,7 +60,7 @@ class ZK
     
         // computes the rhs (coef_rhs - coef_theta * theta - coef_x^T x), adds the cut,
         // stores cut coeffients (omega, Tmat, and tau) for future calls to update(), and calls add_cglp_row()
-    bool add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx);                                  
+    bool add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx, size_t varIdx);
     void update_bound(int var, double val, bool lower, bool fs);                     // updates lower/upper bounds in first/second-stage
     void add_cglp_row(double *coef_x, double coef_theta, double *coef_y, double rhs);   // calls cglp::add_row() to add cutting plane or optimality cut to cglp
     void add_cglp_row(BendersCut &cut);

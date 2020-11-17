@@ -6,7 +6,7 @@ static bool abs_compare(double a, double b)
   return (std::abs(a) < std::abs(b));
 }
 
-bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
+bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx, size_t varIdx)
 {
   double Tmax = abs(*max_element(cut.Trow.begin(), cut.Trow.end(), abs_compare));
   double Wmax = abs(*max_element(cut.Wrow.begin(), cut.Wrow.end(), abs_compare));
@@ -40,7 +40,13 @@ bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx)
   d_Tmat.push_back(cut.Trow);
   d_tau.push_back(cut.r);
   d_signs.push_back(1);
-  
+
+  if (cut.r > 0)
+  {
+    d_cp_inds.push_back(conIdx);
+    d_cp_slack_inds.push_back(varIdx);
+  }
+
     // add cut 
   int cind[d_nVars];              // variable indices
   iota(cind, cind + d_n2, 0);  

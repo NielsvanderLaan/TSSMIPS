@@ -53,10 +53,9 @@ class ZkTree
     double max_coeff(BendersCut &cut);
     void cglp_bounds(double M, bool set);
 
-
-
     double cglp_val();
 
+    void clear();
      
 };
 

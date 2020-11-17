@@ -34,10 +34,8 @@ bool ZK::solve(double *x, double theta, double rho, Master &master, size_t maxRo
 
       Cut cut = gomory ? generate_gmi_cut(master, row, yval, x, theta, rho) : d_cglp.generate_cut(x, rho, d_yvals.data(), basic_var, floor(yval));
 
-      if (add_cut(cut, x, rho, tol, d_nConstrs + nCuts))    // ret = true iff cut was added (iff cut is proper)
+      if (add_cut(cut, x, rho, tol, d_nConstrs + nCuts, d_nVars + nCuts))    // ret = true iff cut was added (iff cut is proper)
       {
-        d_cp_inds.push_back(d_nConstrs + nCuts);
-        d_cp_slack_inds.push_back(d_nVars + nCuts);
         ++nCuts;
         stop = false;
       }
