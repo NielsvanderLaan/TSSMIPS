@@ -27,7 +27,6 @@ Cglp::Cglp(const Cglp &other):
   if (not d_used)
     return;
 
-  exit(123);
 
   GRBConstr *constrs = d_model.getConstrs();
   size_t nConstrs = d_n1 + d_n2 + 2;
