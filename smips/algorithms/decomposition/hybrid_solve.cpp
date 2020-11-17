@@ -131,7 +131,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
       BendersCut cut = compute_cut(types[idx], sol, int_feas, vx, tol);
       double time = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - before).count() / 1e6;
       print("computed " << name(types[idx]) << " (" << time << "s)" << '\n');
-      cout << "tau = " << cut.d_tau << endl;
+      //cout << "tau = " << cut.d_tau << endl;
 
       if (not add_cut(cut, sol, tol))
       {
