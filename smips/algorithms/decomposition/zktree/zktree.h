@@ -25,6 +25,7 @@ class ZkTree
     
     ZkTree(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario);
     ZkTree(const ZkTree &other);     // copy ctor
+
     ~ZkTree();      // update dtor to delete d_subs objects
     
     void branch_cut(double *x, double theta, double rho, Master &master, bool cuts, size_t maxRounds, double tol);
