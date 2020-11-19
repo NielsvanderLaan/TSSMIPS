@@ -19,6 +19,9 @@ class Aggregator
     vector<ZkTree> d_trees;
     vector<Sub> d_sub;
     vector<Lagrangian> d_lr;
+    GRBEnv &d_env;
+    GRBenv *d_cenv;
+    vector<BendersCut> d_cuts;
 
     // for computing v_w(x) and Q(x)
     GRBModel d_vw;        // used to evaluate the value function

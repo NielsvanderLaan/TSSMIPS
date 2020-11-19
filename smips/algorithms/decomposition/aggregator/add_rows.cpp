@@ -2,6 +2,7 @@
 
 void Aggregator::add_rows(BendersCut &cut)
 {
+  d_cuts.push_back(cut);
 
 #pragma omp parallel for
   for (size_t s = 0; s < d_cgmips.size(); ++s)

@@ -55,9 +55,6 @@ class ZkTree
     void cglp_bounds(double M, bool set);
 
     double cglp_val();
-
-    void clear();
-     
 };
 
 #endif

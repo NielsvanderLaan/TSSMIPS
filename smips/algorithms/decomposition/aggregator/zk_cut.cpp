@@ -30,10 +30,11 @@ BendersCut Aggregator::zk_cut(Master::Solution sol, Master &master, bool lap_cut
     rho += cRho / (1 + cut.d_tau);
   }
 
+/*
 #pragma omp parallel for
   for (size_t s = 0; s < d_zk.size(); ++s)
     d_zk[s].clear();      // reduces memory usage
-
+*/
 
   return cut;
 }
