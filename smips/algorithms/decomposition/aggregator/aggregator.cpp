@@ -6,9 +6,7 @@ Aggregator::Aggregator(GRBEnv &env, GRBenv *c_env, Problem &problem, vector<Type
   d_probs(problem.d_probs),
   d_vw(env),
   d_problem(problem),
-  d_fix_rec(problem.d_fix_rec),
-  d_env(env),
-  d_cenv(c_env)
+  d_fix_rec(problem.d_fix_rec)
 {
   init_vw(problem);
 
