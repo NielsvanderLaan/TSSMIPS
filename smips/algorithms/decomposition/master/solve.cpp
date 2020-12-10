@@ -9,6 +9,13 @@ Master::Solution Master::solve(double tol)
   int status;
   GRBgetintattr(d_cmodel, "Status", &status);
 
+  if (status == 3)
+  {
+    GRBwrite(d_cmodel, "master.lp");
+    GRBwrite(d_cmodel, "master.mps");
+    exit(3);
+  }
+
   if (status == 3 || status == 4)
     return Solution{ vector<double>(0), -1, true };
   if (status == 5)
