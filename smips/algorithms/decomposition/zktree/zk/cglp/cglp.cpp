@@ -15,6 +15,7 @@ Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario, bool lap)
   d_L(problem.d_L),
   d_rcut_idx(-1)
 {
+  d_model.set(GRB_IntParam_Method, 0);
   if (not d_used)
     return;
 

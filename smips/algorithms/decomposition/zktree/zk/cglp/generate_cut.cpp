@@ -6,6 +6,8 @@ Cut Cglp::generate_cut(double *x, double theta, double *y, size_t var_idx, doubl
   set_obj(x, theta - d_L, y);    // cglp is in terms of theta' = theta - L
   d_model.optimize();
 
+
+
   double r = d_r.get(GRB_DoubleAttr_X);
   double rhs = d_h.get(GRB_DoubleAttr_X) + r * d_L;   // cglp is in terms of theta' = theta - L
   
