@@ -44,7 +44,6 @@ int main(int argc, char *argv[])
         DEF.d_model.set(GRB_DoubleParam_MIPGap, 0);
         DEF.d_model.set(GRB_DoubleParam_MIPGapAbs, 1e-4);
         DEF.d_model.set(GRB_IntParam_Threads, thread_count);
-        //DEF.solve(time_limit);
         DEF.solve(12*3600);
       }
 
