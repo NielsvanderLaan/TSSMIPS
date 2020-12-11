@@ -18,8 +18,7 @@ BendersCut Aggregator::zk_cut(Master::Solution sol, Master &master, bool lap_cut
     for (size_t s = 0; s < d_zk.size(); ++s)
     {
       d_zk[s].update(x,affine ? GRB_INFINITY : rho);
-      d_zk[s].solve(x, theta, affine ? GRB_INFINITY : rho, master, maxRounds, not lap_cuts);
-
+      if (not d_zk[s].solve(x, theta, affine ? GRB_INFINITY : rho, master, maxRounds, not lap_cuts))
       cut += d_zk[s].subgradient() * d_probs[s];
       cRho += d_probs[s] * d_zk[s].d_objVal;
     }

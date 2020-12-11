@@ -4,7 +4,31 @@ Cut Cglp::generate_cut(double *x, double theta, double *y, size_t var_idx, doubl
 {
   create_disjunction(var_idx, val);
   set_obj(x, theta - d_L, y);    // cglp is in terms of theta' = theta - L
+
+  d_model.set(GRB_IntParam_NumericFocus, 0);
   d_model.optimize();
+
+  int status = d_model.get(GRB_IntAttr_Status);
+  if (status != 2)
+  {
+    d_model.set(GRB_IntParam_NumericFocus, 3);
+    d_model.reset();
+    d_model.optimize();
+    status = d_model.get(GRB_IntAttr_Status);
+    if (status != 2)
+    {
+      d_model.write("cg.lp");
+      exit(status);
+    }
+  }
+
+  double violation = d_model.get(GRB_DoubleAttr_ConstrVio);
+  double resid = d_model.get(GRB_DoubleAttr_ConstrResidual);
+  if (violation + resid > 1e-6)
+  {
+    cout << "violation: " << violation << ". residual: " << resid <<'\n';
+  }
+
 
 
 
