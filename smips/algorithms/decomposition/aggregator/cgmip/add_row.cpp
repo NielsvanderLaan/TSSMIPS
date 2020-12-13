@@ -22,4 +22,5 @@ void CGMip::add_row(BendersCut &cut)
 
   delete[] constrs;
   d_mp.update();
+
 }

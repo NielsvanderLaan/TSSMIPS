@@ -174,8 +174,7 @@ Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario, bool lap)
       d_u2_mults[var] = d_nMults;
       ++d_nMults;
     }
-  } 
-
+  }
   
   d_model.update();  
 }

@@ -15,7 +15,6 @@ bool ZK::add_cut(Cut cut, double *x, double theta, double tol, size_t conIdx, si
     return false;
 
   double scale = 1 / abs_max;
-
   cut.rhs *= scale;
   cut.r *= scale;
   for_each(cut.Trow.begin(), cut.Trow.end(), [scale](double &val){val *= scale;});

@@ -43,6 +43,7 @@ class Cglp
     void reverse_cut(double UB);
 
     Cut generate_cut(double *x, double theta, double *y, size_t var_idx, double val);
+    Cut manual_cut(size_t var_idx);
 };
 
 #endif

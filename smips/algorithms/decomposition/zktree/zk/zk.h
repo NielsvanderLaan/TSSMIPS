@@ -41,12 +41,11 @@ class ZK
     vector<int> d_lb_inds, d_ub_inds; // constraint indices of upper and lower bounds (-1 if no bounds are imposed (lb = 0, or ub = GRB_INFINITY))
     vector<int> d_cp_inds, d_cp_slack_inds;            // constraint indices of cutting planes
 
-    
     double d_L;
     double d_objVal;
     vector<double> d_yvals;
     GRBmodel *d_model;
-    
+
     ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario, bool lap);
     ZK(const ZK &other);
     ZK(ZK &&other);

@@ -4,7 +4,6 @@ void Cglp::create_disjunction(size_t var_idx, double val)
 {
   if (not d_used)
     return;
-
       // pointer to constraints of first disjunction corresponding to the y variables
   GRBConstr *constrs1 = &d_constrs1[d_n1 + 1];  
   GRBConstr *constrs2 = &d_constrs2[d_n1 + 1];  // idem for second disjunction

@@ -6,7 +6,7 @@ void Cglp::add_row(double *coef_x, double coef_theta, double *coef_y, double rhs
     return;
 
   ++d_nMults;
-  
+
   GRBVar lambda1 = d_model.addVar(geq ? 0 : -GRB_INFINITY, geq ? INFINITY : 0, 0, GRB_CONTINUOUS);
   GRBVar lambda2 = d_model.addVar(geq ? 0 : -GRB_INFINITY, geq ? INFINITY : 0, 0, GRB_CONTINUOUS);
   d_lambda1.push_back(lambda1);

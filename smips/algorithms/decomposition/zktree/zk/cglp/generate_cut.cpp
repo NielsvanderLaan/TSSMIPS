@@ -17,20 +17,13 @@ Cut Cglp::generate_cut(double *x, double theta, double *y, size_t var_idx, doubl
     status = d_model.get(GRB_IntAttr_Status);
     if (status != 2)
     {
-      d_model.write("cg.lp");
+      cout << "error in cglp, status code: " << status << endl;
       exit(status);
     }
   }
 
-  double violation = d_model.get(GRB_DoubleAttr_ConstrVio);
-  double resid = d_model.get(GRB_DoubleAttr_ConstrResidual);
-  if (violation + resid > 1e-6)
-  {
-    cout << "violation: " << violation << ". residual: " << resid <<'\n';
-  }
-
-
-
+  if (d_model.get(GRB_DoubleAttr_BoundVio) > 0)
+    return manual_cut(var_idx);
 
   double r = d_r.get(GRB_DoubleAttr_X);
   double rhs = d_h.get(GRB_DoubleAttr_X) + r * d_L;   // cglp is in terms of theta' = theta - L
@@ -63,7 +56,7 @@ Cut Cglp::generate_cut(double *x, double theta, double *y, size_t var_idx, doubl
   
     Trow[var] = min(lambda1_aj + lambda1_0 * floor(m), lambda2_aj + lambda2_0 * ceil(m));
   }
-  
+
   for (size_t var = 0; var != d_p2; ++var)
   {
     if (var == var_idx)
