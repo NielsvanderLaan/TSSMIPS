@@ -106,13 +106,12 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
       copy(x.begin(), x.end(), d_incumbent);
       update(cx + Qx, rcuts);    // updates UB and calls reverse_cut
     }
-    /*
+
     if (d_UB - LB < tol)
     {
       cout << "gap closed" << endl;
       break;
     }
-     */
 
     print("LB: " << LB << ". UB: " << d_UB << endl);
 
