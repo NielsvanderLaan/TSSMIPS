@@ -18,7 +18,7 @@ Cut Cglp::generate_cut(double *x, double theta, double *y, size_t var_idx, doubl
     if (status != 2)
     {
       cout << "error in cglp, status code: " << status << endl;
-      exit(status);
+      return Cut {vector<double>(d_n1, 0.0), 0.0, vector<double>(d_n2, 0.0), -1.0};
     }
   }
 
