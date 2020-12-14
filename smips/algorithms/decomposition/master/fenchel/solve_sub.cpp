@@ -14,6 +14,12 @@ Fenchel::Point Fenchel::solve_sub(double tol, bool focus)
   } catch (GRBException e)
   {
     cout << "error in Fenchel subproblem: did not find a feasible solution\n" << e.getErrorCode() << ' ' << e.getMessage() << endl;
+    d_sub.write("fenchel_sub.lp");
+    d_sub.write("fenchel_sub.mps");
+    d_sub.set(GRB_IntParam_OutputFlag, 1);
+    d_sub.reset();
+    d_sub.optimize();
+    cout << "lb = " << lb << '\n';
     return Point {vector<double>(d_xvars.size()), 0, lb, GRB_INFINITY };
   }
 
