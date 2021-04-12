@@ -59,7 +59,7 @@ d_rcut(false)
 
       // constraint lhs
   vector<vector<double>> &Wmat = problem.d_fix_rec ? problem.d_Wmat : problem.d_W_omega[s];
-  vector<vector<double>> &Tmat = problem.d_Tmat;
+  vector<vector<double>> &Tmat = problem.d_fix_tech ? problem.d_Tmat : problem.d_T_omega[s];
   GRBLinExpr TxWy[m2];
   for (size_t conIdx = 0; conIdx != m2; ++conIdx)
   {

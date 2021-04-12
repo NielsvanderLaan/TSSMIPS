@@ -7,6 +7,7 @@ Sub::Multipliers Sub::solve()
 
   if (status == 3)
   {
+    d_model.write("sub.lp");
     cout << "subproblem is infeasible: no complete recourse. Implement feasibility cuts\n";
     exit(1);
   }

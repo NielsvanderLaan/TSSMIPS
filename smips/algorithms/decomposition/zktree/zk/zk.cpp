@@ -9,7 +9,7 @@ ZK::ZK(GRBenv *env, GRBEnv &cpp_env, Problem &problem, size_t scenario, bool lap
   d_m2(problem.d_m2), 
   d_nConstrs(d_m2),
   d_cglp(problem, cpp_env, scenario, lap),
-  d_Tmat(problem.d_Tmat),
+  d_Tmat(problem.d_fix_tech ? problem.d_Tmat : problem.d_T_omega[scenario]),
   d_tau(d_m2),
   d_omega(problem.d_omega[scenario]),
   d_signs(d_m2),

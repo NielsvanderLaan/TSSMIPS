@@ -43,7 +43,7 @@ class CGMip
     CGMip(const CGMip &other);
     CGMip(CGMip &&other) = delete;
 
-    BendersCut generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol, bool int_feas, double &gap, bool reset = false);  // uses benders decomposition to find best cut
+    BendersCut generate_cut(double *x, double theta, bool init, double vwx, bool affine, double tol, bool int_feas, double &gap, double &npoints, bool reset = false);  // uses benders decomposition to find best cut
             // auxiliary functions for generate_cut()
     bool solve_mp(bool focus, bool affine, double M = 1e8);
     void update_mp();

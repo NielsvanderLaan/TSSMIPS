@@ -27,5 +27,13 @@ void instance(Problem &problem, int argc, char *argv[])
     problem.caroe( stoi(argv[2]));
     problem.enforce_ccr(1e4);
   }
+  if (instance == "LARGE")
+  {
+    cout << "LARGE SSV, n1 = " << argv[2] << " n2 = " << argv[3] << " S = " << argv[4] <<
+            " fs_cont: " << argv[5] << " ss_bin: " << argv[6] << '\n';
+
+    problem.ssv_large(stoi(argv[2]), stoi(argv[3]), stoi(argv[4]), stoi(argv[5]), stoi(argv[6]));
+
+  }
 }
 

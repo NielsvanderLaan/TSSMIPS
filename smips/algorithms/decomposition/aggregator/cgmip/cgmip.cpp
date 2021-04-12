@@ -50,10 +50,12 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
     // adding Wy + Tx ~ omega
   GRBLinExpr WyTx[m2];
   vector<vector<double>> &rec_mat = problem.d_fix_rec ? problem.d_Wmat : problem.d_W_omega[s];
+  vector<vector<double>> &tech = problem.d_fix_tech ? problem.d_Tmat : problem.d_T_omega[s];
+
   for (size_t con = 0; con != m2; ++con)
   {
     WyTx[con].addTerms(rec_mat[con].data(), yVars, n2);
-    WyTx[con].addTerms(problem.d_Tmat[con].data(), xVars, n1);
+    WyTx[con].addTerms(tech[con].data(), xVars, n1);
   }
   vector<char> senses2(m2, GRB_EQUAL);
   fill_n(senses2.begin(), problem.d_ss_leq, GRB_LESS_EQUAL);

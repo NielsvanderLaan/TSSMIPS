@@ -1,18 +1,15 @@
 #include "deqform.h"
 
-void DeqForm::init_ss(size_t n1, size_t n2, size_t p2, size_t m2, size_t S, 
-                      size_t ss_leq, size_t ss_geq, 
-                      double *lb, double *ub,
-                      double *probs, vector<double> q,
-                      vector<vector<double>> &Tmat, vector<vector<double>> &Wmat,
-                      vector<vector<double>> &q_omega,
-                      vector<vector<vector<double>>> &W_omega,
-                      vector<vector<double>> &omega, bool fix_rec)
+void DeqForm::init_ss(size_t n1, size_t n2, size_t p2, size_t m2, size_t S,
+                               size_t ss_leq, size_t ss_geq,
+                               double *lb, double *ub,
+                               double *probs, vector<double> q,
+                               vector<vector<double>> &Tmat, vector<vector<double>> &Wmat,
+                               vector<vector<double>> &q_omega,
+                               vector<vector<vector<double>>> &W_omega,
+                               vector<vector<vector<double>>> &T_omega,
+                               vector<vector<double>> &omega, bool fix_rec, bool fix_tech)
 {
-  vector<GRBLinExpr> Tx(m2);
-  for (size_t conIdx = 0; conIdx != m2; ++conIdx)
-    Tx[conIdx].addTerms(Tmat[conIdx].data(), d_xVars, n1);
-  
       // variable types    
   char vTypes2[n2];
   fill_n(vTypes2, p2, GRB_INTEGER);
@@ -36,10 +33,15 @@ void DeqForm::init_ss(size_t n1, size_t n2, size_t p2, size_t m2, size_t S,
     GRBVar *yVars = d_model.addVars(lb, ub, costs.data(), vTypes2, NULL, n2);
     
         // lhs expression of second-stage constraints, Wy will be added in a loop
-    vector<GRBLinExpr> TxWy = Tx;
+    vector<GRBLinExpr> TxWy(m2);
+    vector<vector<double>> &tech = fix_tech ? Tmat : T_omega[s];
     vector<vector<double>> &rec_mat = fix_rec ? Wmat : W_omega[s];
     for (size_t conIdx = 0; conIdx != m2; ++conIdx)
+    {
+      TxWy[conIdx].addTerms(tech[conIdx].data(), d_xVars, n1);
       TxWy[conIdx].addTerms(rec_mat[conIdx].data(), yVars, n2);
+    }
+
 
         // add constraints
     delete[] d_model.addConstrs(TxWy.data(), senses2, rhsOmega, NULL, m2);

@@ -77,13 +77,14 @@ Cglp::Cglp(Problem &problem, GRBEnv &env, size_t scenario, bool lap)
   d_nMults = d_lambda1.size();  
 
       // adding the constraints
+  vector<vector<double>> &tech = problem.d_fix_tech ? problem.d_Tmat : problem.d_T_omega[scenario];
   for (size_t var = 0; var != d_n1; ++var)          // looping over x variables
   {
     vector<double> coeffs(d_nMults);
     for (size_t row = 0; row != d_m1; ++row)
       coeffs[1 + row] = problem.d_Amat[row][var];
     for (size_t row = 0; row != d_m2; ++row)
-      coeffs[1 + d_m1 + row] = problem.d_Tmat[row][var];
+      coeffs[1 + d_m1 + row] = tech[row][var];
     
     GRBLinExpr lhs1;
     lhs1.addTerms(coeffs.data(), d_lambda1.data(), d_nMults); 

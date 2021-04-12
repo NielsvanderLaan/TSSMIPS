@@ -15,14 +15,17 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
     cut = BendersCut{ 0, vector<double>(d_n1, 0.0), 0};
     gap = 0;
 
-#pragma omp parallel for reduction(sum : cut) reduction(+:cRho, gap)
+    double npoints = 0;
+#pragma omp parallel for reduction(sum : cut) reduction(+:cRho, gap, npoints)
     for (size_t s = 0; s < d_cgmips.size(); ++s)
     {
       double prob = d_probs[s];
-      cut += d_cgmips[s].generate_cut(x, rho, first_time, vx[s], affine, tol, int_feas, gap) * prob;
+      cut += d_cgmips[s].generate_cut(x, rho, first_time, vx[s], affine, tol, int_feas, gap, npoints) * prob;
       cRho -= prob * d_cgmips[s].mp_val();
     }
 
+    npoints /= d_cgmips.size();
+    //cout << "average no. points: " << npoints << '\n';
     gap /= d_cgmips.size();
     if (affine)
       break;

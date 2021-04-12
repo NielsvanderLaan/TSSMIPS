@@ -7,7 +7,7 @@ d_model(GRBModel(env))
 {
   size_t n1 = problem.d_n1;   
   d_n1 = n1;
-  d_MIP = (problem.d_p1 == 0 && problem.d_p2 == 0) ? false : true;
+  d_MIP = not (problem.d_p1 == 0 && problem.d_p2 == 0);
 
 
   init_fs(n1, problem.d_p1, problem.d_m1,
@@ -21,8 +21,9 @@ d_model(GRBModel(env))
           problem.d_l2.data(), problem.d_u2.data(),
           problem.d_probs.data(), problem.d_q,
           problem.d_Tmat, problem.d_Wmat,
-          problem.d_q_omega, problem.d_W_omega,problem.d_omega,
-          problem.d_fix_rec);
+          problem.d_q_omega, problem.d_W_omega,
+          problem.d_T_omega, problem.d_omega,
+          problem.d_fix_rec, problem.d_fix_tech);
 }
 
 

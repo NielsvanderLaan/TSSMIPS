@@ -10,8 +10,9 @@ vector<double> Aggregator::compute_vwx(double *x)
   for (size_t s = 0; s != d_probs.size(); ++s)
   {
     vector<double> rhs(d_problem.d_omega[s]);
+    vector<vector<double>> &tech = d_problem.d_fix_tech ? d_problem.d_Tmat : d_problem.d_T_omega[s];
     for (size_t con = 0; con != rhs.size(); ++con)
-      rhs[con] -= inner_product(d_problem.d_Tmat[con].begin(), d_problem.d_Tmat[con].end(), x, 0.0);
+      rhs[con] -= inner_product(tech[con].begin(), tech[con].end(), x, 0.0);
     d_vw.set(GRB_DoubleAttr_RHS, cons, rhs.data(), rhs.size());
 
     if (not d_fix_rec)    // update W and q

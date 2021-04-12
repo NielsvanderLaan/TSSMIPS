@@ -10,3 +10,9 @@ vector<double> Data::unif_real_vec(size_t size, double low, double high)
     
   return vec;
 }
+
+double Data::uni()
+{
+  uniform_real_distribution<double> uni(0.0, 1.0);
+  return uni(d_engine);
+}

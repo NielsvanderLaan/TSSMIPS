@@ -50,7 +50,6 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
 
     bool int_feas = all_of(x.begin(), x.begin() + d_p1, [](double val){ return is_integer(val); });
 
-
     if (not int_feas)
     {
       if (fenchel && fenchel_cuts != max_rounds)
@@ -91,6 +90,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
       cout << "not integer feasible. #rounds of cuts: " << round << ". #fenchel cuts: " << fenchel_cuts << '\n';
       break;
     }
+
 
     auto before = chrono::high_resolution_clock::now();
     double cx = inner_product(d_problem.d_c.begin(), d_problem.d_c.end(), x.begin(), 0.0);

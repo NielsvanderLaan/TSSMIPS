@@ -47,7 +47,8 @@ class DeqForm
                  vector<vector<double>> &Tmat, vector<vector<double>> &Wmat,
                  vector<vector<double>> &q_omega,
                  vector<vector<vector<double>>> &W_omega,
-                 vector<vector<double>> &omega, bool fix_rec);
+                 vector<vector<vector<double>>> &T_omega,
+                 vector<vector<double>> &omega, bool fix_rec, bool fix_tech);
     void solve(double time_limit = GRB_INFINITY); // solves grbModel, updates status to 1 or 2, updates xvals, updates MIPGap
 };
 

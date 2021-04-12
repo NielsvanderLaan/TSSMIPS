@@ -16,7 +16,8 @@ class Data
     vector<double> rand_unif_vec(size_t size, int low, int high);
     vector<double> unif_real_vec(size_t size, double low, double high);       
     vector<vector<double>> rand_unif_mat(size_t nRows, size_t nCols, int low, int high);  
-    vector<vector<double>> rand_gaus_mat(size_t nRows, size_t nCols, double mean, double sd);   
+    vector<vector<double>> rand_gaus_mat(size_t nRows, size_t nCols, double mean, double sd);
+    double uni();
     
     void append_minus_eye(vector<vector<double>> &matrix);
     void append_zeros(vector<vector<double>> &mat, size_t nZeros);

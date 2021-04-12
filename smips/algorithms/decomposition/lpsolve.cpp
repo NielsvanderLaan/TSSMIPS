@@ -8,7 +8,7 @@ double Benders::lpSolve(double tol)
   while (not stop)
   {
     Master::Solution sol = d_master.solve(tol);
-  
+
     BendersCut cut = d_agg.lp_cut( sol.xVals);
     stop = add_cut(cut, sol, tol);
 
