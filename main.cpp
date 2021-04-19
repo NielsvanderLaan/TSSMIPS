@@ -12,8 +12,12 @@
 
 using namespace std;
 
+
+
 int main(int argc, char *argv[])
 {
+
+
   try
   {
     Data rand(14785);
@@ -46,6 +50,7 @@ int main(int argc, char *argv[])
         DEF.d_model.set(GRB_IntParam_Threads, thread_count);
         DEF.d_model.write("def.lp");
         DEF.solve(12*3600);
+        DEF.d_model.write("def.sol");
       }
 
       if (solve_tree(argc, argv))

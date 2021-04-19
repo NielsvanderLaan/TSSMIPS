@@ -29,3 +29,26 @@ CGMip::Point CGMip::solve_sub(bool focus)
   return Point{ x, d_theta.get(GRB_DoubleAttr_X), d_eta.get(GRB_DoubleAttr_X), rhs_lb, rhs_ub };
 }
 
+vector<CGMip::Point> CGMip::get_points()
+{
+  int count = d_sub.get(GRB_IntAttr_SolCount);
+  vector<Point> ret;
+
+  for (int sol = 1; sol < count; ++sol)
+  {
+    d_sub.set(GRB_IntParam_SolutionNumber, sol);
+    double *xVals = d_sub.get(GRB_DoubleAttr_Xn, d_xVars.data(), d_xVars.size());
+    vector<double> x{ xVals, xVals + d_xVars.size() };
+    delete[] xVals;
+
+    ret.emplace_back(Point{x,
+                           d_theta.get(GRB_DoubleAttr_Xn),
+                           d_eta.get(GRB_DoubleAttr_Xn),
+                           d_sub.get(GRB_DoubleAttr_ObjBound),
+                           d_sub.get(GRB_DoubleAttr_PoolObjVal)});
+  }
+
+  return ret;
+
+}
+
