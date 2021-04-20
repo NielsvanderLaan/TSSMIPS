@@ -1,10 +1,10 @@
 #include "problem.h"
 
-void Problem::ssv_large(int n1, int n2, size_t S, bool fs_continuous, bool ss_binary)
+void Problem::ssv_large(int n1, int n2, int m2, size_t S, bool fs_continuous, bool ss_binary)
 {
   d_n1 = n1; d_m1 = 0; d_fs_leq = 0; d_fs_geq = 0;
   d_p1 = fs_continuous? 0 : n1;
-  d_n2 = n2; d_p2 = n2; d_m2 = n1; d_ss_leq = d_m2; d_ss_geq = 0;
+  d_n2 = n2; d_p2 = n2; d_m2 = m2; d_ss_leq = d_m2; d_ss_geq = 0;
   d_S = S;
   d_fix_rec = false;
   d_fix_tech = false;
@@ -21,20 +21,68 @@ void Problem::ssv_large(int n1, int n2, size_t S, bool fs_continuous, bool ss_bi
     fs_costs[var] = -1 - step * var;
 
 
-  vector<vector<double>> identity;
-  for (size_t con = 0; con != d_m2; ++con)
+  vector<vector<double>> identity, tech;
+  if (n1 > m2)
   {
-    vector<double> row(d_n1, 0.0);
-    row[con] = 1.0;
-    identity.push_back(row);
-  }
-  vector<vector<double>> tech;
-  double frac = 1.0 / (d_n1 + 1);
-  for (size_t con = 0; con != d_m2; ++con)
+    int nz = n1 -m2+ 1;
+    double frac = 1.0 / (n1 + nz);
+    for (size_t con = 0; con != m2; ++con)
+    {
+      vector<double> row(n1, 0.0);
+      fill_n(row.begin() + con, nz, 1.0 / nz);
+      identity.push_back(row);
+    }
+
+    for (size_t con = 0; con != m2; ++con)
+    {
+      vector<double> row(n1, frac);
+      fill_n(row.begin() + con, nz, 2 * frac);
+      tech.push_back(row);
+    }
+  } else
   {
-    vector<double> row(d_n1, frac);
-    row[con] =  2 * frac;
-    tech.push_back(row);
+    int nz = min(m2 - n1 + 1, n1);
+    int ndiags = 0;
+    for (int con = 0; con != nz; ++con)
+    {
+      ++ndiags;
+      vector<double> row(n1, 0.0);
+      fill_n(row.begin(), ndiags, 1.0 / ndiags);
+      identity.push_back(row);
+
+      vector<double> t_row(n1, 1.0 / (n1 + ndiags));
+      fill_n(t_row.begin(), ndiags, 2.0 / (n1 + ndiags));
+      tech.push_back(t_row);
+    }
+    int nrows = m2 - 2 * nz;
+    for (int con = 0; con < nrows; ++con)
+    {
+      vector<double> row(n1, 0.0);
+      if (nz < n1)
+        fill_n(row.begin() + con + 1, nz, 1.0 / nz);
+      else
+        fill_n(row.begin(), nz, 1.0 / nz);
+      identity.push_back(row);
+
+      vector<double> t_row(n1, 1.0/(n1 + nz));
+      if (nz < n1)
+        fill_n(t_row.begin() + con + 1, nz, 2.0 / (n1 + nz));
+      else
+        fill_n(t_row.begin(), nz, 2.0 / (n1 + nz));
+      tech.push_back(t_row);
+
+    }
+    for (int con = nz; con != 0; --con)
+    {
+      vector<double> row(n1, 0.0);
+      fill(row.end() - con, row.end(), 1.0 / ndiags);
+      identity.push_back(row);
+
+      vector<double> t_row(n1, 1.0 / (n1 + ndiags));
+      fill(t_row.end() - con, t_row.end(), 2.0 / (n1 + ndiags));
+      tech.push_back(t_row);
+      --ndiags;
+    }
   }
 
   int qlow = -(10*n1 + 10);
@@ -51,8 +99,7 @@ void Problem::ssv_large(int n1, int n2, size_t S, bool fs_continuous, bool ss_bi
   }
 
 
-
-  d_L = -450;
+  d_L = 15*qlow;
 
   d_l1 = l1;
   d_l2 = l2;

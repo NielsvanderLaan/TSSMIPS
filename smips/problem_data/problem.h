@@ -53,7 +53,7 @@ class Problem
                     
     void sizes(size_t S);
     void ssv95(size_t S, bool fs_continuous, bool ss_binary, bool standard_T = true);
-    void ssv_large(int n1, int n2, size_t S, bool fs_continuous, bool ss_binary);
+    void ssv_large(int n1, int n2, int m2, size_t S, bool fs_continuous, bool ss_binary);
     void sslp(size_t nServers, size_t nClients, size_t S);
     void dcap(size_t nResources, size_t nClients, size_t nPeriods, size_t S, bool fs_cont = false);
     void classic_ri();
