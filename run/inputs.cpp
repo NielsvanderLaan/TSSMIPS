@@ -85,6 +85,6 @@ void setLogger(string filename)
 {
   cout << "logfile: " << filename << endl;
   assert(filename.size() > 4);
-  assert(filename.substr(filename.size() - 4, 4) == ".txt");
+  assert(filename.substr(filename.size() - 4, 4) == ".log");
   freopen( filename.c_str(), "w", stderr );
 }
