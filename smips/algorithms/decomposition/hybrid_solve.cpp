@@ -20,17 +20,26 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
   double LB = -GRB_INFINITY;
   bool branch = false;
 
+  size_t iter = 0;
   auto t1 = chrono::high_resolution_clock::now();
   while (true)
   {
     start:
+    cerr << (iter > 0 ? "\n" : "") << "iteration: " << iter << '\n';
+    ++iter;
     if (chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - t1).count() / 1000.0 > time_limit)
     {
       cout << "OOT\n";
       break;
     }
 
+    auto mp_t1 = chrono::high_resolution_clock::now();
     Master::Solution sol = d_master.solve(tol);
+    auto mp_t2 = chrono::high_resolution_clock::now();
+    cerr << "MP: " << chrono::duration_cast<chrono::milliseconds>(mp_t2 - mp_t1).count() / 1000.0 << '\n';
+
+
+
     if (sol.infeasible)
     {
       cout << "mp infeasible" << endl;
@@ -57,7 +66,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
         auto before = chrono::high_resolution_clock::now();
         BendersCut cut = d_master.fenchel_cut(sol, tol);
         double comp_time = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - before).count() / 1000.0;
-        print("computed Fenchel cut (" << comp_time << "s)\n");
+        cerr << "Fenchel cut: " << comp_time << "\n";
         if (not add_cut(cut, sol, tol))
         {
           print("added Fenchel cut\n");
@@ -71,7 +80,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
         auto before = chrono::high_resolution_clock::now();
         size_t nCuts = round_of_cuts(sol, 1e-4);
         double time = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - before).count() / 1000.0;
-        print("computed round of GMI cuts (" << time << "s)\n");
+        cerr << "GMI round : " << time << " ncuts: " << nCuts << '\n';
         if (nCuts > 0)      // at least one cut was added
         {
           print("added " << nCuts <<  " gmi cuts\n");
@@ -98,7 +107,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
     double Qx = accumulate(vx.begin(), vx.end(),0.0) / d_S;
     double time = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - before).count() / 1e6;
     ++evaluations;
-    print("evaluated cx + Q(x) (" << time << "s)\n");
+    cerr << "eval: " << time << '\n';
     eval_time += time;
 
     if (int_feas && cx + Qx < d_UB)
@@ -130,8 +139,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
       auto before = chrono::high_resolution_clock::now();
       BendersCut cut = compute_cut(types[idx], sol, int_feas, vx, tol);
       double time = chrono::duration_cast<chrono::microseconds>(chrono::high_resolution_clock::now() - before).count() / 1e6;
-      print("computed " << name(types[idx]) << " (" << time << "s)" << '\n');
-      //cout << "tau = " << cut.d_tau << endl;
+      cerr << name(types[idx]) << ": " << time << '\n';
 
       if (not add_cut(cut, sol, tol))
       {

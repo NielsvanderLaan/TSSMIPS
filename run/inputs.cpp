@@ -80,3 +80,11 @@ void details(vector<Type> types, int max_rounds, bool rcuts, bool fenchel, doubl
   cout << "number of threads: " << thread_count << '\n';
   cout << endl;
 }
+
+void setLogger(string filename)
+{
+  cout << "logfile: " << filename << endl;
+  assert(filename.size() > 4);
+  assert(filename.substr(filename.size() - 4, 4) == ".txt");
+  freopen( filename.c_str(), "w", stderr );
+}

@@ -1,6 +1,5 @@
 #include <iostream>
 #include <vector>
-
 #include "gurobi_c++.h"
 #include "gurobi_c.h"
 
@@ -16,8 +15,6 @@ using namespace std;
 
 int main(int argc, char *argv[])
 {
-
-
   try
   {
     Data rand(14785);
@@ -30,6 +27,9 @@ int main(int argc, char *argv[])
     GRBloadenv(&c_env, nullptr);
     GRBsetintparam(c_env, "OutputFlag", 0);
     GRBsetintparam(c_env, "Threads", 1);
+
+    setLogger(argv[argc - 1]);
+
     {
       Problem problem(rand, env);
       instance(problem, argc, argv);
