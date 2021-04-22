@@ -85,8 +85,9 @@ void Problem::ssv_large(int n1, int n2, int m2, size_t S, bool fs_continuous, bo
     }
   }
 
-  int qlow = -(10*n1 + 10);
-  int qhigh = -(10*n1 - 10);
+  int qlow = -(5*n1 + 10);
+  int qhigh = -(5*n1 - 10);
+
   for (size_t s = 0; s != d_S; ++s)
   {
     d_q_omega.push_back(d_gen.rand_unif_vec(d_n2, qlow, qhigh));
@@ -107,9 +108,14 @@ void Problem::ssv_large(int n1, int n2, int m2, size_t S, bool fs_continuous, bo
   d_u2 = u2;
 
   d_c = fs_costs;
-  d_q = d_q_omega.front();
+  d_q = vector<double>(n2, 0.0);
   d_Wmat = d_W_omega.front();
   d_Tmat = d_T_omega.front();
+
+  fill(d_Tmat.begin(), d_Tmat.end(), vector<double>(n1, 0.0));
+  fill(d_Wmat.begin(), d_Wmat.end(), vector<double>(n2, 0.0));
+
+
   d_probs = vector<double> (d_S, 1.0 / d_S);
 
 }

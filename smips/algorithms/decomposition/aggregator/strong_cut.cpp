@@ -45,27 +45,29 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
 
 
     gap /= d_cgmips.size();
+
+    auto t2 = chrono::high_resolution_clock::now();
+    double time = chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0;
+    cerr << iter << " T: " << time <<
+         " #EP: " << npoints / S <<
+         " #iter: "  << niter / S <<
+         " T(CGMP): " << mptime / S <<
+         " Ta(CGMP): " << avg_mptime / S <<
+         " T(CGSP): "<< sptime / S <<
+         " Ta(CGSP): " << avg_sptime / S << endl;
+
     if (affine)
       break;
 
     rho += cRho / (1 + cut.d_tau);
     first_time = false;
-    auto t2 = chrono::high_resolution_clock::now();
-    double time = chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0;
-    cerr << iter << " T: " << time <<
-            " #EP: " << npoints / S <<
-            " #iter: "  << niter / S <<
-            " T(CGMP): " << mptime / S <<
-            " Ta(CGMP): " << avg_mptime / S <<
-            " T(CGSP): "<< sptime / S <<
-            " Ta(CGSP): " << avg_sptime / S << endl;
     ++iter;
   }
 
   for (size_t s = 0; s < d_cgmips.size(); ++s)
   {
     d_cgmips[s].update_mp();
-    //d_cgmips[s].clear_mp();
+    d_cgmips[s].clear_mp();
   }
 
 
