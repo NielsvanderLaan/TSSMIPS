@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     GRBsetintparam(c_env, "OutputFlag", 0);
     GRBsetintparam(c_env, "Threads", 1);
 
-    setLogger(argv[argc - 1]);
+
 
     {
       Problem problem(rand, env);
@@ -39,6 +39,7 @@ int main(int argc, char *argv[])
       int max_rounds = get_max_rounds(argc, argv);
       double time_limit = get_time_limit(argc, argv);
       int thread_count = nthreads(argc, argv);
+      setLogger(getLogFile(argc, argv));
       details(types, max_rounds, rcuts, fenchel, time_limit, thread_count);
 
       if (solve_DEF(argc, argv))

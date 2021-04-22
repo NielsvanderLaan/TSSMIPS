@@ -81,6 +81,18 @@ void details(vector<Type> types, int max_rounds, bool rcuts, bool fenchel, doubl
   cout << endl;
 }
 
+string getLogFile(int argc, char *argv[])
+{
+  for (size_t idx = 1; idx != argc; ++idx)
+  {
+    string arg(argv[idx]);
+    string mr("LOG=");
+    if (arg.find(mr) == 0)
+      return arg.substr(mr.size(), arg.size() - mr.size());
+  }
+  return "default.log";
+}
+
 void setLogger(string filename)
 {
   cout << "logfile: " << filename << endl;

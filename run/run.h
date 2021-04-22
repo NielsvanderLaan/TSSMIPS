@@ -26,6 +26,7 @@ bool solve_tree(int argc, char *argv[]);
 int get_max_rounds(int argc, char *argv[]);
 int nthreads(int argc, char* argv[]);
 double get_time_limit(int argc, char *argv[]);
+string getLogFile(int argc, char *argv[]);
 void setLogger(string filename);
 
 
