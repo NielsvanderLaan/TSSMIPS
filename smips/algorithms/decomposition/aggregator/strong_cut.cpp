@@ -67,7 +67,7 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
   for (size_t s = 0; s < d_cgmips.size(); ++s)
   {
     d_cgmips[s].update_mp();
-    d_cgmips[s].clear_mp();
+    //d_cgmips[s].clear_mp();
   }
 
 
