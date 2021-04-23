@@ -85,8 +85,8 @@ void Problem::ssv_large(int n1, int n2, int m2, size_t S, bool fs_continuous, bo
     }
   }
 
-  int qlow = -(10*n1 + 10);
-  int qhigh = -(10*n1 - 10);
+  int qlow = -(5*n1);
+  int qhigh = -(5*n1 - 10);
 
   for (size_t s = 0; s != d_S; ++s)
   {
