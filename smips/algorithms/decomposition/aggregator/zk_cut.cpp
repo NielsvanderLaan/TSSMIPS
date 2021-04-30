@@ -22,10 +22,12 @@ BendersCut Aggregator::zk_cut(Master::Solution sol, Master &master, bool lap_cut
     double cuttime = 0;
     double avg_cuttime = 0;   // per round
     double nrounds = 0;
+    double cpu_time = 0;
 
-#pragma omp parallel for reduction(sum : cut) reduction(+:cRho, lptime, avg_lptime, cuttime, avg_cuttime, nrounds)
+#pragma omp parallel for reduction(sum : cut) reduction(+:cRho, lptime, avg_lptime, cuttime, avg_cuttime, nrounds, cpu_time)
     for (size_t s = 0; s < d_zk.size(); ++s)
     {
+      auto t1_loop = chrono::high_resolution_clock::now();
       double lptime_lc = 0;
       double cuttime_lc = 0;
       double nrounds_lc = 0;
@@ -43,10 +45,11 @@ BendersCut Aggregator::zk_cut(Master::Solution sol, Master &master, bool lap_cut
       cuttime += cuttime_lc;
       avg_cuttime += cuttime_lc / nrounds_lc;
 
-
-
       cut += d_zk[s].subgradient() * d_probs[s];
       cRho += d_probs[s] * d_zk[s].d_objVal;
+
+      auto t2_loop = chrono::high_resolution_clock::now();
+      cpu_time += chrono::duration_cast<chrono::milliseconds>(t2_loop - t1_loop).count() / 1000.0;
     }
 
     if (affine)
@@ -57,6 +60,7 @@ BendersCut Aggregator::zk_cut(Master::Solution sol, Master &master, bool lap_cut
     auto t2 = chrono::high_resolution_clock::now();
     double time = chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0;
     cerr << iter << " T: " << time <<
+         " cpu_time: " << cpu_time <<
          " #cuts: "  << nrounds / S <<
          " T(LP): " << lptime / S <<
          " Ta(LP): " << avg_lptime / S <<

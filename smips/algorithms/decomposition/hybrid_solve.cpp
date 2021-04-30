@@ -27,7 +27,9 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
     start:
     cerr << (iter > 0 ? "\n" : "") << "iteration: " << iter << '\n';
     ++iter;
-    if (chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - t1).count() / 1000.0 > time_limit)
+    double elapsed = chrono::duration_cast<chrono::milliseconds>(chrono::high_resolution_clock::now() - t1).count() / 1000.0;
+    cerr << "elapsed: " << elapsed << '\n';
+    if (elapsed > time_limit)
     {
       cout << "OOT\n";
       break;
@@ -50,6 +52,9 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
 
     vector<double> x = sol.xVals;
     LB = get_lb();
+
+    print("elapsed: " << elapsed << " LB: " << LB << " UB: " << d_UB << endl);
+
 
     if (LB > upper_bound)
     {
@@ -122,7 +127,7 @@ Benders::Bounds Benders::hybrid_solve(vector<Type> types, bool force_int, int ma
       break;
     }
 
-    print("LB: " << LB << ". UB: " << d_UB << endl);
+
 
     size_t start = 0;
 

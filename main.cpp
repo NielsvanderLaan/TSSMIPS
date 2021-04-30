@@ -9,6 +9,7 @@
 #include "smips/algorithms/trees/tree.h"
 #include "run/run.h"
 
+
 using namespace std;
 
 
@@ -28,6 +29,7 @@ int main(int argc, char *argv[])
     GRBsetintparam(c_env, "OutputFlag", 0);
     GRBsetintparam(c_env, "Threads", 1);
 
+    GRBModel model(env, "def.lp");
 
 
     {
@@ -51,6 +53,7 @@ int main(int argc, char *argv[])
         DEF.d_model.set(GRB_IntParam_Threads, thread_count);
         DEF.d_model.write("def.lp");
         DEF.solve(12*3600);
+        DEF.d_model.write("def.sol");
       }
 
       if (solve_tree(argc, argv))

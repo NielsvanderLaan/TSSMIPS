@@ -5,7 +5,7 @@ void Benders::report(double time, double LB, double eval_time, size_t evaluation
                      vector<double> &times, vector<size_t> nCuts)
 {
   cout << "====================================================\n";
-  cout << "LB: " << LB << ". UB: " << d_UB << '\n';
+  cout << "LB: " << LB << " UB: " << d_UB << '\n';
   cout << "computation time: " << time << '\n';
   cout << "evaluations: " << evaluations << " (" << avg(eval_time, evaluations) << "s)\n";
   cout << "GMI cuts: " << gmi_cuts << " (" << round << " rounds, " << avg(gmi_time, round) << "s)\n";

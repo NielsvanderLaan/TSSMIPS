@@ -26,9 +26,11 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
     double niter = 0;
     double avg_sptime = 0;
     double avg_mptime = 0;
-#pragma omp parallel for reduction(sum : cut) reduction(+:cRho, gap, npoints, sptime, mptime, niter, avg_sptime, avg_mptime)
+    double cpu_time = 0;
+#pragma omp parallel for reduction(sum : cut) reduction(+:cRho, gap, npoints, sptime, mptime, niter, avg_sptime, avg_mptime, cpu_time)
     for (size_t s = 0; s < S; ++s)
     {
+      auto t1_loop = chrono::high_resolution_clock::now();
       double prob = d_probs[s];
       double niter_lc, sptime_lc, mptime_lc;
       cut += d_cgmips[s].generate_cut(x, rho, first_time, vx[s], affine, tol, int_feas, gap,
@@ -41,6 +43,8 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
       npoints += d_cgmips[s].d_points.size();
 
       cRho -= prob * d_cgmips[s].mp_val();
+      auto t2_loop = chrono::high_resolution_clock::now();
+      cpu_time += chrono::duration_cast<chrono::milliseconds>(t2_loop - t1_loop).count() / 1000.0;
     }
 
 
@@ -49,6 +53,7 @@ BendersCut Aggregator::strong_cut(Master::Solution sol, vector<double> &vx, bool
     auto t2 = chrono::high_resolution_clock::now();
     double time = chrono::duration_cast<chrono::milliseconds>(t2 - t1).count() / 1000.0;
     cerr << iter << " T: " << time <<
+         " cpu_time: " << cpu_time <<
          " #EP: " << npoints / S <<
          " #iter: "  << niter / S <<
          " T(CGMP): " << mptime / S <<
