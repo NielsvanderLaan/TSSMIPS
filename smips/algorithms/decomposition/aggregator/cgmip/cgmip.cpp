@@ -27,6 +27,7 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   GRBVar *beta = d_mp.addVars(lb.data(), NULL, NULL, NULL, NULL, n1);
   d_tau = d_mp.addVar(0.0, GRB_INFINITY, 0.0, GRB_CONTINUOUS);
 
+
   // Initializing SP
     // adding xvars
   vector<char> x_types(n1, GRB_CONTINUOUS);
@@ -52,11 +53,13 @@ CGMip::CGMip(GRBEnv &env, Problem &problem, size_t s)
   vector<vector<double>> &rec_mat = problem.d_fix_rec ? problem.d_Wmat : problem.d_W_omega[s];
   vector<vector<double>> &tech = problem.d_fix_tech ? problem.d_Tmat : problem.d_T_omega[s];
 
+
   for (size_t con = 0; con != m2; ++con)
   {
     WyTx[con].addTerms(rec_mat[con].data(), yVars, n2);
     WyTx[con].addTerms(tech[con].data(), xVars, n1);
   }
+
   vector<char> senses2(m2, GRB_EQUAL);
   fill_n(senses2.begin(), problem.d_ss_leq, GRB_LESS_EQUAL);
   fill_n(senses2.begin() + problem.d_ss_leq, problem.d_ss_geq, GRB_GREATER_EQUAL);

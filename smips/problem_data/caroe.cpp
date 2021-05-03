@@ -47,5 +47,4 @@ void Problem::caroe(size_t S)
   */
 
 
-
 }
