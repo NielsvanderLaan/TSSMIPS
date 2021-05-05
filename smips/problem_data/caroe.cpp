@@ -25,7 +25,7 @@ void Problem::caroe(size_t S)
     d_omega.push_back(vector<double> {0.25 - step * (s + 1)});
     d_omega.push_back(vector<double> {step * (s + 1)});
   }
-  double low = 0.25 - step;
+  double low = 0;
 
   d_c.push_back(3.0);
   d_q.push_back(-2.0);
