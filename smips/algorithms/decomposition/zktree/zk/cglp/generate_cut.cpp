@@ -22,7 +22,7 @@ Cut Cglp::generate_cut(double *x, double theta, double *y, size_t var_idx, doubl
     }
   }
 
-  //if (d_model.get(GRB_DoubleAttr_BoundVio) > 0)
+  if (d_model.get(GRB_DoubleAttr_BoundVio) > 0)
     return manual_cut(var_idx);
 
   double r = d_r.get(GRB_DoubleAttr_X);
